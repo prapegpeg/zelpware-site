@@ -6,7 +6,7 @@
     <title>Zelpware</title>
     
     <!-- Local Tab Favicon Map Configuration -->
-    <link rel="icon" type="image/png" href="logo.png">
+    <link class="image-icon-asset" rel="icon" type="image/png" href="logo.png">
 
     <style>
         body {
@@ -22,7 +22,7 @@
         }
         .container {
             text-align: center;
-            max-width: 600px;
+            max-width: 650px;
             padding: 40px 20px;
         }
         .icon-wrapper {
@@ -92,45 +92,89 @@
             background-color: #e5e7eb;
             transform: translateY(-2px);
         }
+
+        /* Container setup layout */
+        .code-container {
+            position: relative;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        /* Top black header tab block */
+        .code-tab {
+            display: inline-flex;
+            align-items: center;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: monospace;
+            font-size: 0.85rem;
+            padding: 10px 16px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-weight: bold;
+        }
+
+        /* Tiny document sheet graphic representation styling markup */
+        .file-icon {
+            margin-right: 8px;
+            display: inline-block;
+            width: 12px;
+            height: 14px;
+            border: 1.5px solid #ffffff;
+            border-radius: 2px;
+            position: relative;
+        }
+        .file-icon::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 5px;
+            height: 1.5px;
+            background-color: #ffffff;
+            box-shadow: 0 3px 0 #ffffff, 0 6px 0 #ffffff;
+        }
+
+        /* Main reference code box container border constraints */
         .code-window {
             background-color: #f8f9fa;
             border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            overflow: hidden;
-            text-align: left;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            border-top-left-radius: 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: relative;
         }
-        .code-header {
-            background-color: #f1f3f5;
-            padding: 12px 16px;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            align-items: center;
+
+        /* Top side alignment for Clipboard utility button */
+        .copy-btn {
+            position: absolute;
+            top: -36px;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
         }
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
+        .copy-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .dot-1 { background-color: #ef4444; }
-        .dot-2 { background-color: #eab308; }
-        .dot-3 { background-color: #22c55e; }
-        .file-name {
-            color: #6b7280;
-            font-size: 0.85rem;
-            font-family: monospace;
-            margin-left: 8px;
+        .copy-icon {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
         }
+
         pre {
             margin: 0;
-            padding: 20px;
+            padding: 24px;
             overflow-x: auto;
         }
         code {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
             color: #2563eb;
         }
         .keyword { color: #d946ef; }
@@ -140,7 +184,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- FIXED PATH: Directly looks inside local root folder -->
         <div class="icon-wrapper">
             <img class="icon-img" src="logo.png" alt="Zelpware Logo">
         </div>
@@ -150,18 +193,23 @@
         <p>The best blox fruits external macro made for the best pvp. We have sanguine z boost, soru macro and even a xz macro.</p>
         
         <div class="cta-group">
-            <a href="#" class="btn btn-primary">Download Macro</a>
-            <a href="#" class="btn btn-secondary">Join Community</a>
+            <!-- FIXED: Direct download routing map setup for your MEGA cloud address -->
+            <a href="https://mega.nz/file/o3g0jKpa#Fs1McghiaFkRhM-c2B-_ywW5vA1qXOy5NJK14LvyHHI" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download Macro</a>
+            
+            <!-- FIXED: Redirect targeting link routing for community channel link access map -->
+            <a href="https://discord.gg" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Join Community</a>
         </div>
         
-        <div class="code-window">
-            <div class="code-header">
-                <div class="dot dot-1"></div>
-                <div class="dot dot-2"></div>
-                <div class="dot dot-3"></div>
-                <div class="file-name">macro_config.hpp</div>
+        <div class="code-container">
+            <div class="code-tab">
+                <span class="file-icon"></span>
+                macro_config.hpp
             </div>
-            <pre><code><span class="keyword">#ifndef</span> ZELPWARE_MACRO_HPP
+            <div class="code-window">
+                <button class="copy-btn" onclick="copyCode()" title="Copy Code">
+                    <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+<pre><code id="macro-code"><span class="keyword">#ifndef</span> ZELPWARE_MACRO_HPP
 <span class="keyword">#define</span> ZELPWARE_MACRO_HPP
 
 <span class="comment">// Global configurations for external delays</span>
@@ -172,6 +220,7 @@
 }
 
 <span class="keyword">#endif</span></code></pre>
+            </div>
         </div>
     </div>
 
@@ -205,6 +254,12 @@
             }
 
             setTimeout(typeEffect, typingSpeed);
+        }
+
+        function copyCode() {
+            const codeText = document.getElementById("macro-code").innerText;
+            navigator.clipboard.writeText(codeText);
+            alert("Code copied to clipboard!");
         }
 
         document.addEventListener("DOMContentLoaded", () => {
