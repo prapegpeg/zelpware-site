@@ -1,75 +1,65 @@
-<script>
-    // Array container managing typewriter text rotation strings
-    const words = [
-        "Zelpware",
-        "Welcome to Zelpware",
-        "The Best PvP Tool"
-    ];
+        </div>
+    </div>
 
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
+    <script>
+        const words = [
+            "Zelpware",
+            "Welcome to Zelpware",
+            "The Best PvP Tool"
+        ];
 
-    const textTarget = document.getElementById("text-target");
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
 
-    function typeEffect() {
-        const currentWord = words[wordIndex];
+        const textTarget = document.getElementById("text-target");
 
-        if (isDeleting) {
-            textTarget.textContent = currentWord.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            textTarget.textContent = currentWord.substring(0, charIndex + 1);
-            charIndex++;
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+
+            if (isDeleting) {
+                textTarget.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                textTarget.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typingSpeed = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                typingSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typingSpeed = 400;
+            }
+
+            setTimeout(typeEffect, typingSpeed);
         }
 
-        let typingSpeed = isDeleting ? 40 : 80;
-
-        if (!isDeleting && charIndex === currentWord.length) {
-            typingSpeed = 2000;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            wordIndex = (wordIndex + 1) % words.length;
-            typingSpeed = 400;
+        function copyCode() {
+            const codeText = document.getElementById("macro-code").innerText;
+            navigator.clipboard.writeText(codeText);
         }
 
-        setTimeout(typeEffect, typingSpeed);
-    }
+        function copyDiscordLink() {
+            const discordLink = "https://discord.gg/mcZ5xYac4X";
 
-    // Functional automation copy event driving the C++ box
-    function copyCode() {
-        const codeText = document.getElementById("macro-code").innerText;
-
-        navigator.clipboard.writeText(codeText)
-            .then(() => {
-                alert("Code copied to clipboard!");
-            })
-            .catch(err => {
-                console.error("Failed to copy:", err);
-            });
-    }
-
-    // Animated Clipboard handler managing overlay logic execution flows
-    function copyDiscordLink() {
-        const discordLink = "https://discord.gg/mcZ5xYac4X";
-
-        navigator.clipboard.writeText(discordLink)
-            .then(() => {
+            navigator.clipboard.writeText(discordLink).then(() => {
                 const overlay = document.getElementById("toast-overlay");
-
                 overlay.classList.add("active");
 
                 setTimeout(() => {
                     overlay.classList.remove("active");
                 }, 2000);
-            })
-            .catch(err => {
-                console.error("Failed to copy:", err);
             });
-    }
+        }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        setTimeout(typeEffect, 300);
-    });
-</script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(typeEffect, 300);
+        });
+    </script>
+</body>
+</html>
