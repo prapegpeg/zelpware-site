@@ -1,3 +1,8 @@
+Here is the updated code for your website. A clean, styled modal (popup window) has been added so that when a user clicks **Download Macro**, it prompts them with the two choices, highlighting the Beta version as **Recommended**.
+
+The GitHub link has also been adjusted to use the direct download format (`/raw/` instead of `/blob/`).
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -226,6 +231,47 @@
         .notification-overlay.active .notification-card {
             transform: scale(1);
         }
+
+        /* Options Modal Specific Styles */
+        .modal-options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+            width: 100%;
+            min-width: 280px;
+        }
+        .download-option-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .recommended-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #a855f7;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+        .modal-btn {
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .close-modal-btn {
+            margin-top: 12px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .close-modal-btn:hover {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -234,6 +280,26 @@
         <div class="notification-card">
             <h3 id="toast-title">Discord Link Copied!</h3>
             <p id="toast-desc">Paste it anywhere to invite your friends.</p>
+        </div>
+    </div>
+
+    <div id="download-modal" class="notification-overlay">
+        <div class="notification-card">
+            <h3>Select Download Version</h3>
+            <p>Choose your preferred installation option below:</p>
+            
+            <div class="modal-options-group">
+                <div class="download-option-container">
+                    <span class="recommended-badge">★ Recommended</span>
+                    <a href="https://github.com/prapegpeg/zelpware-site/raw/main/zelpzware-BETa.exe" class="btn btn-primary modal-btn" onclick="closeDownloadModal()">Download Beta (.exe)</a>
+                </div>
+
+                <div class="download-option-container">
+                    <a href="https://mega.nz/file/o3g0jKpa#Fs1McghiaFkRhM-c2B-_ywW5vA1qXOy5NJK14LvyHHI" target="_blank" rel="noopener noreferrer" class="btn btn-secondary modal-btn" onclick="closeDownloadModal()">External Macro (MEGA)</a>
+                </div>
+            </div>
+
+            <button class="close-modal-btn" onclick="closeDownloadModal()">Cancel</button>
         </div>
     </div>
 
@@ -247,7 +313,7 @@
         <p>The best blox fruits external macro made for the best pvp. We have sanguine z boost, soru macro and even a xz macro.</p>
         
         <div class="cta-group">
-            <a href="https://mega.nz/file/o3g0jKpa#Fs1McghiaFkRhM-c2B-_ywW5vA1qXOy5NJK14LvyHHI" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download Macro</a>
+            <button onclick="openDownloadModal()" class="btn btn-primary">Download Macro</button>
             <button onclick="copyDiscordLink()" class="btn btn-secondary">Join Community</button>
         </div>
         
@@ -306,7 +372,16 @@
             setTimeout(typeEffect, typingSpeed);
         }
 
-        // Shared function to trigger custom popups instead of using standard ugly window alerts
+        // Handle Download Modal Open/Close
+        function openDownloadModal() {
+            document.getElementById("download-modal").classList.add("active");
+        }
+
+        function closeDownloadModal() {
+            document.getElementById("download-modal").classList.remove("active");
+        }
+
+        // Shared function to trigger custom popups instead of using standard window alerts
         function showNotification(title, description) {
             const overlay = document.getElementById("toast-overlay");
             document.getElementById("toast-title").innerText = title;
@@ -327,9 +402,7 @@
 
         function copyDiscordLink() {
             const discordLink = "https://discord.gg/mcZ5xYac4X";
-            // Opens the link in a brand new tab automatically
             window.open(discordLink, '_blank');
-            // Triggers the custom popup alert with updated text
             showNotification("Opening Discord!", "Redirecting you to our community server...");
         }
 
@@ -339,3 +412,5 @@
     </script>
 </body>
 </html>
+
+```
