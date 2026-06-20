@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zelpware</title>
     
-    <!-- FIX 1: Tab Favicon Image configuration mapping -->
-    <link rel="icon" type="image/png" href="https://githubusercontent.com">
+    <!-- Local Tab Favicon Map Configuration -->
+    <link rel="icon" type="image/png" href="logo.png">
 
     <style>
         body {
@@ -31,7 +31,6 @@
             height: 100px;
             margin: 0 auto 24px auto;
         }
-        /* FIX 2: Correcting Image loading properties */
         .icon-img {
             width: 100%;
             height: 100%;
@@ -44,10 +43,8 @@
             font-weight: 800;
             margin: 0 0 16px 0;
             letter-spacing: -0.05em;
-            min-height: 3.2rem; /* Keeps title area layout visually stable while typing */
+            min-height: 3.2rem;
         }
-        
-        /* Interactive blinking text cursor styling */
         .cursor {
             font-weight: 400;
             color: #2563eb;
@@ -57,7 +54,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
-
         p {
             color: #4b5563;
             font-size: 1.15rem;
@@ -144,11 +140,11 @@
 </head>
 <body>
     <div class="container">
+        <!-- FIXED PATH: Directly looks inside local root folder -->
         <div class="icon-wrapper">
-            <img class="icon-img" src="https://githubusercontent.com" alt="Zelpware Logo">
+            <img class="icon-img" src="logo.png" alt="Zelpware Logo">
         </div>
         
-        <!-- Animated Main Title -->
         <h1 id="typewriter-title"><span id="text-target"></span><span class="cursor">|</span></h1>
         
         <p>The best blox fruits external macro made for the best pvp. We have sanguine z boost, soru macro and even a xz macro.</p>
@@ -179,7 +175,6 @@
         </div>
     </div>
 
-    <!-- Script engine responsible for driving the text cycling rotation loop -->
     <script>
         const words = ["Zelpware", "Welcome to Zelpware", "The Best PvP Tool"];
         let wordIndex = 0;
@@ -191,32 +186,27 @@
             const currentWord = words[wordIndex];
             
             if (isDeleting) {
-                // Delete characters
                 textTarget.textContent = currentWord.substring(0, charIndex - 1);
                 charIndex--;
             } else {
-                // Type characters
                 textTarget.textContent = currentWord.substring(0, charIndex + 1);
                 charIndex++;
             }
 
-            // Typing Speed Controllers
             let typingSpeed = isDeleting ? 40 : 80;
 
-            // Pause states tracking
             if (!isDeleting && charIndex === currentWord.length) {
-                typingSpeed = 2000; // Pause showing full word for 2 seconds
+                typingSpeed = 2000;
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
-                wordIndex = (wordIndex + 1) % words.length; // Jump to next array word entry
-                typingSpeed = 400; // Brief delay before beginning to type the next word
+                wordIndex = (wordIndex + 1) % words.length;
+                typingSpeed = 400;
             }
 
             setTimeout(typeEffect, typingSpeed);
         }
 
-        // Initialize script loop process engine
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(typeEffect, 300);
         });
