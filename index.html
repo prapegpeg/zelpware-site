@@ -1,299 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zelpware</title>
-    
-    <!-- Local Tab Favicon Map Configuration -->
-    <link class="image-icon-asset" rel="icon" type="image/png" href="logo.png">
+<script>
+    // Array container managing typewriter text rotation strings
+    const words = [
+        "Zelpware",
+        "Welcome to Zelpware",
+        "The Best PvP Tool"
+    ];
 
-    <style>
-        /* Core Light Mode Template Structure */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-            color: #000000;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-        .container {
-            text-align: center;
-            max-width: 650px;
-            padding: 40px 20px;
-        }
-        .icon-wrapper {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 24px auto;
-        }
-        .icon-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin: 0 0 16px 0;
-            letter-spacing: -0.05em;
-            min-height: 3.2rem;
-        }
-        .cursor {
-            font-weight: 400;
-            color: #2563eb;
-            animation: blink 0.7s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        p {
-            color: #4b5563;
-            font-size: 1.15rem;
-            line-height: 1.6;
-            margin: 0 0 32px 0;
-        }
-        .cta-group {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-bottom: 48px;
-        }
-        .btn {
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: none;
-            display: inline-block;
-        }
-        .btn-primary {
-            background-color: #000000;
-            color: #ffffff;
-        }
-        .btn-primary:hover {
-            background-color: #1f2937;
-            transform: translateY(-2px);
-        }
-        .btn-secondary {
-            background-color: #f3f4f6;
-            color: #4b5563;
-            border: 1px solid #e5e7eb;
-        }
-        .btn-secondary:hover {
-            color: #000000;
-            background-color: #e5e7eb;
-            transform: translateY(-2px);
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    const textTarget = document.getElementById("text-target");
+
+    function typeEffect() {
+        const currentWord = words[wordIndex];
+
+        if (isDeleting) {
+            textTarget.textContent = currentWord.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            textTarget.textContent = currentWord.substring(0, charIndex + 1);
+            charIndex++;
         }
 
-        /* Technical Code Box Container Block Layout */
-        .code-container {
-            position: relative;
-            margin-top: 40px;
-            text-align: left;
-        }
-        .code-tab {
-            display: inline-flex;
-            align-items: center;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            font-family: monospace;
-            font-size: 0.85rem;
-            padding: 10px 16px;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            font-weight: bold;
-        }
-        .file-icon {
-            margin-right: 8px;
-            display: inline-block;
-            width: 12px;
-            height: 14px;
-            border: 1.5px solid #ffffff;
-            border-radius: 2px;
-            position: relative;
-        }
-        .file-icon::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 5px;
-            height: 1.5px;
-            background-color: #ffffff;
-            box-shadow: 0 3px 0 #ffffff, 0 6px 0 #ffffff;
-        }
-        .code-window {
-            background-color: #f8f9fa;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            border-top-left-radius: 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            position: relative;
-        }
-        .copy-btn {
-            position: absolute;
-            top: -36px;
-            right: 12px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        .copy-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .copy-icon {
-            width: 16px;
-            height: 16px;
-            fill: #ffffff;
-        }
-        pre {
-            margin: 0;
-            padding: 24px;
-            overflow-x: auto;
-        }
-        code {
-            font-family: 'Consolas', 'Courier New', Courier, monospace;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #2563eb;
-        }
-        .keyword { color: #d946ef; }
-        .comment { color: #9ca3af; }
-        .string { color: #16a34a; }
+        let typingSpeed = isDeleting ? 40 : 80;
 
-        /* Zoom Notification Overlay Styles */
-        .notification-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(4px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        if (!isDeleting && charIndex === currentWord.length) {
+            typingSpeed = 2000;
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+            typingSpeed = 400;
         }
-        .notification-card {
-            background-color: #111216;
-            color: #ffffff;
-            padding: 24px 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 40px rgba(99, 102, 241, 0.2);
-            transform: scale(0.5);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 1px solid #22252e;
-        }
-        .notification-card h3 {
-            margin: 0 0 6px 0;
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .notification-card p {
-            margin: 0;
-            font-size: 0.95rem;
-            color: #9ca3af;
-        }
-        .notification-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .notification-overlay.active .notification-card {
-            transform: scale(1);
-        }
-    </style>
-</head>
-<body>
 
-    <!-- Zoom Notification Window Template HTML Markup -->
-    <div id="toast-overlay" class="notification-overlay">
-        <div class="notification-card">
-            <h3>Discord Link Copied!</h3>
-            <p>Paste it anywhere to invite your friends.</p>
-        </div>
-    </div>
+        setTimeout(typeEffect, typingSpeed);
+    }
 
-    <div class="container">
-        <!-- Circular Framed Local Image Asset -->
-        <div class="icon-wrapper">
-            <img class="icon-img" src="logo.png" alt="Zelpware Logo">
-        </div>
-        
-        <!-- Typewriter Script Output Target -->
-        <h1 id="typewriter-title"><span id="text-target"></span><span class="cursor">|</span></h1>
-        
-        <p>The best blox fruits external macro made for the best pvp. We have sanguine z boost, soru macro and even a xz macro.</p>
-        
-        <div class="cta-group">
-            <!-- Active 30.6MB macro archive installer binary download delivery link -->
-            <a href="https://mega.nz" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download Macro</a>
-            
-            <!-- Interactive trigger utility for system clipboard operations -->
-            <button onclick="copyDiscordLink()" class="btn btn-secondary">Join Community</button>
-        </div>
-        
-        <div class="code-container">
-            <div class="code-tab">
-                <span class="file-icon"></span>
-                macro_config.hpp
-            </div>
-            <div class="code-window">
-                <!-- Text-copy operational click wrapper button component -->
-                <button class="copy-btn" onclick="copyCode()" title="Copy Code">
-                    <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
-<pre><code id="macro-code"><span class="keyword">#ifndef</span> ZELPWARE_MACRO_HPP
-<span class="keyword">#define</span> ZELPWARE_MACRO_HPP
+    // Functional automation copy event driving the C++ box
+    function copyCode() {
+        const codeText = document.getElementById("macro-code").innerText;
 
-<span class="comment">// Global configurations for external delays</span>
-<span class="keyword">namespace</span> Zelpware {
-    <span class="keyword">inline constexpr int</span> SANGUINE_Z_DELAY = <span class="string">45</span>; 
-    <span class="keyword">inline constexpr bool</span> ENABLE_SORU_BOOST = <span class="string">true</span>;
-    <span class="keyword">inline constexpr const char*</span> VERSION = <span class="string">"1.0.0"</span>;
-}
+        navigator.clipboard.writeText(codeText)
+            .then(() => {
+                alert("Code copied to clipboard!");
+            })
+            .catch(err => {
+                console.error("Failed to copy:", err);
+            });
+    }
 
-<span class="keyword">#endif</span></code></pre>
-            </div>
-        </div>
-    </div>
+    // Animated Clipboard handler managing overlay logic execution flows
+    function copyDiscordLink() {
+        const discordLink = "https://discord.gg/mcZ5xYac4X";
 
-    <script>
-        const words = ["Zelpware", "Welcome to Zelpware", "The Best PvP Tool"];
-        let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const textTarget = document.getElementById("text-target");
+        navigator.clipboard.writeText(discordLink)
+            .then(() => {
+                const overlay = document.getElementById("toast-overlay");
 
-        function typeEffect() {
-            const currentWord = words[wordIndex];
-            
-            if (isDeleting) {
-                textTarget.textContent = currentWord.substring(0, charIndex - 1);
-                charIndex--;
-            } else {textTarget.textContent = currentWord.substring(0, charIndex + 1);charIndex++;}let typingSpeed = isDeleting ? 40 : 80;if (!isDeleting && charIndex === currentWord.length) {typingSpeed = 2000; // Freeze state visibility lengthisDeleting = true;} else if (isDeleting && charIndex === 0) {isDeleting = false;wordIndex = (wordIndex + 1) % words.length; // Incremental loop trackingtypingSpeed = 400;}setTimeout(typeEffect, typingSpeed);}// Functional automation copy event driving the C++ boxfunction copyCode() {const codeText = document.getElementById("macro-code").innerText;navigator.clipboard.writeText(codeText);alert("Code copied to clipboard!");}// Animated Clipboard handler managing overlay logic execution flowsfunction copyDiscordLink() {const discordLink = "discord.gg";navigator.clipboard.writeText(discordLink).then(() => {const overlay = document.getElementById("toast-overlay");overlay.classList.add("active");setTimeout(() => {overlay.classList.remove("active");}, 2000); // Overlay auto dismissal timeout});}document.addEventListener("DOMContentLoaded", () => {setTimeout(typeEffect, 300);});
+                overlay.classList.add("active");
+
+                setTimeout(() => {
+                    overlay.classList.remove("active");
+                }, 2000);
+            })
+            .catch(err => {
+                console.error("Failed to copy:", err);
+            });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(typeEffect, 300);
+    });
+</script>
