@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zelpware</title>
     
-    <!-- Local Tab Favicon Map Configuration -->
     <link class="image-icon-asset" rel="icon" type="image/png" href="logo.png">
 
     <style>
@@ -231,30 +230,24 @@
 </head>
 <body>
 
-    <!-- Zoom Notification Window Template -->
     <div id="toast-overlay" class="notification-overlay">
         <div class="notification-card">
-            <h3>Discord Link Copied!</h3>
-            <p>Paste it anywhere to invite your friends.</p>
+            <h3 id="toast-title">Discord Link Copied!</h3>
+            <p id="toast-desc">Paste it anywhere to invite your friends.</p>
         </div>
     </div>
 
     <div class="container">
-        <!-- Circular Framed Local Image Asset -->
         <div class="icon-wrapper">
             <img class="icon-img" src="logo.png" alt="Zelpware Logo">
         </div>
         
-        <!-- Typewriter Script Output Target -->
         <h1 id="typewriter-title"><span id="text-target"></span><span class="cursor">|</span></h1>
         
         <p>The best blox fruits external macro made for the best pvp. We have sanguine z boost, soru macro and even a xz macro.</p>
         
         <div class="cta-group">
-            <!-- Active 30.6MB macro archive installer link -->
             <a href="https://mega.nz" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download Macro</a>
-            
-            <!-- Interactive trigger utility for system clipboard operations -->
             <button onclick="copyDiscordLink()" class="btn btn-secondary">Join Community</button>
         </div>
         
@@ -264,7 +257,6 @@
                 macro_config.hpp
             </div>
             <div class="code-window">
-                <!-- Text-copy operational click button -->
                 <button class="copy-btn" onclick="copyCode()" title="Copy Code">
                     <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                 </button>
@@ -283,8 +275,8 @@
         </div>
     </div>
 
-    <!-- Consolidated Javascript Engine Dashboard -->
-    <script> const words = ["Zelpware", "Welcome to Zelpware", "The Best PvP Tool"];
+    <script>
+        const words = ["Zelpware", "Welcome to Zelpware", "The Best PvP Tool"];
         let wordIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
@@ -298,4 +290,51 @@
                 charIndex--;
             } else {
                 textTarget.textContent = currentWord.substring(0, charIndex + 1);
-charIndex++;}let typingSpeed = isDeleting ? 40 : 80;if (!isDeleting && charIndex === currentWord.length) {typingSpeed = 2000; // Freeze state visibility lengthisDeleting = true;} else if (isDeleting && charIndex === 0) {isDeleting = false;wordIndex = (wordIndex + 1) % words.length; // Incremental loop trackingtypingSpeed = 400;}setTimeout(typeEffect, typingSpeed);}// Functional automation copy event driving the C++ boxfunction copyCode() {const codeText = document.getElementById("macro-code").innerText;navigator.clipboard.writeText(codeText);alert("Code copied to clipboard!");}// Animated Clipboard handler managing overlay logicfunction copyDiscordLink() {const discordLink = "discord.gg";navigator.clipboard.writeText(discordLink).then(() => {const overlay = document.getElementById("toast-overlay");overlay.classList.add("active");setTimeout(() => {overlay.classList.remove("active");}, 2000); // Overlay auto dismissal timeout});}document.addEventListener("DOMContentLoaded", () => {setTimeout(typeEffect, 300);});
+                charIndex++;
+            }
+
+            let typingSpeed = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                typingSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typingSpeed = 400;
+            }
+            setTimeout(typeEffect, typingSpeed);
+        }
+
+        // Shared function to trigger custom popups instead of using standard ugly window alerts
+        function showNotification(title, description) {
+            const overlay = document.getElementById("toast-overlay");
+            document.getElementById("toast-title").innerText = title;
+            document.getElementById("toast-desc").innerText = description;
+            
+            overlay.classList.add("active");
+            setTimeout(() => {
+                overlay.classList.remove("active");
+            }, 2000);
+        }
+
+        function copyCode() {
+            const codeText = document.getElementById("macro-code").innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                showNotification("Configuration Copied!", "Macro settings have been copied to your clipboard.");
+            });
+        }
+
+        function copyDiscordLink() {
+            const discordLink = "https://discord.gg/mcZ5xYac4X";
+            navigator.clipboard.writeText(discordLink).then(() => {
+                showNotification("Discord Link Copied!", "Paste it anywhere to invite your friends.");
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(typeEffect, 300);
+        });
+    </script>
+</body>
+</html>
