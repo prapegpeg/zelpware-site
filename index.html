@@ -247,7 +247,7 @@
         <p>The best blox fruits external macro made for the best pvp. We have sanguine z boost, soru macro and even a xz macro.</p>
         
         <div class="cta-group">
-            <a href="https://mega.nz/file/o3g0jKpa#Fs1McghiaFkRhM-c2B-_ywW5vA1qXOy5NJK14LvyHHI" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download Macro</a>
+            <a href="https://mega.nz" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download Macro</a>
             <button onclick="copyDiscordLink()" class="btn btn-secondary">Join Community</button>
         </div>
         
@@ -306,7 +306,7 @@
             setTimeout(typeEffect, typingSpeed);
         }
 
-        // Shared notification engine
+        // Shared function to trigger custom popups instead of using standard ugly window alerts
         function showNotification(title, description) {
             const overlay = document.getElementById("toast-overlay");
             document.getElementById("toast-title").innerText = title;
@@ -327,9 +327,10 @@
 
         function copyDiscordLink() {
             const discordLink = "https://discord.gg/mcZ5xYac4X";
-            navigator.clipboard.writeText(discordLink).then(() => {
-                showNotification("Discord Link Copied!", "Paste it anywhere to invite your friends.");
-            });
+            // Opens the link in a brand new tab automatically
+            window.open(discordLink, '_blank');
+            // Triggers the custom popup alert with updated text
+            showNotification("Opening Discord!", "Redirecting you to our community server...");
         }
 
         document.addEventListener("DOMContentLoaded", () => {
