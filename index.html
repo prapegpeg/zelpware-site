@@ -9,6 +9,7 @@
     <link class="image-icon-asset" rel="icon" type="image/png" href="logo.png">
 
     <style>
+        /* Core Light Mode Template Structure */
         body {
             margin: 0;
             padding: 0;
@@ -19,6 +20,8 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
         .container {
             text-align: center;
@@ -73,6 +76,9 @@
             font-size: 1rem;
             text-decoration: none;
             transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
         }
         .btn-primary {
             background-color: #000000;
@@ -93,12 +99,12 @@
             transform: translateY(-2px);
         }
 
+        /* Technical Code Box Container Block Layout */
         .code-container {
             position: relative;
             margin-top: 40px;
             text-align: left;
         }
-
         .code-tab {
             display: inline-flex;
             align-items: center;
@@ -111,7 +117,6 @@
             border-top-right-radius: 8px;
             font-weight: bold;
         }
-
         .file-icon {
             margin-right: 8px;
             display: inline-block;
@@ -131,7 +136,6 @@
             background-color: #ffffff;
             box-shadow: 0 3px 0 #ffffff, 0 6px 0 #ffffff;
         }
-
         .code-window {
             background-color: #f8f9fa;
             border: 1px solid #e5e7eb;
@@ -140,7 +144,6 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             position: relative;
         }
-
         .copy-btn {
             position: absolute;
             top: -36px;
@@ -160,7 +163,6 @@
             height: 16px;
             fill: #ffffff;
         }
-
         pre {
             margin: 0;
             padding: 24px;
@@ -175,23 +177,85 @@
         .keyword { color: #d946ef; }
         .comment { color: #9ca3af; }
         .string { color: #16a34a; }
+
+        /* Zoom Notification Overlay Styles */
+        .notification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .notification-card {
+            background-color: #111216;
+            color: #ffffff;
+            padding: 24px 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 40px rgba(99, 102, 241, 0.2);
+            transform: scale(0.5);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid #22252e;
+        }
+        .notification-card h3 {
+            margin: 0 0 6px 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .notification-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #9ca3af;
+        }
+        .notification-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .notification-overlay.active .notification-card {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body>
+
+    <!-- Zoom Notification Window Template HTML Markup -->
+    <div id="toast-overlay" class="notification-overlay">
+        <div class="notification-card">
+            <h3>Discord Link Copied!</h3>
+            <p>Paste it anywhere to invite your friends.</p>
+        </div>
+    </div>
+
     <div class="container">
+        <!-- Circular Framed Local Image Asset -->
         <div class="icon-wrapper">
             <img class="icon-img" src="logo.png" alt="Zelpware Logo">
         </div>
         
+        <!-- Typewriter Script Output Target -->
         <h1 id="typewriter-title"><span id="text-target"></span><span class="cursor">|</span></h1>
         
         <p>The best blox fruits external macro made for the best pvp. We have sanguine z boost, soru macro and even a xz macro.</p>
         
         <div class="cta-group">
+            <!-- Active 30.6MB macro archive installer binary download delivery link -->
             <a href="https://mega.nz" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download Macro</a>
             
-            <!-- FIXED: Direct web destination routing link -->
-            <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Join Community</a>
+            <!-- Interactive trigger utility for system clipboard operations -->
+            <button onclick="copyDiscordLink()" class="btn btn-secondary">Join Community</button>
         </div>
         
         <div class="code-container">
@@ -200,6 +264,7 @@
                 macro_config.hpp
             </div>
             <div class="code-window">
+                <!-- Text-copy operational click wrapper button component -->
                 <button class="copy-btn" onclick="copyCode()" title="Copy Code">
                     <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                 </button>
@@ -219,6 +284,7 @@
     </div>
 
     <script>
+        // Array container managing typewriter text rotation strings
         const words = ["Zelpware", "Welcome to Zelpware", "The Best PvP Tool"];
         let wordIndex = 0;
         let charIndex = 0;
@@ -231,34 +297,4 @@
             if (isDeleting) {
                 textTarget.textContent = currentWord.substring(0, charIndex - 1);
                 charIndex--;
-            } else {
-                textTarget.textContent = currentWord.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            let typingSpeed = isDeleting ? 40 : 80;
-
-            if (!isDeleting && charIndex === currentWord.length) {
-                typingSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % words.length;
-                typingSpeed = 400;
-            }
-
-            setTimeout(typeEffect, typingSpeed);
-        }
-
-        function copyCode() {
-            const codeText = document.getElementById("macro-code").innerText;
-            navigator.clipboard.writeText(codeText);
-            alert("Code copied to clipboard!");
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(typeEffect, 300);
-        });
-    </script>
-</body>
-</html>
+            } else {textTarget.textContent = currentWord.substring(0, charIndex + 1);charIndex++;}let typingSpeed = isDeleting ? 40 : 80;if (!isDeleting && charIndex === currentWord.length) {typingSpeed = 2000; // Freeze state visibility lengthisDeleting = true;} else if (isDeleting && charIndex === 0) {isDeleting = false;wordIndex = (wordIndex + 1) % words.length; // Incremental loop trackingtypingSpeed = 400;}setTimeout(typeEffect, typingSpeed);}// Functional automation copy event driving the C++ boxfunction copyCode() {const codeText = document.getElementById("macro-code").innerText;navigator.clipboard.writeText(codeText);alert("Code copied to clipboard!");}// Animated Clipboard handler managing overlay logic execution flowsfunction copyDiscordLink() {const discordLink = "discord.gg";navigator.clipboard.writeText(discordLink).then(() => {const overlay = document.getElementById("toast-overlay");overlay.classList.add("active");setTimeout(() => {overlay.classList.remove("active");}, 2000); // Overlay auto dismissal timeout});}document.addEventListener("DOMContentLoaded", () => {setTimeout(typeEffect, 300);});
