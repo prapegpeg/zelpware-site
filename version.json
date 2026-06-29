@@ -1,8 +1,8 @@
 {
   "latestVersion": "1.0.0",
-  "notifId": "20260629111021",
-  "type": "custom",
-  "message": "hello",
+  "notifId": "20260629111152",
+  "type": "wrong_version",
+  "message": "",
   "url": "https://zelpware.rest/",
-  "timestamp": "2026-06-29T11:10:21.0749382Z"
+  "timestamp": "2026-06-29T11:11:52.1764782Z"
 }
