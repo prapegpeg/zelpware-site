@@ -1,0 +1,8 @@
+{
+  "latestVersion": "1.0.0",
+  "notifId": "test001",
+  "type": "announce",
+  "message": "Zelpware notification system is live!",
+  "url": "https://zelpware.rest/",
+  "timestamp": "2026-06-29T00:00:00Z"
+}
