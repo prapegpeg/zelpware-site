@@ -1,418 +1,1634 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zelpware</title>
-    
-    <link class="image-icon-asset" rel="icon" type="image/png" href="logo.png">
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>
+      Sentinel Client
+    </title>
+    <meta name="description" content="Sentinel Client for Gorilla Tag. Free, open source, lightweight and built around quick player info, reporting and quality of life tools." />
+    <meta name="theme-color" content="#2b265b" />
+    <link rel="icon" href="../Sentinel/logo.png" />
+    <meta property="og:title" content="Sentinel Client" />
+    <meta property="og:description" content="Free and open source Gorilla Tag client utility." />
+    <meta property="og:image" content="../Sentinel/logo.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Sentinel Client" />
     <style>
-        /* Core Light Mode Template Structure */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-            color: #000000;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-        .container {
-            text-align: center;
-            max-width: 650px;
-            padding: 40px 20px;
-        }
-        .icon-wrapper {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 24px auto;
-        }
-        .icon-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin: 0 0 16px 0;
-            letter-spacing: -0.05em;
-            min-height: 3.2rem;
-        }
-        .cursor {
-            font-weight: 400;
-            color: #2563eb;
-            animation: blink 0.7s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        p {
-            color: #4b5563;
-            font-size: 1.15rem;
-            line-height: 1.6;
-            margin: 0 0 32px 0;
-        }
-        .cta-group {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-bottom: 48px;
-        }
-        .btn {
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: none;
-            display: inline-block;
-        }
-        .btn-primary {
-            background-color: #000000;
-            color: #ffffff;
-        }
-        .btn-primary:hover {
-            background-color: #1f2937;
-            transform: translateY(-2px);
-        }
-        .btn-secondary {
-            background-color: #f3f4f6;
-            color: #4b5563;
-            border: 1px solid #e5e7eb;
-        }
-        .btn-secondary:hover {
-            color: #000000;
-            background-color: #e5e7eb;
-            transform: translateY(-2px);
-        }
+      :root {
+			--bg: #05050c;
+			--bg-2: #090817;
+			--panel: #0d0b20;
+			--panel-2: #12102a;
 
-        /* Technical Code Box Container Block Layout */
-        .code-container {
-            position: relative;
-            margin-top: 40px;
-            text-align: left;
-        }
-        .code-tab {
-            display: inline-flex;
-            align-items: center;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            font-family: monospace;
-            font-size: 0.85rem;
-            padding: 10px 16px;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            font-weight: bold;
-        }
-        .file-icon {
-            margin-right: 8px;
-            display: inline-block;
-            width: 12px;
-            height: 14px;
-            border: 1.5px solid #ffffff;
-            border-radius: 2px;
-            position: relative;
-        }
-        .file-icon::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 5px;
-            height: 1.5px;
-            background-color: #ffffff;
-            box-shadow: 0 3px 0 #ffffff, 0 6px 0 #ffffff;
-        }
-        .code-window {
-            background-color: #f8f9fa;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            border-top-left-radius: 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            position: relative;
-        }
-        .copy-btn {
-            position: absolute;
-            top: -36px;
-            right: 12px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        .copy-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .copy-icon {
-            width: 16px;
-            height: 16px;
-            fill: #ffffff;
-        }
-        pre {
-            margin: 0;
-            padding: 24px;
-            overflow-x: auto;
-        }
-        code {
-            font-family: 'Consolas', 'Courier New', Courier, monospace;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #2563eb;
-        }
-        .keyword { color: #d946ef; }
-        .comment { color: #9ca3af; }
-        .string { color: #16a34a; }
+			--accent: #2b265b;
+			--accent-rgb: 43, 38, 91;
+			--accent-soft: #8176d1;
+			--accent-bright: #a69ee7;
 
-        /* Notification & Modal Overlay Styles */
-        .notification-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        /* GUI Card Components (White Background with Black Text) */
-        .notification-card {
-            background-color: #ffffff;
-            color: #000000;
-            padding: 32px 40px;
-            border-radius: 24px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.02);
-            transform: scale(0.85);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 1px solid #e5e7eb;
-            max-width: 380px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .notification-card h3 {
-            margin: 0 0 8px 0;
-            font-size: 1.6rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            color: #000000;
-        }
-        .notification-card p {
-            margin: 0 0 24px 0;
-            font-size: 0.98rem;
-            color: #4b5563;
-            line-height: 1.5;
-        }
-        
-        #toast-overlay .notification-card p {
-            margin-bottom: 0;
-        }
+			--line: rgba(129, 118, 209, 0.13);
+			--line-2: rgba(129, 118, 209, 0.34);
+			--text: #eceaf7;
+			--muted: #9892b0;
+			--dim: #605b75;
+			--ok: #62d894;
+			--warn: #f0c76d;
+		}
 
-        .notification-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .notification-overlay.active .notification-card {
-            transform: scale(1);
-        }
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-        /* Options Modal Specific Layout */
-        .modal-options-group {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-        }
-        .download-option-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-        .recommended-badge {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #2563eb;
-            letter-spacing: 0.05em;
-            margin-bottom: 6px;
-        }
-        .modal-btn {
-            width: 100%;
-            box-sizing: border-box;
-            text-align: center;
-            padding: 14px 24px;
-        }
-        .close-modal-btn {
-            margin-top: 24px;
-            background: none;
-            border: none;
-            color: #9ca3af;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-        .close-modal-btn:hover {
-            color: #000000;
-        }
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			min-height: 100vh;
+			overflow-x: hidden;
+			background: var(--bg);
+			color: var(--text);
+			font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, &#34;Segoe UI&#34;, sans-serif;
+			line-height: 1.55;
+		}
+
+		h1,
+		h2,
+		h3 {
+			font-family: &#34;Segoe UI&#34;, Inter, ui-sans-serif, system-ui, sans-serif;
+			letter-spacing: -0.025em;
+		}
+
+		.mono {
+			font-family: &#34;JetBrains Mono&#34;, &#34;Cascadia Code&#34;, Consolas, monospace;
+		}
+
+		::selection {
+			background: rgba(var(--accent-rgb), 0.55);
+		}
+
+		a {
+			color: inherit;
+		}
+
+		[hidden] {
+			display: none !important;
+		}
+
+		#stars {
+			position: fixed;
+			inset: 0;
+			z-index: -2;
+			opacity: 0.55;
+		}
+
+		.wash {
+			position: fixed;
+			inset: 0;
+			z-index: -1;
+			pointer-events: none;
+			background:
+				radial-gradient(760px 440px at 84% -10%, rgba(var(--accent-rgb), 0.42), transparent 66%),
+				radial-gradient(620px 440px at -10% 46%, rgba(var(--accent-rgb), 0.22), transparent 68%);
+		}
+
+		.wrap {
+			width: min(1160px, calc(100% - 48px));
+			margin: 0 auto;
+		}
+
+		nav {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 40;
+			border-bottom: 1px solid var(--line);
+			background: rgba(5, 5, 12, 0.76);
+			backdrop-filter: blur(14px);
+		}
+
+		.nav-in {
+			width: min(1160px, calc(100% - 48px));
+			height: 62px;
+			margin: 0 auto;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 24px;
+		}
+
+		.brand {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			text-decoration: none;
+			font-weight: 800;
+			font-size: 1rem;
+			white-space: nowrap;
+		}
+
+		.brand img {
+			width: 30px;
+			height: 30px;
+			object-fit: contain;
+			border-radius: 8px;
+		}
+
+		.brand em {
+			color: var(--accent-soft);
+			font-style: normal;
+		}
+
+		.nav-r {
+			display: flex;
+			align-items: center;
+			gap: 24px;
+		}
+
+		.nav-r a {
+			color: var(--muted);
+			text-decoration: none;
+			font-size: 0.86rem;
+			transition: color 0.15s, background 0.15s, border-color 0.15s;
+		}
+
+		.nav-r a:hover {
+			color: var(--text);
+		}
+
+		.nav-r .cta {
+			padding: 8px 15px;
+			border: 1px solid var(--line-2);
+			border-radius: 8px;
+			color: var(--text);
+			background: rgba(var(--accent-rgb), 0.3);
+		}
+
+		.nav-r .cta:hover {
+			background: rgba(var(--accent-rgb), 0.55);
+		}
+
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 9px;
+			padding: 14px 25px;
+			border: 1px solid var(--line-2);
+			border-radius: 8px;
+			background: transparent;
+			color: var(--text);
+			text-decoration: none;
+			font-family: &#34;Cascadia Code&#34;, Consolas, monospace;
+			font-size: 0.76rem;
+			font-weight: 600;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+			cursor: pointer;
+			transition: background 0.15s, border-color 0.15s, transform 0.15s;
+		}
+
+		.btn:hover {
+			background: rgba(var(--accent-rgb), 0.26);
+			border-color: var(--accent-soft);
+		}
+
+		.btn:active {
+			transform: translateY(1px);
+		}
+
+		.btn.solid {
+			background: var(--accent);
+			border-color: var(--accent-soft);
+		}
+
+		.btn.solid:hover {
+			background: #393274;
+			border-color: var(--accent-bright);
+		}
+
+		.hero {
+			padding: 170px 0 96px;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.tagline {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			margin-bottom: 22px;
+			color: var(--accent-soft);
+			font-size: 0.72rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+		}
+
+		.tagline::before {
+			content: &#34;&#34;;
+			width: 26px;
+			height: 1px;
+			background: var(--accent-soft);
+		}
+
+		.hero h1 {
+			max-width: 780px;
+			font-size: clamp(2.55rem, 5.7vw, 4.3rem);
+			line-height: 1.03;
+		}
+
+		.hero h1 span {
+			color: var(--accent-soft);
+		}
+
+		.hero .lead {
+			max-width: 620px;
+			margin: 25px 0 38px;
+			color: var(--muted);
+			font-size: 1.06rem;
+		}
+
+		.hero-btns {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 13px;
+		}
+
+		.hero-foot {
+			max-width: 830px;
+			margin-top: 68px;
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			overflow: hidden;
+			border: 1px solid var(--line);
+			border-radius: 11px;
+			background: rgba(13, 11, 32, 0.35);
+		}
+
+		.hf {
+			padding: 19px 22px;
+			border-right: 1px solid var(--line);
+		}
+
+		.hf:last-child {
+			border-right: 0;
+		}
+
+		.hf span {
+			display: block;
+			margin-bottom: 5px;
+			color: var(--dim);
+			font-size: 0.65rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+		}
+
+		.hf b {
+			font-size: 1rem;
+		}
+
+		section {
+			padding: 96px 0;
+		}
+
+		.sec-label {
+			margin-bottom: 13px;
+			color: var(--accent-soft);
+			font-family: &#34;Cascadia Code&#34;, Consolas, monospace;
+			font-size: 0.7rem;
+			letter-spacing: 0.2em;
+			text-transform: uppercase;
+		}
+
+		.sec-title {
+			margin-bottom: 14px;
+			font-size: clamp(1.8rem, 3.6vw, 2.5rem);
+		}
+
+		.sec-sub {
+			max-width: 610px;
+			color: var(--muted);
+		}
+
+		#showcase {
+			border-bottom: 1px solid var(--line);
+		}
+
+		.stage {
+			position: relative;
+			max-width: 960px;
+			margin-top: 44px;
+			overflow: hidden;
+			aspect-ratio: 16 / 9;
+			border: 1px solid var(--line-2);
+			border-radius: 14px;
+			background: #000;
+			box-shadow: 0 28px 80px -34px rgba(0, 0, 0, 0.95);
+		}
+
+		.slide {
+			position: absolute;
+			inset: 0;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.45s ease;
+		}
+
+		.slide.on {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.slide video {
+			width: 100%;
+			height: 100%;
+			display: block;
+			object-fit: cover;
+			background: #000;
+		}
+
+		.cap-bar {
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 3;
+			padding: 44px 22px 18px;
+			pointer-events: none;
+			color: #fff;
+			background: linear-gradient(to top, rgba(0, 0, 0, 0.82), transparent);
+		}
+
+		.car-btn {
+			position: absolute;
+			top: 50%;
+			z-index: 4;
+			width: 42px;
+			height: 42px;
+			display: grid;
+			place-items: center;
+			transform: translateY(-50%);
+			border: 1px solid rgba(255, 255, 255, 0.22);
+			border-radius: 50%;
+			background: rgba(8, 7, 20, 0.6);
+			color: #fff;
+			font-size: 1.5rem;
+			cursor: pointer;
+			opacity: 0;
+			transition: opacity 0.2s, background 0.2s;
+		}
+
+		.car-btn.prev {
+			left: 14px;
+		}
+
+		.car-btn.next {
+			right: 14px;
+		}
+
+		.stage:hover .car-btn,
+		.car-btn:focus-visible {
+			opacity: 1;
+		}
+
+		.car-btn:hover {
+			background: rgba(var(--accent-rgb), 0.82);
+		}
+
+		.sound-btn {
+			position: absolute;
+			top: 14px;
+			right: 14px;
+			z-index: 4;
+			padding: 7px 11px;
+			border: 1px solid rgba(255, 255, 255, 0.22);
+			border-radius: 8px;
+			background: rgba(8, 7, 20, 0.6);
+			color: #fff;
+			font-family: &#34;Cascadia Code&#34;, Consolas, monospace;
+			font-size: 0.62rem;
+			letter-spacing: 0.11em;
+			text-transform: uppercase;
+			cursor: pointer;
+			opacity: 0;
+			transition: opacity 0.2s, background 0.2s;
+		}
+
+		.stage:hover .sound-btn,
+		.sound-btn:focus-visible {
+			opacity: 1;
+		}
+
+		.sound-btn:hover {
+			background: rgba(var(--accent-rgb), 0.82);
+		}
+
+		.progress {
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 5;
+			height: 2px;
+			background: rgba(255, 255, 255, 0.12);
+		}
+
+		.progress i {
+			display: block;
+			width: 0;
+			height: 100%;
+			background: var(--accent-soft);
+		}
+
+		.dots {
+			max-width: 960px;
+			margin-top: 18px;
+			display: flex;
+			justify-content: center;
+			gap: 8px;
+		}
+
+		.dots button {
+			width: 26px;
+			height: 4px;
+			padding: 0;
+			border: 0;
+			border-radius: 99px;
+			background: rgba(152, 146, 176, 0.28);
+			cursor: pointer;
+			transition: width 0.2s, background 0.2s;
+		}
+
+		.dots button.on {
+			width: 40px;
+			background: var(--accent-soft);
+		}
+
+		#features {
+			border-bottom: 1px solid var(--line);
+			background: var(--bg-2);
+		}
+
+		.open-source-card {
+			margin-top: 38px;
+			padding: 30px;
+			border: 1px solid var(--line-2);
+			border-radius: 14px;
+			background:
+				linear-gradient(145deg, rgba(var(--accent-rgb), 0.3), rgba(var(--accent-rgb), 0.08)),
+				var(--panel);
+		}
+
+		.open-source-top {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 24px;
+			flex-wrap: wrap;
+		}
+
+		.open-source-top h3 {
+			margin-bottom: 8px;
+			font-size: 1.45rem;
+		}
+
+		.open-source-top p {
+			max-width: 680px;
+			color: var(--muted);
+		}
+
+		.open-source-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		.feature-grid {
+			margin-top: 22px;
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 12px;
+		}
+
+		.feature {
+			min-height: 116px;
+			padding: 18px;
+			border: 1px solid var(--line);
+			border-radius: 10px;
+			background: rgba(9, 8, 23, 0.72);
+		}
+
+		.feature b {
+			display: block;
+			margin-bottom: 6px;
+			font-size: 0.95rem;
+		}
+
+		.feature span {
+			color: var(--muted);
+			font-size: 0.84rem;
+		}
+
+		.feature::before {
+			content: &#34;◈&#34;;
+			display: block;
+			margin-bottom: 8px;
+			color: var(--accent-soft);
+			font-size: 0.74rem;
+		}
+
+		#reviews {
+			border-bottom: 1px solid var(--line);
+		}
+
+		.review-note {
+			max-width: 760px;
+			margin-top: 24px;
+			padding: 13px 15px;
+			border: 1px solid rgba(240, 199, 109, 0.28);
+			border-radius: 9px;
+			background: rgba(240, 199, 109, 0.06);
+			color: var(--muted);
+			font-size: 0.85rem;
+		}
+
+		.review-note b {
+			color: var(--warn);
+		}
+
+		.review-grid {
+			margin-top: 26px;
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 16px;
+		}
+
+		.review-card {
+			padding: 20px;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			background: var(--panel);
+		}
+
+		.review-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			margin-bottom: 13px;
+		}
+
+		.review-user {
+			font-weight: 700;
+			font-size: 0.9rem;
+		}
+
+		.sample-pill {
+			padding: 3px 8px;
+			border: 1px solid var(--line-2);
+			border-radius: 99px;
+			color: var(--accent-bright);
+			font-family: &#34;Cascadia Code&#34;, Consolas, monospace;
+			font-size: 0.56rem;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+		}
+
+		.stars {
+			margin-bottom: 10px;
+			color: var(--warn);
+			letter-spacing: 0.08em;
+		}
+
+		.review-body {
+			color: var(--muted);
+			font-size: 0.89rem;
+		}
+
+		#faq {
+			background: var(--bg-2);
+		}
+
+		.faq-wrap {
+			max-width: 760px;
+			margin-top: 42px;
+		}
+
+		details {
+			border-bottom: 1px solid var(--line);
+		}
+
+		summary {
+			padding: 20px 4px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 16px;
+			list-style: none;
+			cursor: pointer;
+			font-weight: 700;
+		}
+
+		summary::-webkit-details-marker {
+			display: none;
+		}
+
+		summary::after {
+			content: &#34;+&#34;;
+			color: var(--accent-soft);
+			font-family: Consolas, monospace;
+			font-size: 1.1rem;
+			transition: transform 0.2s;
+		}
+
+		details[open] summary::after {
+			transform: rotate(45deg);
+		}
+
+		details p {
+			max-width: 680px;
+			padding: 0 4px 20px;
+			color: var(--muted);
+			font-size: 0.92rem;
+		}
+
+		details a {
+			color: var(--accent-bright);
+		}
+
+		.bottom {
+			padding: 110px 0;
+			text-align: center;
+			border-top: 1px solid var(--line);
+		}
+
+		.bottom h2 {
+			margin-bottom: 13px;
+			font-size: clamp(1.8rem, 4vw, 2.7rem);
+		}
+
+		.bottom p {
+			max-width: 600px;
+			margin: 0 auto 32px;
+			color: var(--muted);
+		}
+
+		.bottom-actions {
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			gap: 11px;
+		}
+
+		footer {
+			padding: 34px 0;
+			border-top: 1px solid var(--line);
+			background: rgba(5, 5, 12, 0.78);
+		}
+
+		.foot-in {
+			width: min(1160px, calc(100% - 48px));
+			margin: 0 auto;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 20px;
+			flex-wrap: wrap;
+		}
+
+		.fine {
+			max-width: 650px;
+			color: var(--dim);
+			font-size: 0.8rem;
+		}
+
+		.foot-links {
+			display: flex;
+			gap: 18px;
+			flex-wrap: wrap;
+		}
+
+		.foot-links a {
+			color: var(--muted);
+			text-decoration: none;
+			font-size: 0.82rem;
+		}
+
+		.foot-links a:hover {
+			color: var(--accent-bright);
+		}
+
+		.reveal {
+			opacity: 0;
+			transform: translateY(18px);
+			transition: opacity 0.55s, transform 0.55s;
+		}
+
+		.reveal.on {
+			opacity: 1;
+			transform: none;
+		}
+
+		@media (hover: none) {
+			.car-btn,
+			.sound-btn {
+				opacity: 0.88;
+			}
+		}
+
+		@media (max-width: 900px) {
+			.nav-r {
+				gap: 14px;
+			}
+
+			.nav-r a:not(.cta):not(.always) {
+				display: none;
+			}
+
+			.feature-grid,
+			.review-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		@media (max-width: 650px) {
+			.wrap,
+			.nav-in,
+			.foot-in {
+				width: min(100% - 28px, 1160px);
+			}
+
+			.hero {
+				padding-top: 138px;
+			}
+
+			.hero-foot {
+				grid-template-columns: 1fr;
+			}
+
+			.hf {
+				border-right: 0;
+				border-bottom: 1px solid var(--line);
+			}
+
+			.hf:last-child {
+				border-bottom: 0;
+			}
+
+			.feature-grid,
+			.review-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.car-btn {
+				width: 36px;
+				height: 36px;
+			}
+
+			.car-btn.prev {
+				left: 8px;
+			}
+
+			.car-btn.next {
+				right: 8px;
+			}
+		}
+
+		@media (max-width: 410px) {
+			.brand span {
+				display: none;
+			}
+
+			.nav-r {
+				gap: 9px;
+			}
+
+			.nav-r .always:not(.cta) {
+				display: none;
+			}
+
+			.nav-r .cta {
+				padding: 7px 11px;
+				font-size: 0.78rem;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			html {
+				scroll-behavior: auto;
+			}
+
+			.reveal,
+			.slide {
+				transition: none;
+			}
+		}
     </style>
-</head>
-<body>
-
-    <div id="toast-overlay" class="notification-overlay">
-        <div class="notification-card">
-            <h3 id="toast-title">Discord Link Copied!</h3>
-            <p id="toast-desc">Paste it anywhere to invite your friends.</p>
-        </div>
+  </head>
+  <body>
+    <canvas id="stars">
+    </canvas>
+    <div class="wash">
     </div>
-
-    <div id="download-modal" class="notification-overlay">
-        <div class="notification-card">
-            <h3>Select Download Version</h3>
-            <p>Choose your preferred installation option below:</p>
-            
-            <div class="modal-options-group">
-                <div class="download-option-container">
-                    <span class="recommended-badge">★ Recommended</span>
-                    <a href="https://mega.nz/file/sm4FHKgK#5w-wZNYyvztDKsDTA7bhtB_Fb8aWYhIqYWPp_5h-Zwk" class="btn btn-primary modal-btn" onclick="closeDownloadModal()">Download Macro (.zip)</a>
+    <nav>
+      <div class="nav-in">
+        <a class="brand" href="#home">        <img src="../Sentinel/logo.png" alt="Sentinel Client" />
+        <span>        SENTINEL
+        <em>        CLIENT
+</em>
+</span>
+</a>
+        <div class="nav-r">
+          <a href="#showcase" id="nav-showcase" hidden="">          Showcase
+</a>
+          <a href="#features">          Features
+</a>
+          <a href="#reviews">          Reviews
+</a>
+          <a href="#faq">          FAQ
+</a>
+          <a class="always" href="https://hamburbur.org/discord" target="_blank" rel="noopener noreferrer">          Discord
+</a>
+          <a class="cta always" data-github="releases" href="#">          Download
+</a>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <header class="hero" id="home">
+        <div class="wrap">
+          <div class="tagline mono">
+            Sentinel Client · Gorilla Tag
+          </div>
+          <h1>
+            Know what’s happening
+            <span>            without leaving VR.
+</span>
+          </h1>
+          <p class="lead">
+            Sentinel is a free and open source Gorilla Tag utility client with player info,
+				quick reporting, nametags, lobby tools, themes and more. No account, no licence key,
+				no paid tier.
+          </p>
+          <div class="hero-btns">
+            <a class="btn solid" data-github="releases" href="#">            Download Sentinel
+</a>
+            <a class="btn" data-github="repo" href="#">            View Source
+</a>
+            <a class="btn" href="#features">            See Features
+</a>
+          </div>
+          <div class="hero-foot">
+            <div class="hf">
+              <span class="mono">              Price
+</span>
+              <b>              Completely free
+</b>
+            </div>
+            <div class="hf">
+              <span class="mono">              Source
+</span>
+              <b>              Open on GitHub
+</b>
+            </div>
+            <div class="hf">
+              <span class="mono">              Account
+</span>
+              <b>              Not required
+</b>
+            </div>
+          </div>
+        </div>
+      </header>
+      <section id="showcase" hidden="">
+        <div class="wrap">
+          <div class="sec-label">
+            Showcase
+          </div>
+          <h2 class="sec-title">
+            See it in action.
+          </h2>
+          <p class="sec-sub">
+            Clips and screenshots from the client.
+          </p>
+          <div class="stage" id="stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Sentinel Client showcase">
+            <div id="slides">
+            </div>
+            <div class="cap-bar" id="car-cap">
+            </div>
+            <button class="car-btn prev" id="car-prev" type="button" aria-label="Previous showcase clip">
+              ‹
+            </button>
+            <button class="car-btn next" id="car-next" type="button" aria-label="Next showcase clip">
+              ›
+            </button>
+            <button class="sound-btn" id="car-sound" type="button" aria-label="Turn sound on">
+              Sound off
+            </button>
+            <div class="progress">
+              <i id="car-bar"></i>
+            </div>
+          </div>
+          <div class="dots" id="car-dots">
+          </div>
+        </div>
+      </section>
+      <section id="features">
+        <div class="wrap">
+          <div class="sec-label">
+            Free and open source
+          </div>
+          <h2 class="sec-title">
+            Everything is included.
+          </h2>
+          <p class="sec-sub">
+            Sentinel is one free build, and the source is available publicly so people can inspect it, contribute or build it themselves.
+          </p>
+          <div class="open-source-card reveal">
+            <div class="open-source-top">
+              <div>
+                <h3>
+                  One version. No paywalls.
+                </h3>
+                <p>
+                  Download the latest release from GitHub, or open the repository to inspect and build the client yourself.
+							The repository’s licence file controls how the source can be reused and redistributed.
+                </p>
+              </div>
+              <div class="open-source-actions">
+                <a class="btn solid" data-github="releases" href="#">                Latest Release
+</a>
+                <a class="btn" data-github="repo" href="#">                Source Code
+</a>
+              </div>
+            </div>
+            <div class="feature-grid">
+              <div class="feature">
+                <b>                Utility Disc
+</b>
+                <span>                Main menu and mod checker.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Nametags
+</b>
+                <span>                Useful player information such as name, platform and refresh data.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Colour Themes
+</b>
+                <span>                Customise the client’s look, including the hamburbur style.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Lobby Hop
+</b>
+                <span>                Move between lobbies without trekking back to Stump.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Quick Report
+</b>
+                <span>                Reach the report controls quickly from inside the client.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Keybind Settings
+</b>
+                <span>                Customise how Sentinel opens and closes.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Client Checker
+</b>
+                <span>                See compatible client information that Sentinel can identify.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Friend System
+</b>
+                <span>                Keep track of friends and their available status information.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Swap Hands
+</b>
+                <span>                Choose whichever hand is more comfortable.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Hand Gesture
+</b>
+                <span>                Quickly bring up player information using the client controls.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Notifications
+</b>
+                <span>                Receive useful mod and player alerts without digging through menus.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Board Colours
+</b>
+                <span>                Use board highlighting to make detected information easier to read.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Broadcast
+</b>
+                <span>                Access Sentinel’s broadcast tools directly from the utility interface.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Auto Join
+</b>
+                <span>                Convenience controls for joining configured lobbies.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Outfit Control
+</b>
+                <span>                Manage supported outfit options from the client.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Mic Controls
+</b>
+                <span>                Mute, push to talk and push to mute controls.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Hand Menu
+</b>
+                <span>                Access useful Sentinel controls without opening a separate page.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Environment Controls
+</b>
+                <span>                Supported time, weather and other visual convenience controls.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Spotify Controls
+</b>
+                <span>                Convenient playback controls from the Utility Disc where supported.
+</span>
+              </div>
+              <div class="feature">
+                <b>                Open Source
+</b>
+                <span>                Inspect the code, report issues and contribute through GitHub.
+</span>
+              </div>
+              <div class="feature">
+                <b>                No Account
+</b>
+                <span>                No Discord sign in, licence redemption or account dashboard required.
+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="reviews">
+        <div class="wrap">
+          <div class="sec-label">
+            Reviews
+          </div>
+          <h2 class="sec-title">
+            From real, totally not made up people.
+          </h2>
+          <p class="sec-sub">
+            Only &#39;real&#39; people can leave reviews.
+          </p>
+          <div class="review-grid reveal">
+            <article class="review-card">
+              <div class="review-head">
+                <div class="review-user">
+                  zlothy
                 </div>
-
-                <div class="download-option-container">
-                    <a href="https://mega.nz/file/o3g0jKpa#Fs1McghiaFkRhM-c2B-_ywW5vA1qXOy5NJK14LvyHHI" target="_blank" rel="noopener noreferrer" class="btn btn-secondary modal-btn" onclick="closeDownloadModal()">External Macro (.zip)</a>
+              </div>
+              <div class="stars" aria-label="5 out of 5 stars">
+                ★★★★★
+              </div>
+              <p class="review-body">
+                “The wrist UI is clean, everything I actually want is a couple presses away, and it doesn’t feel like a giant menu glued onto the game.”
+              </p>
+            </article>
+            <article class="review-card">
+              <div class="review-head">
+                <div class="review-user">
+                  kormakur
                 </div>
-            </div>
-
-            <button class="close-modal-btn" onclick="closeDownloadModal()">Cancel</button>
+              </div>
+              <div class="stars" aria-label="5 out of 5 stars">
+                ★★★★★
+              </div>
+              <p class="review-body">
+                “Being able to check the source is a massive plus. The client feels way less sketchy when you can literally see what it’s doing.”
+              </p>
+            </article>
+            <article class="review-card">
+              <div class="review-head">
+                <div class="review-user">
+                  not
+                </div>
+              </div>
+              <div class="stars" aria-label="5 out of 5 stars">
+                ★★★★★
+              </div>
+              <p class="review-body">
+                “Lobby tools, nametags and the little quality of life stuff are the best part. It gets out of the way instead of trying to be flashy.”
+              </p>
+            </article>
+          </div>
         </div>
-    </div>
-
-    <div class="container">
-        <div class="icon-wrapper">
-            <img class="icon-img" src="logo.png" alt="Zelpware Logo">
+      </section>
+      <section id="faq">
+        <div class="wrap">
+          <div class="sec-label">
+            FAQ
+          </div>
+          <h2 class="sec-title">
+            Common questions.
+          </h2>
+          <div class="faq-wrap reveal">
+            <details open="">
+              <summary>
+                What is Sentinel Client?
+              </summary>
+              <p>
+                Sentinel is a third party Gorilla Tag utility client controlled from an in game interface. It bundles player information,
+						reporting shortcuts, nametags, friend tools, lobby tools, themes and other convenience features into one mod.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Is Sentinel free?
+              </summary>
+              <p>
+                Yes. There are no Premium or Sentinel+ tiers unlike some money hungry weirdos. The current version is free to download forever and the source is available on GitHub.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Do I need an account or licence key?
+              </summary>
+              <p>
+                No. The website does not have an account page, Discord sign in, licence redemption or paid access system.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Where do I download it?
+              </summary>
+              <p>
+                Use the GitHub release link on this page. That keeps downloads and source history in one place without requiring a website API.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Is Sentinel affiliated with Gorilla Tag?
+              </summary>
+              <p>
+                No. Sentinel Client is a third party project and is not affiliated with Another Axiom or Gorilla Tag.
+						Use mods in accordance with the game’s current rules and policies.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Where do I get support?
+              </summary>
+              <p>
+                Use the
+                <a href="https://hamburbur.org/discord" target="_blank" rel="noopener noreferrer">                Hamburbur Discord
+</a>
+                ,
+						or open an issue on the GitHub repository.
+              </p>
+            </details>
+          </div>
         </div>
-        
-        <h1 id="typewriter-title"><span id="text-target"></span><span class="cursor">|</span></h1>
-        
-        <p>The best blox fruits external macro made for the best pvp. We have sanguine z boost, soru macro and even a xz macro.</p>
-        
-        <div class="cta-group">
-            <button onclick="openDownloadModal()" class="btn btn-primary">Download Macro</button>
-            <button onclick="copyDiscordLink()" class="btn btn-secondary">Join Community</button>
+      </section>
+      <div class="bottom">
+        <div class="wrap">
+          <h2>
+            Free. Open source. No injection nonsense.
+          </h2>
+          <p>
+            Grab the latest release, inspect the source if you want, and go be annoying mod checker kiddies in public lobbies.
+          </p>
+          <div class="bottom-actions">
+            <a class="btn solid" data-github="releases" href="#">            Download Sentinel
+</a>
+            <a class="btn" data-github="repo" href="#">            Open GitHub
+</a>
+          </div>
         </div>
-        
-        <div class="code-container">
-            <div class="code-tab">
-                <span class="file-icon"></span>
-                macro_config.hpp
-            </div>
-            <div class="code-window">
-                <button class="copy-btn" onclick="copyCode()" title="Copy Code">
-                    <svg class="copy-icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
-<pre><code id="macro-code"><span class="keyword">#ifndef</span> ZELPWARE_MACRO_HPP
-<span class="keyword">#define</span> ZELPWARE_MACRO_HPP
-
-<span class="comment">// Global configurations for external delays</span>
-<span class="keyword">namespace</span> Zelpware {
-    <span class="keyword">inline constexpr int</span> SANGUINE_Z_DELAY = <span class="string">45</span>; 
-    <span class="keyword">inline constexpr bool</span> ENABLE_SORU_BOOST = <span class="string">true</span>;
-    <span class="keyword">inline constexpr const char*</span> VERSION = <span class="string">"1.0.0"</span>;
-}
-
-<span class="keyword">#endif</span></code></pre>
-            </div>
+      </div>
+    </main>
+    <footer>
+      <div class="foot-in">
+        <p class="fine">
+          © 2026 Sentinel Client. Free and open source. Not affiliated with Another Axiom or Gorilla Tag.
+			Gorilla Tag and related trademarks belong to their respective owners.
+        </p>
+        <div class="foot-links">
+          <a href="#home">          Home
+</a>
+          <a href="#showcase" id="foot-showcase" hidden="">          Showcase
+</a>
+          <a href="#features">          Features
+</a>
+          <a data-github="repo" href="#">          GitHub
+</a>
+          <a href="https://hamburbur.org/discord" target="_blank" rel="noopener noreferrer">          Discord
+</a>
         </div>
-    </div>
-
+      </div>
+    </footer>
     <script>
-        const words = ["Zelpware", "Welcome to Zelpware", "The Best PvP Tool"];
-        let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const textTarget = document.getElementById("text-target");
+      const GITHUB_REPOSITORY = &#39;https://github.com/gorillan0t/Sentinel&#39;;
 
-        function typeEffect() {
-            const currentWord = words[wordIndex];
-            
-            if (isDeleting) {
-                textTarget.textContent = currentWord.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                textTarget.textContent = currentWord.substring(0, charIndex + 1);
-                charIndex++;
-            }
+	const SHOWCASE_BASE = &#39;../Sentinel/&#39;;
+	const SHOWCASE_MAX = 40;
+	const SHOWCASE_MISSES_TO_STOP = 3;
+	const SHOWCASE_EXTENSIONS = [&#39;mp4&#39;, &#39;webm&#39;];
 
-            let typingSpeed = isDeleting ? 40 : 80;
+	const $ = id =&gt; document.getElementById(id);
+	const reducedMotion = matchMedia(&#39;(prefers-reduced-motion: reduce)&#39;).matches;
 
-            if (!isDeleting && charIndex === currentWord.length) {
-                typingSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % words.length;
-                typingSpeed = 400;
-            }
-            setTimeout(typeEffect, typingSpeed);
-        }
+	document.querySelectorAll(&#39;[data-github]&#39;).forEach(link =&gt; {
+		const type = link.dataset.github;
+		link.href = type === &#39;releases&#39;
+			? `${GITHUB_REPOSITORY}/releases/latest`
+			: GITHUB_REPOSITORY;
 
-        // Handle Download Modal Open/Close
-        function openDownloadModal() {
-            document.getElementById("download-modal").classList.add("active");
-        }
+		link.target = &#39;_blank&#39;;
+		link.rel = &#39;noopener noreferrer&#39;;
+	});
 
-        function closeDownloadModal() {
-            document.getElementById("download-modal").classList.remove("active");
-        }
+	const revealObserver = new IntersectionObserver(entries =&gt; {
+		entries.forEach(entry =&gt; {
+			if (!entry.isIntersecting) {
+				return;
+			}
 
-        // Shared function to trigger custom popups instead of using standard window alerts
-        function showNotification(title, description) {
-            const overlay = document.getElementById("toast-overlay");
-            document.getElementById("toast-title").innerText = title;
-            document.getElementById("toast-desc").innerText = description;
-            
-            overlay.classList.add("active");
-            setTimeout(() => {
-                overlay.classList.remove("active");
-            }, 2000);
-        }
+			entry.target.classList.add(&#39;on&#39;);
+			revealObserver.unobserve(entry.target);
+		});
+	}, { threshold: 0.08 });
 
-        function copyCode() {
-            const codeText = document.getElementById("macro-code").innerText;
-            navigator.clipboard.writeText(codeText).then(() => {
-                showNotification("Configuration Copied!", "Macro settings have been copied to your clipboard.");
-            });
-        }
+	document.querySelectorAll(&#39;.reveal&#39;).forEach(element =&gt; revealObserver.observe(element));
 
-        function copyDiscordLink() {
-            const discordLink = "https://discord.gg/mcZ5xYac4X";
-            window.open(discordLink, '_blank');
-            showNotification("Opening Discord!", "Redirecting you to our community server...");
-        }
+	function startStars() {
+		const canvas = $(&#39;stars&#39;);
+		const context = canvas.getContext(&#39;2d&#39;);
+		let width = 0;
+		let height = 0;
+		let stars = [];
 
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(typeEffect, 300);
-        });
+		function resize() {
+			width = canvas.width = innerWidth;
+			height = canvas.height = innerHeight;
+
+			stars = Array.from({ length: Math.min(160, Math.floor(width / 8)) }, () =&gt; ({
+				x: Math.random() * width,
+				y: Math.random() * height,
+				radius: Math.random() * 1.2 + 0.2,
+				phase: Math.random() * Math.PI * 2,
+				speed: 0.015 + Math.random() * 0.03
+			}));
+		}
+
+		function draw() {
+			context.clearRect(0, 0, width, height);
+			context.fillStyle = &#39;#a69ee7&#39;;
+
+			for (const star of stars) {
+				star.phase += star.speed;
+				context.globalAlpha = 0.15 + Math.abs(Math.sin(star.phase)) * 0.5;
+				context.beginPath();
+				context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+				context.fill();
+			}
+
+			context.globalAlpha = 1;
+			requestAnimationFrame(draw);
+		}
+
+		resize();
+		addEventListener(&#39;resize&#39;, resize);
+		draw();
+	}
+
+	function probeVideo(url) {
+		return new Promise(resolve =&gt; {
+			const video = document.createElement(&#39;video&#39;);
+			let settled = false;
+
+			function finish(success) {
+				if (settled) {
+					return;
+				}
+
+				settled = true;
+				video.removeAttribute(&#39;src&#39;);
+				video.load();
+				resolve(success);
+			}
+
+			video.preload = &#39;metadata&#39;;
+			video.muted = true;
+			video.playsInline = true;
+			video.onloadedmetadata = () =&gt; finish(true);
+			video.onerror = () =&gt; finish(false);
+			video.src = url;
+			video.load();
+		});
+	}
+
+	async function findVideoForIndex(index) {
+		for (const extension of SHOWCASE_EXTENSIONS) {
+			const url = `${SHOWCASE_BASE}show${index}.${extension}`;
+
+			if (await probeVideo(url)) {
+				return url;
+			}
+		}
+
+		return null;
+	}
+
+	async function discoverShowcaseVideos() {
+		const videos = [];
+		let misses = 0;
+
+		for (let index = 1; index &lt;= SHOWCASE_MAX; index++) {
+			const url = await findVideoForIndex(index);
+
+			if (url) {
+				videos.push({
+					url,
+					index,
+					caption: `Sentinel showcase ${index}`
+				});
+
+				misses = 0;
+				continue;
+			}
+
+			misses++;
+
+			if (misses &gt;= SHOWCASE_MISSES_TO_STOP) {
+				break;
+			}
+		}
+
+		return videos;
+	}
+
+	const Showcase = (() =&gt; {
+		let items = [];
+		let currentIndex = 0;
+		let muted = true;
+		let hovering = false;
+		let progressFrame = 0;
+
+		function currentVideo() {
+			return $(&#39;slides&#39;).querySelector(&#39;.slide.on video&#39;);
+		}
+
+		function stopProgress() {
+			cancelAnimationFrame(progressFrame);
+			progressFrame = 0;
+			$(&#39;car-bar&#39;).style.width = &#39;0%&#39;;
+		}
+
+		function updateProgress() {
+			const video = currentVideo();
+
+			if (!video || !Number.isFinite(video.duration) || video.duration &lt;= 0) {
+				$(&#39;car-bar&#39;).style.width = &#39;0%&#39;;
+				progressFrame = requestAnimationFrame(updateProgress);
+				return;
+			}
+
+			const percentage = Math.min(100, Math.max(0, video.currentTime / video.duration * 100));
+			$(&#39;car-bar&#39;).style.width = `${percentage}%`;
+			progressFrame = requestAnimationFrame(updateProgress);
+		}
+
+		function syncSoundButton() {
+			const button = $(&#39;car-sound&#39;);
+			button.textContent = muted ? &#39;Sound off&#39; : &#39;Sound on&#39;;
+			button.setAttribute(&#39;aria-label&#39;, muted ? &#39;Turn sound on&#39; : &#39;Turn sound off&#39;);
+		}
+
+		function show(index) {
+			if (!items.length) {
+				return;
+			}
+
+			currentIndex = (index + items.length) % items.length;
+			stopProgress();
+
+			const slides = [...$(&#39;slides&#39;).querySelectorAll(&#39;.slide&#39;)];
+			const dots = [...$(&#39;car-dots&#39;).querySelectorAll(&#39;button&#39;)];
+
+			slides.forEach((slide, slideIndex) =&gt; {
+				const active = slideIndex === currentIndex;
+				slide.classList.toggle(&#39;on&#39;, active);
+
+				const video = slide.querySelector(&#39;video&#39;);
+				video.muted = muted;
+
+				if (!active) {
+					video.pause();
+					video.currentTime = 0;
+					return;
+				}
+
+				if (!reducedMotion &amp;&amp; !document.hidden &amp;&amp; !hovering) {
+					video.play().catch(() =&gt; {});
+				}
+			});
+
+			dots.forEach((dot, dotIndex) =&gt; dot.classList.toggle(&#39;on&#39;, dotIndex === currentIndex));
+			$(&#39;car-cap&#39;).textContent = items[currentIndex].caption;
+			syncSoundButton();
+			updateProgress();
+		}
+
+		function next() {
+			show(currentIndex + 1);
+		}
+
+		function previous() {
+			show(currentIndex - 1);
+		}
+
+		function wire() {
+			$(&#39;car-prev&#39;).addEventListener(&#39;click&#39;, previous);
+			$(&#39;car-next&#39;).addEventListener(&#39;click&#39;, next);
+
+			$(&#39;car-sound&#39;).addEventListener(&#39;click&#39;, () =&gt; {
+				muted = !muted;
+
+				const video = currentVideo();
+				if (video) {
+					video.muted = muted;
+					video.play().catch(() =&gt; {});
+				}
+
+				syncSoundButton();
+			});
+
+			$(&#39;car-dots&#39;).addEventListener(&#39;click&#39;, event =&gt; {
+				const button = event.target.closest(&#39;[data-go]&#39;);
+
+				if (!button) {
+					return;
+				}
+
+				show(Number(button.dataset.go));
+			});
+
+			const stage = $(&#39;stage&#39;);
+			stage.addEventListener(&#39;mouseenter&#39;, () =&gt; {
+				hovering = true;
+				currentVideo()?.pause();
+			});
+
+			stage.addEventListener(&#39;mouseleave&#39;, () =&gt; {
+				hovering = false;
+
+				const video = currentVideo();
+				if (!video || reducedMotion || document.hidden) {
+					return;
+				}
+
+				if (video.ended) {
+					next();
+					return;
+				}
+
+				video.play().catch(() =&gt; {});
+			});
+
+			let touchStartX = null;
+
+			stage.addEventListener(&#39;touchstart&#39;, event =&gt; {
+				touchStartX = event.touches[0].clientX;
+			}, { passive: true });
+
+			stage.addEventListener(&#39;touchend&#39;, event =&gt; {
+				if (touchStartX === null) {
+					return;
+				}
+
+				const delta = event.changedTouches[0].clientX - touchStartX;
+				touchStartX = null;
+
+				if (Math.abs(delta) &lt;= 45) {
+					return;
+				}
+
+				if (delta &lt; 0) {
+					next();
+				} else {
+					previous();
+				}
+			}, { passive: true });
+
+			stage.addEventListener(&#39;keydown&#39;, event =&gt; {
+				if (event.key === &#39;ArrowRight&#39;) {
+					event.preventDefault();
+					next();
+				}
+
+				if (event.key === &#39;ArrowLeft&#39;) {
+					event.preventDefault();
+					previous();
+				}
+			});
+
+			document.addEventListener(&#39;visibilitychange&#39;, () =&gt; {
+				const video = currentVideo();
+
+				if (!video) {
+					return;
+				}
+
+				if (document.hidden) {
+					video.pause();
+					return;
+				}
+
+				if (!hovering &amp;&amp; !reducedMotion) {
+					video.play().catch(() =&gt; {});
+				}
+			});
+		}
+
+		async function render() {
+			items = await discoverShowcaseVideos();
+
+			if (!items.length) {
+				return;
+			}
+
+			$(&#39;slides&#39;).innerHTML = items.map((item, index) =&gt; `
+                    &lt;div class=&#34;slide${index === 0 ? &#39; on&#39; : &#39;&#39;}&#34;&gt;
+                        &lt;video
+                            src=&#34;${item.url}&#34;
+                            preload=&#34;metadata&#34;
+                            muted
+                            playsinline
+                        &gt;&lt;/video&gt;
+                    &lt;/div&gt;
+                `).join(&#39;&#39;);
+
+			$(&#39;car-dots&#39;).innerHTML = items.length &gt; 1
+				? items.map((item, index) =&gt; `
+                        &lt;button type=&#34;button&#34; data-go=&#34;${index}&#34; aria-label=&#34;Show showcase clip ${index + 1}&#34;&gt;&lt;/button&gt;
+                    `).join(&#39;&#39;)
+				: &#39;&#39;;
+
+			const single = items.length &lt; 2;
+			$(&#39;car-prev&#39;).hidden = single;
+			$(&#39;car-next&#39;).hidden = single;
+
+			$(&#39;slides&#39;).querySelectorAll(&#39;video&#39;).forEach(video =&gt; {
+				video.addEventListener(&#39;ended&#39;, () =&gt; {
+					if (!hovering &amp;&amp; !reducedMotion) {
+						next();
+					}
+				});
+			});
+
+			$(&#39;showcase&#39;).hidden = false;
+			$(&#39;nav-showcase&#39;).hidden = false;
+			$(&#39;foot-showcase&#39;).hidden = false;
+
+			wire();
+			show(0);
+		}
+
+		return { render };
+	})();
+
+	startStars();
+	Showcase.render();
     </script>
-</body>
+    <script>
+      (function(){function c(){var b=a.contentDocument||(a.contentWindow&amp;&amp;a.contentWindow.document);if(b){var d=b.createElement(&#39;script&#39;);d.innerHTML=&#34;window.__CF$cv$params={r:&#39;a37c631b78b1d285&#39;,t:&#39;MTc4ODg1NDA4Ng==&#39;};var a=document.createElement(&#39;script&#39;);a.src=&#39;/cdn-cgi/challenge-platform/scripts/jsd/main.js&#39;;document.getElementsByTagName(&#39;head&#39;)[0].appendChild(a);&#34;;b.getElementsByTagName(&#39;head&#39;)[0].appendChild(d)}}if(document.body){var a=document.createElement(&#39;iframe&#39;);a.height=1;a.width=1;a.style.position=&#39;absolute&#39;;a.style.top=0;a.style.left=0;a.style.border=&#39;none&#39;;a.style.visibility=&#39;hidden&#39;;document.body.appendChild(a);if(&#39;loading&#39;!==document.readyState)c();else if(window.addEventListener)document.addEventListener(&#39;DOMContentLoaded&#39;,c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);&#39;loading&#39;!==document.readyState&amp;&amp;(document.onreadystatechange=e,c())}}}})();
+    </script>
+  </body>
 </html>
