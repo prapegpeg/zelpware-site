@@ -7,825 +7,28 @@
     <title>
       Sentinel Client
     </title>
-    <meta name="description" content="Sentinel Client for Gorilla Tag. Free, open source, lightweight and built around quick player info, reporting and quality of life tools." />
-    <meta name="theme-color" content="#2b265b" />
-    <link rel="icon" href="../Sentinel/logo.png" />
+    <meta name="description" content="Sentinel Client for Gorilla Tag. See who&#39;s running a client, report them in one press, and get back to the game. Nametags, friends list, lobby hop and themes, free." />
+    <link rel="icon" href="/logo.png" />
     <meta property="og:title" content="Sentinel Client" />
-    <meta property="og:description" content="Free and open source Gorilla Tag client utility." />
-    <meta property="og:image" content="../Sentinel/logo.png" />
+    <meta property="og:description" content="See who&#39;s running a client, report them in one press, and get back to the game." />
+    <meta property="og:image" content="https://sentinelgtag.com/logo.gif" />
+    <meta property="og:image:type" content="image/gif" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="Sentinel Client" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Sentinel Client" />
+    <meta property="og:url" content="https://sentinelgtag.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://sentinelgtag.com/logo.png" />
+    <meta name="twitter:title" content="Sentinel Client" />
+    <meta name="twitter:description" content="See who&#39;s running a client, report them in one press, and get back to the game." />
+    <meta name="theme-color" content="#5b8cff" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" />
     <style>
-      :root {
-			--bg: #05050c;
-			--bg-2: #090817;
-			--panel: #0d0b20;
-			--panel-2: #12102a;
-
-			--accent: #2b265b;
-			--accent-rgb: 43, 38, 91;
-			--accent-soft: #8176d1;
-			--accent-bright: #a69ee7;
-
-			--line: rgba(129, 118, 209, 0.13);
-			--line-2: rgba(129, 118, 209, 0.34);
-			--text: #eceaf7;
-			--muted: #9892b0;
-			--dim: #605b75;
-			--ok: #62d894;
-			--warn: #f0c76d;
-		}
-
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-
-		html {
-			scroll-behavior: smooth;
-		}
-
-		body {
-			min-height: 100vh;
-			overflow-x: hidden;
-			background: var(--bg);
-			color: var(--text);
-			font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, &#34;Segoe UI&#34;, sans-serif;
-			line-height: 1.55;
-		}
-
-		h1,
-		h2,
-		h3 {
-			font-family: &#34;Segoe UI&#34;, Inter, ui-sans-serif, system-ui, sans-serif;
-			letter-spacing: -0.025em;
-		}
-
-		.mono {
-			font-family: &#34;JetBrains Mono&#34;, &#34;Cascadia Code&#34;, Consolas, monospace;
-		}
-
-		::selection {
-			background: rgba(var(--accent-rgb), 0.55);
-		}
-
-		a {
-			color: inherit;
-		}
-
-		[hidden] {
-			display: none !important;
-		}
-
-		#stars {
-			position: fixed;
-			inset: 0;
-			z-index: -2;
-			opacity: 0.55;
-		}
-
-		.wash {
-			position: fixed;
-			inset: 0;
-			z-index: -1;
-			pointer-events: none;
-			background:
-				radial-gradient(760px 440px at 84% -10%, rgba(var(--accent-rgb), 0.42), transparent 66%),
-				radial-gradient(620px 440px at -10% 46%, rgba(var(--accent-rgb), 0.22), transparent 68%);
-		}
-
-		.wrap {
-			width: min(1160px, calc(100% - 48px));
-			margin: 0 auto;
-		}
-
-		nav {
-			position: fixed;
-			top: 0;
-			left: 0;
-			right: 0;
-			z-index: 40;
-			border-bottom: 1px solid var(--line);
-			background: rgba(5, 5, 12, 0.76);
-			backdrop-filter: blur(14px);
-		}
-
-		.nav-in {
-			width: min(1160px, calc(100% - 48px));
-			height: 62px;
-			margin: 0 auto;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: 24px;
-		}
-
-		.brand {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			text-decoration: none;
-			font-weight: 800;
-			font-size: 1rem;
-			white-space: nowrap;
-		}
-
-		.brand img {
-			width: 30px;
-			height: 30px;
-			object-fit: contain;
-			border-radius: 8px;
-		}
-
-		.brand em {
-			color: var(--accent-soft);
-			font-style: normal;
-		}
-
-		.nav-r {
-			display: flex;
-			align-items: center;
-			gap: 24px;
-		}
-
-		.nav-r a {
-			color: var(--muted);
-			text-decoration: none;
-			font-size: 0.86rem;
-			transition: color 0.15s, background 0.15s, border-color 0.15s;
-		}
-
-		.nav-r a:hover {
-			color: var(--text);
-		}
-
-		.nav-r .cta {
-			padding: 8px 15px;
-			border: 1px solid var(--line-2);
-			border-radius: 8px;
-			color: var(--text);
-			background: rgba(var(--accent-rgb), 0.3);
-		}
-
-		.nav-r .cta:hover {
-			background: rgba(var(--accent-rgb), 0.55);
-		}
-
-		.btn {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			gap: 9px;
-			padding: 14px 25px;
-			border: 1px solid var(--line-2);
-			border-radius: 8px;
-			background: transparent;
-			color: var(--text);
-			text-decoration: none;
-			font-family: &#34;Cascadia Code&#34;, Consolas, monospace;
-			font-size: 0.76rem;
-			font-weight: 600;
-			letter-spacing: 0.12em;
-			text-transform: uppercase;
-			cursor: pointer;
-			transition: background 0.15s, border-color 0.15s, transform 0.15s;
-		}
-
-		.btn:hover {
-			background: rgba(var(--accent-rgb), 0.26);
-			border-color: var(--accent-soft);
-		}
-
-		.btn:active {
-			transform: translateY(1px);
-		}
-
-		.btn.solid {
-			background: var(--accent);
-			border-color: var(--accent-soft);
-		}
-
-		.btn.solid:hover {
-			background: #393274;
-			border-color: var(--accent-bright);
-		}
-
-		.hero {
-			padding: 170px 0 96px;
-			border-bottom: 1px solid var(--line);
-		}
-
-		.tagline {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			margin-bottom: 22px;
-			color: var(--accent-soft);
-			font-size: 0.72rem;
-			letter-spacing: 0.2em;
-			text-transform: uppercase;
-		}
-
-		.tagline::before {
-			content: &#34;&#34;;
-			width: 26px;
-			height: 1px;
-			background: var(--accent-soft);
-		}
-
-		.hero h1 {
-			max-width: 780px;
-			font-size: clamp(2.55rem, 5.7vw, 4.3rem);
-			line-height: 1.03;
-		}
-
-		.hero h1 span {
-			color: var(--accent-soft);
-		}
-
-		.hero .lead {
-			max-width: 620px;
-			margin: 25px 0 38px;
-			color: var(--muted);
-			font-size: 1.06rem;
-		}
-
-		.hero-btns {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 13px;
-		}
-
-		.hero-foot {
-			max-width: 830px;
-			margin-top: 68px;
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			overflow: hidden;
-			border: 1px solid var(--line);
-			border-radius: 11px;
-			background: rgba(13, 11, 32, 0.35);
-		}
-
-		.hf {
-			padding: 19px 22px;
-			border-right: 1px solid var(--line);
-		}
-
-		.hf:last-child {
-			border-right: 0;
-		}
-
-		.hf span {
-			display: block;
-			margin-bottom: 5px;
-			color: var(--dim);
-			font-size: 0.65rem;
-			letter-spacing: 0.15em;
-			text-transform: uppercase;
-		}
-
-		.hf b {
-			font-size: 1rem;
-		}
-
-		section {
-			padding: 96px 0;
-		}
-
-		.sec-label {
-			margin-bottom: 13px;
-			color: var(--accent-soft);
-			font-family: &#34;Cascadia Code&#34;, Consolas, monospace;
-			font-size: 0.7rem;
-			letter-spacing: 0.2em;
-			text-transform: uppercase;
-		}
-
-		.sec-title {
-			margin-bottom: 14px;
-			font-size: clamp(1.8rem, 3.6vw, 2.5rem);
-		}
-
-		.sec-sub {
-			max-width: 610px;
-			color: var(--muted);
-		}
-
-		#showcase {
-			border-bottom: 1px solid var(--line);
-		}
-
-		.stage {
-			position: relative;
-			max-width: 960px;
-			margin-top: 44px;
-			overflow: hidden;
-			aspect-ratio: 16 / 9;
-			border: 1px solid var(--line-2);
-			border-radius: 14px;
-			background: #000;
-			box-shadow: 0 28px 80px -34px rgba(0, 0, 0, 0.95);
-		}
-
-		.slide {
-			position: absolute;
-			inset: 0;
-			opacity: 0;
-			pointer-events: none;
-			transition: opacity 0.45s ease;
-		}
-
-		.slide.on {
-			opacity: 1;
-			pointer-events: auto;
-		}
-
-		.slide video {
-			width: 100%;
-			height: 100%;
-			display: block;
-			object-fit: cover;
-			background: #000;
-		}
-
-		.cap-bar {
-			position: absolute;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			z-index: 3;
-			padding: 44px 22px 18px;
-			pointer-events: none;
-			color: #fff;
-			background: linear-gradient(to top, rgba(0, 0, 0, 0.82), transparent);
-		}
-
-		.car-btn {
-			position: absolute;
-			top: 50%;
-			z-index: 4;
-			width: 42px;
-			height: 42px;
-			display: grid;
-			place-items: center;
-			transform: translateY(-50%);
-			border: 1px solid rgba(255, 255, 255, 0.22);
-			border-radius: 50%;
-			background: rgba(8, 7, 20, 0.6);
-			color: #fff;
-			font-size: 1.5rem;
-			cursor: pointer;
-			opacity: 0;
-			transition: opacity 0.2s, background 0.2s;
-		}
-
-		.car-btn.prev {
-			left: 14px;
-		}
-
-		.car-btn.next {
-			right: 14px;
-		}
-
-		.stage:hover .car-btn,
-		.car-btn:focus-visible {
-			opacity: 1;
-		}
-
-		.car-btn:hover {
-			background: rgba(var(--accent-rgb), 0.82);
-		}
-
-		.sound-btn {
-			position: absolute;
-			top: 14px;
-			right: 14px;
-			z-index: 4;
-			padding: 7px 11px;
-			border: 1px solid rgba(255, 255, 255, 0.22);
-			border-radius: 8px;
-			background: rgba(8, 7, 20, 0.6);
-			color: #fff;
-			font-family: &#34;Cascadia Code&#34;, Consolas, monospace;
-			font-size: 0.62rem;
-			letter-spacing: 0.11em;
-			text-transform: uppercase;
-			cursor: pointer;
-			opacity: 0;
-			transition: opacity 0.2s, background 0.2s;
-		}
-
-		.stage:hover .sound-btn,
-		.sound-btn:focus-visible {
-			opacity: 1;
-		}
-
-		.sound-btn:hover {
-			background: rgba(var(--accent-rgb), 0.82);
-		}
-
-		.progress {
-			position: absolute;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			z-index: 5;
-			height: 2px;
-			background: rgba(255, 255, 255, 0.12);
-		}
-
-		.progress i {
-			display: block;
-			width: 0;
-			height: 100%;
-			background: var(--accent-soft);
-		}
-
-		.dots {
-			max-width: 960px;
-			margin-top: 18px;
-			display: flex;
-			justify-content: center;
-			gap: 8px;
-		}
-
-		.dots button {
-			width: 26px;
-			height: 4px;
-			padding: 0;
-			border: 0;
-			border-radius: 99px;
-			background: rgba(152, 146, 176, 0.28);
-			cursor: pointer;
-			transition: width 0.2s, background 0.2s;
-		}
-
-		.dots button.on {
-			width: 40px;
-			background: var(--accent-soft);
-		}
-
-		#features {
-			border-bottom: 1px solid var(--line);
-			background: var(--bg-2);
-		}
-
-		.open-source-card {
-			margin-top: 38px;
-			padding: 30px;
-			border: 1px solid var(--line-2);
-			border-radius: 14px;
-			background:
-				linear-gradient(145deg, rgba(var(--accent-rgb), 0.3), rgba(var(--accent-rgb), 0.08)),
-				var(--panel);
-		}
-
-		.open-source-top {
-			display: flex;
-			align-items: flex-start;
-			justify-content: space-between;
-			gap: 24px;
-			flex-wrap: wrap;
-		}
-
-		.open-source-top h3 {
-			margin-bottom: 8px;
-			font-size: 1.45rem;
-		}
-
-		.open-source-top p {
-			max-width: 680px;
-			color: var(--muted);
-		}
-
-		.open-source-actions {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 10px;
-		}
-
-		.feature-grid {
-			margin-top: 22px;
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: 12px;
-		}
-
-		.feature {
-			min-height: 116px;
-			padding: 18px;
-			border: 1px solid var(--line);
-			border-radius: 10px;
-			background: rgba(9, 8, 23, 0.72);
-		}
-
-		.feature b {
-			display: block;
-			margin-bottom: 6px;
-			font-size: 0.95rem;
-		}
-
-		.feature span {
-			color: var(--muted);
-			font-size: 0.84rem;
-		}
-
-		.feature::before {
-			content: &#34;◈&#34;;
-			display: block;
-			margin-bottom: 8px;
-			color: var(--accent-soft);
-			font-size: 0.74rem;
-		}
-
-		#reviews {
-			border-bottom: 1px solid var(--line);
-		}
-
-		.review-note {
-			max-width: 760px;
-			margin-top: 24px;
-			padding: 13px 15px;
-			border: 1px solid rgba(240, 199, 109, 0.28);
-			border-radius: 9px;
-			background: rgba(240, 199, 109, 0.06);
-			color: var(--muted);
-			font-size: 0.85rem;
-		}
-
-		.review-note b {
-			color: var(--warn);
-		}
-
-		.review-grid {
-			margin-top: 26px;
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: 16px;
-		}
-
-		.review-card {
-			padding: 20px;
-			border: 1px solid var(--line);
-			border-radius: 12px;
-			background: var(--panel);
-		}
-
-		.review-head {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: 12px;
-			margin-bottom: 13px;
-		}
-
-		.review-user {
-			font-weight: 700;
-			font-size: 0.9rem;
-		}
-
-		.sample-pill {
-			padding: 3px 8px;
-			border: 1px solid var(--line-2);
-			border-radius: 99px;
-			color: var(--accent-bright);
-			font-family: &#34;Cascadia Code&#34;, Consolas, monospace;
-			font-size: 0.56rem;
-			letter-spacing: 0.12em;
-			text-transform: uppercase;
-		}
-
-		.stars {
-			margin-bottom: 10px;
-			color: var(--warn);
-			letter-spacing: 0.08em;
-		}
-
-		.review-body {
-			color: var(--muted);
-			font-size: 0.89rem;
-		}
-
-		#faq {
-			background: var(--bg-2);
-		}
-
-		.faq-wrap {
-			max-width: 760px;
-			margin-top: 42px;
-		}
-
-		details {
-			border-bottom: 1px solid var(--line);
-		}
-
-		summary {
-			padding: 20px 4px;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: 16px;
-			list-style: none;
-			cursor: pointer;
-			font-weight: 700;
-		}
-
-		summary::-webkit-details-marker {
-			display: none;
-		}
-
-		summary::after {
-			content: &#34;+&#34;;
-			color: var(--accent-soft);
-			font-family: Consolas, monospace;
-			font-size: 1.1rem;
-			transition: transform 0.2s;
-		}
-
-		details[open] summary::after {
-			transform: rotate(45deg);
-		}
-
-		details p {
-			max-width: 680px;
-			padding: 0 4px 20px;
-			color: var(--muted);
-			font-size: 0.92rem;
-		}
-
-		details a {
-			color: var(--accent-bright);
-		}
-
-		.bottom {
-			padding: 110px 0;
-			text-align: center;
-			border-top: 1px solid var(--line);
-		}
-
-		.bottom h2 {
-			margin-bottom: 13px;
-			font-size: clamp(1.8rem, 4vw, 2.7rem);
-		}
-
-		.bottom p {
-			max-width: 600px;
-			margin: 0 auto 32px;
-			color: var(--muted);
-		}
-
-		.bottom-actions {
-			display: flex;
-			justify-content: center;
-			flex-wrap: wrap;
-			gap: 11px;
-		}
-
-		footer {
-			padding: 34px 0;
-			border-top: 1px solid var(--line);
-			background: rgba(5, 5, 12, 0.78);
-		}
-
-		.foot-in {
-			width: min(1160px, calc(100% - 48px));
-			margin: 0 auto;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: 20px;
-			flex-wrap: wrap;
-		}
-
-		.fine {
-			max-width: 650px;
-			color: var(--dim);
-			font-size: 0.8rem;
-		}
-
-		.foot-links {
-			display: flex;
-			gap: 18px;
-			flex-wrap: wrap;
-		}
-
-		.foot-links a {
-			color: var(--muted);
-			text-decoration: none;
-			font-size: 0.82rem;
-		}
-
-		.foot-links a:hover {
-			color: var(--accent-bright);
-		}
-
-		.reveal {
-			opacity: 0;
-			transform: translateY(18px);
-			transition: opacity 0.55s, transform 0.55s;
-		}
-
-		.reveal.on {
-			opacity: 1;
-			transform: none;
-		}
-
-		@media (hover: none) {
-			.car-btn,
-			.sound-btn {
-				opacity: 0.88;
-			}
-		}
-
-		@media (max-width: 900px) {
-			.nav-r {
-				gap: 14px;
-			}
-
-			.nav-r a:not(.cta):not(.always) {
-				display: none;
-			}
-
-			.feature-grid,
-			.review-grid {
-				grid-template-columns: repeat(2, 1fr);
-			}
-		}
-
-		@media (max-width: 650px) {
-			.wrap,
-			.nav-in,
-			.foot-in {
-				width: min(100% - 28px, 1160px);
-			}
-
-			.hero {
-				padding-top: 138px;
-			}
-
-			.hero-foot {
-				grid-template-columns: 1fr;
-			}
-
-			.hf {
-				border-right: 0;
-				border-bottom: 1px solid var(--line);
-			}
-
-			.hf:last-child {
-				border-bottom: 0;
-			}
-
-			.feature-grid,
-			.review-grid {
-				grid-template-columns: 1fr;
-			}
-
-			.car-btn {
-				width: 36px;
-				height: 36px;
-			}
-
-			.car-btn.prev {
-				left: 8px;
-			}
-
-			.car-btn.next {
-				right: 8px;
-			}
-		}
-
-		@media (max-width: 410px) {
-			.brand span {
-				display: none;
-			}
-
-			.nav-r {
-				gap: 9px;
-			}
-
-			.nav-r .always:not(.cta) {
-				display: none;
-			}
-
-			.nav-r .cta {
-				padding: 7px 11px;
-				font-size: 0.78rem;
-			}
-		}
-
-		@media (prefers-reduced-motion: reduce) {
-			html {
-				scroll-behavior: auto;
-			}
-
-			.reveal,
-			.slide {
-				transition: none;
-			}
-		}
+      :root{--bg:#05070e;--bg-2:#0a0e1a;--panel:#0c1120;--line:rgba(120,150,230,.12);--line-2:rgba(130,165,255,.3);--blue:#5b8cff;--blue-soft:#8fb0ff;--text:#e9edf8;--muted:#8b95b4;--dim:#565f7c;--ok:#4ade80;--bad:#ff8095;--warn:#fbbf24}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:&#39;Inter&#39;,system-ui,sans-serif;line-height:1.55;overflow-x:hidden}h1,h2,h3{font-family:&#39;Space Grotesk&#39;,sans-serif;letter-spacing:-.01em}.mono{font-family:&#39;JetBrains Mono&#39;,monospace}::selection{background:rgba(91,140,255,.3)}a{color:inherit}[hidden]{display:none!important}#stars{position:fixed;inset:0;z-index:-1;opacity:.55}.wash{position:fixed;z-index:-1;pointer-events:none;inset:0;background:radial-gradient(700px 420px at 82% -10%,rgba(60,95,220,.16),transparent 65%),radial-gradient(560px 400px at -10% 45%,rgba(70,90,200,.08),transparent 65%)}.wrap{max-width:1160px;margin:0 auto;padding:0 24px}.wrap.narrow{max-width:860px}nav{position:fixed;top:0;left:0;right:0;z-index:40;border-bottom:1px solid var(--line);background:rgba(5,7,14,.75);backdrop-filter:blur(12px)}.nav-in{max-width:1160px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:&#39;Space Grotesk&#39;;font-weight:700;font-size:1.02rem}.mark{width:30px;height:30px;border-radius:8px;object-fit:contain;display:block}.brand em{font-style:normal;color:var(--blue)}.nav-r{display:flex;align-items:center;gap:26px}.nav-r a{text-decoration:none;font-size:.86rem;color:var(--muted);transition:color .15s;cursor:pointer}.nav-r a:hover{color:var(--text)}.nav-r a.here{color:var(--text)}.nav-r .cta{color:var(--text);border:1px solid var(--line-2);padding:8px 16px;border-radius:8px;background:rgba(91,140,255,.1)}.nav-r .cta:hover{background:rgba(91,140,255,.2)}.tag{font-family:&#39;JetBrains Mono&#39;;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--warn);border:1px solid rgba(251,191,36,.35);background:rgba(251,191,36,.08);padding:3px 9px;border-radius:5px;margin-left:8px}@media(max-width:1000px){.nav-r{gap:15px}.nav-r a{font-size:.82rem}.nav-r .cta{padding:7px 13px}}@media(max-width:800px){.nav-r a:not(.cta):not(.always){display:none}}@media(max-width:430px){.nav-in{padding:0 14px}.brand{font-size:.86rem;gap:7px}.mark{width:24px;height:24px}.nav-r{gap:14px}.nav-r .cta{padding:7px 12px;font-size:.8rem}}@media(max-width:345px){.brand{font-size:0;gap:0}.nav-r{gap:10px}}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;font-family:&#39;JetBrains Mono&#39;;font-size:.8rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:14px 26px;border-radius:8px;border:1px solid var(--line-2);color:var(--text);background:transparent;cursor:pointer;transition:background .15s,border-color .15s;text-align:center}.btn:hover{background:rgba(91,140,255,.1)}.btn.solid{background:var(--blue);border-color:var(--blue);color:#060a16;font-weight:700}.btn.solid:hover{background:var(--blue-soft);border-color:var(--blue-soft)}.btn.sm{padding:8px 15px;font-size:.7rem;letter-spacing:.1em}.btn.danger{border-color:rgba(255,128,149,.4);color:var(--bad)}.btn.danger:hover{background:rgba(255,128,149,.1)}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.busy{opacity:.6;pointer-events:none}.btn.discord{background:#5865F2;border-color:#5865F2;color:#fff;font-weight:700}.btn.discord:hover{background:#4752c4;border-color:#4752c4}.hero{padding:170px 0 90px;border-bottom:1px solid var(--line)}.tagline{font-family:&#39;JetBrains Mono&#39;;font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:22px;display:flex;align-items:center;gap:10px}.tagline::before{content:&#34;&#34;;width:26px;height:1px;background:var(--blue)}.hero h1{font-size:clamp(2.4rem,5.6vw,4rem);line-height:1.05;max-width:760px;font-weight:700}.hero h1 span{color:var(--blue)}.hero .lead{margin:24px 0 38px;max-width:560px;color:var(--muted);font-size:1.05rem}.hero-btns{display:flex;gap:14px;flex-wrap:wrap}.hero-foot{margin-top:70px;display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden;max-width:760px}.hf{flex:1 1 180px;padding:18px 22px;border-right:1px solid var(--line)}.hf:last-child{border-right:0}.hf .mono{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:4px}.hf b{font-family:&#39;Space Grotesk&#39;;font-size:1.05rem;font-weight:600}section{padding:96px 0}.sec-label{font-family:&#39;JetBrains Mono&#39;;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}.sec-title{font-size:clamp(1.7rem,3.4vw,2.4rem);margin-bottom:14px}.sec-sub{color:var(--muted);max-width:560px}.stage{position:relative;margin-top:48px;aspect-ratio:16/9;max-width:960px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#000;box-shadow:0 24px 70px -30px rgba(0,0,0,.9)}.slide{position:absolute;inset:0;opacity:0;transition:opacity .55s ease;pointer-events:none}.slide.on{opacity:1;pointer-events:auto}.slide video,.slide img,.slide iframe{width:100%;height:100%;object-fit:cover;display:block;border:0;background:#000}.cap-bar{position:absolute;left:0;right:0;bottom:0;padding:44px 22px 18px;font-size:.94rem;color:#fff;background:linear-gradient(to top,rgba(0,0,0,.82),transparent);pointer-events:none;z-index:3}.car-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(6,10,22,.55);backdrop-filter:blur(6px);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;opacity:0;transition:opacity .2s,background .2s;display:grid;place-items:center;padding:0 0 3px}.car-btn.prev{left:14px}.car-btn.next{right:14px}.stage:focus-visible{outline:2px solid var(--blue);outline-offset:3px}.stage:hover .car-btn,.stage:focus-visible .car-btn,.car-btn:focus-visible{opacity:1}.car-btn:hover{background:rgba(91,140,255,.55)}.sound-btn{position:absolute;top:14px;right:14px;z-index:4;border:1px solid rgba(255,255,255,.22);background:rgba(6,10,22,.55);backdrop-filter:blur(6px);color:#fff;border-radius:8px;cursor:pointer;font-family:&#39;JetBrains Mono&#39;;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px;opacity:0;transition:opacity .2s,background .2s}.stage:hover .sound-btn,.stage:focus-visible .sound-btn,.sound-btn:focus-visible{opacity:1}.sound-btn:hover{background:rgba(91,140,255,.55)}@media (hover:none){.car-btn,.sound-btn{opacity:.85}}@media (max-width:640px){.cap-bar{font-size:.82rem;padding:34px 14px 14px}.car-btn{width:36px;height:36px;font-size:1.25rem}.car-btn.prev{left:8px}.car-btn.next{right:8px}}.stage .bar{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.12);z-index:5}.stage .bar i{display:block;height:100%;width:0;background:var(--blue)}.dots{display:flex;gap:8px;justify-content:center;margin-top:20px;max-width:960px}.dots button{width:26px;height:4px;border-radius:99px;border:0;background:rgba(139,149,180,.3);cursor:pointer;padding:0;transition:background .2s,width .2s}.dots button:hover{background:rgba(139,149,180,.6)}.dots button.on{background:var(--blue);width:40px}@media (prefers-reduced-motion:reduce){.slide{transition:none}.stage .bar i{transition:none}}#pricing{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.life-offer{margin-top:26px;border:1px solid var(--blue);border-radius:14px;background:linear-gradient(180deg,rgba(76,141,255,.10),rgba(76,141,255,.02));padding:30px 28px;text-align:center}.life-head{display:flex;flex-direction:column;align-items:center;gap:10px}.life-tag{font-family:&#39;JetBrains Mono&#39;;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;background:var(--blue);color:#060a16;font-weight:700;padding:4px 11px;border-radius:99px}.life-offer h3{font-size:1.35rem;margin:0}.life-offer&gt;p{color:var(--muted);max-width:460px;margin:12px auto 0;font-size:.94rem}.life-prices{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:22px 0 24px}.life-prices&gt;div{border:1px solid var(--line);border-radius:11px;background:var(--panel);padding:14px 26px;min-width:150px}.lp-name{display:block;font-family:&#39;JetBrains Mono&#39;;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}.lp-price{display:block;font-size:1.55rem;font-weight:700;letter-spacing:-.02em}.life-fine{color:var(--dim);font-size:.82rem;margin-top:16px}@media(max-width:520px){.life-prices&gt;div{flex:1 1 100%}}.billing{margin-top:34px;display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--panel)}.billing button{font-family:&#39;JetBrains Mono&#39;;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;padding:11px 22px;background:transparent;border:0;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}.billing button+button{border-left:1px solid var(--line)}.billing button:hover{color:var(--text)}.billing button.on{background:var(--blue);color:#060a16;font-weight:700}.billing .save{margin-left:8px;font-size:.62rem;opacity:.8}.tiers{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}@media(max-width:940px){.tiers{grid-template-columns:1fr}}.tier{padding:28px 26px 26px;background:var(--panel);display:flex;flex-direction:column;position:relative}.tier.pick{background:var(--bg-2);box-shadow:inset 0 0 0 1px var(--line-2)}.tier .flag.ghost{visibility:hidden}.tier .flag{align-self:flex-start;font-family:&#39;JetBrains Mono&#39;;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;margin-bottom:14px;border:1px solid var(--line-2);border-radius:4px;color:var(--muted)}.tier .flag.rec{background:var(--blue);color:#060a16;border-color:var(--blue);font-weight:700}.tier .flag.top{color:var(--blue-soft);background:rgba(91,140,255,.1);border-color:rgba(91,140,255,.35)}.tier h3{font-family:&#39;JetBrains Mono&#39;;font-size:.68rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:0}.tier.plus h3{color:var(--blue-soft)}.tier .price{display:flex;flex-direction:column-reverse;align-items:flex-start;font-family:&#39;JetBrains Mono&#39;;font-size:.72rem;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin:8px 0 22px}.tier .price b{font-family:&#39;Space Grotesk&#39;,sans-serif;color:var(--text);font-size:2.4rem;font-weight:700;letter-spacing:-.03em;line-height:1.1;margin:0 0 2px}.tier.plus .price b{color:var(--blue)}.tier hr{border:0;border-top:1px solid var(--line);margin-bottom:14px}.tier ul{list-style:none;flex:1;margin-bottom:24px}.tier li{font-size:.88rem;padding:6px 0 6px 18px;position:relative;color:var(--text)}.tier li b{font-weight:600}.tier li span{display:block;margin-top:1px;font-size:.76rem;line-height:1.4;color:var(--muted)}.tier li::before{content:&#34;&#34;;position:absolute;left:2px;top:13px;width:4px;height:4px;background:var(--blue)}.tier.plus li::before{background:var(--blue-soft)}.tier li.soon{opacity:.72}.tier li.soon::before{background:transparent;box-shadow:inset 0 0 0 1px var(--muted)}.tier li.soon b::after{content:&#34;Soon&#34;;display:inline-block;margin-left:7px;padding:0 6px;border:1px solid rgba(120,150,230,.3);border-radius:3px;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);vertical-align:1px}.tier .btn{width:100%;justify-content:center}.per-life{display:none}body.annual .per-life{display:inline-flex}body.annual .per-month{display:none}.life-only{display:none}body.annual .life-only{display:block;color:var(--blue-soft)}.shop-msg{margin-top:14px;font-family:&#39;JetBrains Mono&#39;;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);min-height:14px;text-align:center}.shop-msg.err{color:var(--bad)}.faq-wrap{margin-top:50px;max-width:720px}details{border-bottom:1px solid var(--line)}summary{cursor:pointer;list-style:none;padding:20px 4px;font-family:&#39;Space Grotesk&#39;;font-weight:600;font-size:1rem;display:flex;justify-content:space-between;gap:16px;align-items:center}summary::-webkit-details-marker{display:none}summary::after{content:&#34;+&#34;;font-family:&#39;JetBrains Mono&#39;;color:var(--blue);transition:transform .2s}details[open] summary::after{transform:rotate(45deg)}details p{padding:0 4px 20px;color:var(--muted);font-size:.92rem;max-width:620px}.bottom{padding:110px 0;text-align:center;border-top:1px solid var(--line)}.bottom h2{font-size:clamp(1.8rem,3.8vw,2.6rem);margin-bottom:14px}.bottom p{color:var(--muted);margin-bottom:34px}footer{border-top:1px solid var(--line);padding:36px 0;background:rgba(5,7,14,.8)}.foot-in{max-width:1160px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center}.foot-in .fine{font-size:.8rem;color:var(--dim);max-width:520px}.foot-links{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.foot-links a{font-size:.82rem;color:var(--muted);text-decoration:none;cursor:pointer}.foot-links a:hover{color:var(--blue-soft)}.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.reveal.on{opacity:1;transform:none}.legal{padding:110px 24px 90px;max-width:760px}.legal .lead{color:var(--muted);margin-bottom:6px}.legal .stamp{font-family:&#39;JetBrains Mono&#39;;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:34px}.legal h1{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:12px}.legal h2{font-size:1.06rem;margin:38px 0 12px;padding-top:20px;border-top:1px solid var(--line)}.legal h2 .no{font-family:&#39;JetBrains Mono&#39;;font-size:.8rem;color:var(--blue);margin-right:10px}.legal p{color:#c7cee4;font-size:.95rem;margin-bottom:12px}.legal ul{margin:0 0 12px 20px}.legal li{color:#c7cee4;font-size:.95rem;margin-bottom:7px}.legal a{color:var(--blue-soft)}.legal b{color:var(--text)}.legal .box{border:1px solid var(--line);border-left:2px solid var(--blue);border-radius:10px;background:var(--panel);padding:20px 22px;margin:22px 0}.legal .box p:last-child{margin-bottom:0}.legal .box.warn{border-left-color:var(--warn)}.legal .toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}.legal .toc a{font-family:&#39;JetBrains Mono&#39;;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:5px 10px}.legal .toc a:hover{color:var(--text);border-color:var(--line-2)}.legal .foot-note{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:.85rem}.buy-terms{margin-top:18px;text-align:center;color:var(--dim);font-size:.82rem;line-height:1.6}.buy-terms a{color:var(--muted)}.page{padding:110px 0 90px}.card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:30px;margin-bottom:20px}.card h2{font-size:1.12rem;margin-bottom:6px}.card .hint{color:var(--muted);font-size:.88rem;margin-bottom:18px}.center{text-align:center;padding:64px 30px}.center h1{font-size:1.85rem;margin-bottom:12px}.center p{color:var(--muted);margin:0 auto 30px;max-width:430px}.who{display:flex;align-items:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}.who img{width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2)}.who .nm{font-family:&#39;Space Grotesk&#39;;font-weight:600;font-size:1.05rem}.who .sb{font-size:.78rem;color:var(--dim)}.status{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:26px}.st{flex:1 1 150px;padding:18px 20px;border-right:1px solid var(--line)}.st:last-child{border-right:0}.st .lb{font-family:&#39;JetBrains Mono&#39;;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:5px}.st .vl{font-family:&#39;Space Grotesk&#39;;font-size:1.12rem;font-weight:600}.notice{border:1px solid rgba(251,191,36,.3);background:rgba(251,191,36,.06);border-left:3px solid var(--warn);border-radius:9px;padding:16px 18px;margin-top:4px}.notice h4{font-family:&#39;Space Grotesk&#39;;font-size:.98rem;font-weight:600;margin-bottom:6px;color:var(--text)}.notice p{font-size:.89rem;color:var(--muted);margin:0}.notice a{color:var(--blue-soft)}.pill{display:inline-block;font-family:&#39;JetBrains Mono&#39;;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;border-radius:5px;white-space:nowrap}.pill.on{background:rgba(74,222,128,.12);color:var(--ok);border:1px solid rgba(74,222,128,.32)}.pill.off{background:rgba(139,149,180,.1);color:var(--muted);border:1px solid rgba(139,149,180,.25)}.pill.bad{background:rgba(255,128,149,.1);color:var(--bad);border:1px solid rgba(255,128,149,.3)}.pill.plus{background:rgba(91,140,255,.14);color:var(--blue-soft);border:1px solid var(--line-2)}label{display:block;font-family:&#39;JetBrains Mono&#39;;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}input,select{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;color:var(--text);font-family:&#39;Inter&#39;,sans-serif;font-size:.9rem;width:100%}input:focus,select:focus{outline:none;border-color:var(--line-2)}input.key{font-family:&#39;JetBrains Mono&#39;;letter-spacing:.08em;text-transform:uppercase}input[type=file]{padding:9px 12px;font-size:.84rem;cursor:pointer}input[type=file]::file-selector-button{font-family:&#39;JetBrains Mono&#39;;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(91,140,255,.12);color:var(--text);border:1px solid var(--line-2);border-radius:6px;padding:6px 12px;margin-right:12px;cursor:pointer}input[type=file]::file-selector-button:hover{background:rgba(91,140,255,.22)}input::placeholder{color:var(--dim)}.row{display:flex;gap:12px;flex-wrap:wrap}.row input{flex:1;min-width:230px;width:auto}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;align-items:end}.msg{margin-top:13px;font-size:.87rem;min-height:19px}.msg.ok{color:var(--ok)}.msg.err{color:var(--bad)}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:20px}.stat{padding:20px 22px;border-right:1px solid var(--line);background:var(--panel)}.stat:last-child{border-right:0}.stat .lb{font-family:&#39;JetBrains Mono&#39;;font-size:.63rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:6px}.stat .vl{font-family:&#39;Space Grotesk&#39;;font-size:1.7rem;font-weight:700}table{width:100%;border-collapse:collapse;font-size:.85rem}th{text-align:left;font-family:&#39;JetBrains Mono&#39;;font-size:.61rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:10px 12px;border-bottom:1px solid var(--line);font-weight:400;white-space:nowrap}td{padding:11px 12px;border-bottom:1px solid rgba(120,150,230,.07);vertical-align:middle}tr:hover td{background:rgba(91,140,255,.04)}.scroll{overflow-x:auto;margin:0 -30px;padding:0 30px}.scroll.capped{max-height:58vh;overflow-y:auto}.scroll.capped thead th{position:sticky;top:0;background:var(--panel);z-index:1}.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center}.tabs button{font-family:&#39;JetBrains Mono&#39;;font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 15px;border-radius:7px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}.tabs button.on{background:var(--blue);border-color:var(--blue);color:#060a16;font-weight:700}.keyout{margin-top:18px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:10px;padding:18px}.keyout .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px;flex-wrap:wrap}.keyout textarea{width:100%;background:transparent;border:0;color:var(--blue-soft);font-family:&#39;JetBrains Mono&#39;;font-size:.85rem;line-height:1.9;resize:vertical;min-height:80px}.keyout textarea:focus{outline:none}.empty{padding:32px;text-align:center;color:var(--dim);font-family:&#39;JetBrains Mono&#39;;font-size:.8rem}.login-wrap{max-width:400px;margin:0 auto}.build-now{margin-top:16px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:10px;padding:16px 18px;font-family:&#39;JetBrains Mono&#39;;font-size:.83rem;line-height:1.85;color:var(--dim)}.build-now b{color:var(--text);font-weight:500}.build-now .tag{display:inline-block;background:rgba(91,140,255,.16);border:1px solid rgba(91,140,255,.35);color:var(--blue-soft);border-radius:6px;padding:2px 8px;margin-right:8px}.build-now.off{border-color:rgba(255,128,149,.3);color:#ff8095}.slot{display:flex;gap:16px;align-items:flex-start;margin-top:10px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:10px;padding:14px 16px}.slot .who{flex:0 0 104px;font-family:&#39;JetBrains Mono&#39;;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-soft);padding-top:3px}.slot .what{flex:1;min-width:0;font-family:&#39;JetBrains Mono&#39;;font-size:.8rem;line-height:1.8;color:var(--dim)}.slot .what b{color:var(--text);font-weight:500}.slot.empty-slot{border-style:dashed}.slot.empty-slot .what{color:var(--dim)}.slot .drop{flex:0 0 auto}.check{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}.check:last-child{border-bottom:0}.check .dot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;margin-top:7px;background:var(--dim)}.check.good .dot{background:var(--ok)}.check.bad .dot{background:var(--bad)}.check.warn .dot{background:var(--warn)}.check .txt{flex:1;min-width:0;font-size:.9rem;line-height:1.6}.check .txt b{display:block;font-weight:500}.check .txt span{color:var(--dim);font-size:.83rem}.check.bad .txt b{color:var(--bad)}.check.warn .txt b{color:var(--warn)}.check.good .txt b{color:var(--ok)}.check code{font-family:&#39;JetBrains Mono&#39;;font-size:.78rem;color:var(--blue-soft);word-break:break-all}.pager{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:16px;font-family:&#39;JetBrains Mono&#39;;font-size:.78rem;color:var(--dim)}.pager button[disabled]{opacity:.35;cursor:default}table.tight td,table.tight th{padding-top:9px;padding-bottom:9px}td .sub{display:block;font-size:.72rem;color:var(--dim)}.bd-prog{margin-top:14px;height:4px;border-radius:99px;background:var(--line-2);overflow:hidden}.bd-prog i{display:block;height:100%;width:0;background:var(--blue);transition:width .2s}#reviews{border-top:1px solid var(--line)}.rv-top{display:flex;gap:38px;align-items:center;flex-wrap:wrap;margin:30px 0 34px;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:26px 30px}.rv-score{text-align:center;flex:0 0 auto;min-width:120px}.rv-avg{font-size:2.9rem;line-height:1;font-weight:700}.rv-count{color:var(--muted);font-size:.82rem;margin-top:8px}.rv-stars{color:var(--warn);letter-spacing:.14em;font-size:1rem;margin-top:10px}.rv-stars i{font-style:normal;color:rgba(139,149,180,.28)}.rv-bars{flex:1;min-width:230px;display:flex;flex-direction:column;gap:7px}.rv-bar{display:flex;align-items:center;gap:11px;font-size:.78rem;color:var(--muted)}.rv-bar .rv-n{width:26px;text-align:right;font-family:&#39;JetBrains Mono&#39;;flex:0 0 auto}.rv-bar .rv-track{flex:1;height:6px;border-radius:3px;background:rgba(120,150,230,.1);overflow:hidden}.rv-bar .rv-fill{display:block;height:100%;background:var(--warn);border-radius:3px}.rv-bar .rv-c{width:28px;flex:0 0 auto;font-family:&#39;JetBrains Mono&#39;}.rv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}.rv-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}.rv-head{display:flex;align-items:center;gap:11px;margin-bottom:12px}.rv-head img{width:34px;height:34px;border-radius:50%;flex:0 0 auto;background:var(--bg-2)}.rv-who{min-width:0;flex:1}.rv-name{font-weight:600;font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rv-meta{font-size:.72rem;color:var(--dim);margin-top:2px}.rv-card .rv-stars{margin:0 0 10px;font-size:.88rem}.rv-body{font-size:.89rem;color:var(--muted);line-height:1.62;white-space:pre-wrap;word-break:break-word}.rv-reply{margin-top:14px;padding:12px 14px;border-left:2px solid var(--blue);background:rgba(91,140,255,.06);border-radius:0 8px 8px 0;font-size:.84rem;color:var(--muted)}.rv-reply b{display:block;color:var(--blue-soft);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-family:&#39;JetBrains Mono&#39;;margin-bottom:5px}.rv-pick{display:flex;gap:5px;margin:4px 0 14px}.rv-pick button{background:none;border:0;padding:2px 3px;cursor:pointer;font-size:1.7rem;line-height:1;color:rgba(139,149,180,.3);transition:color .12s,transform .12s}.rv-pick button:hover{transform:scale(1.12)}.rv-pick button.on{color:var(--warn)}.rv-pick button:focus-visible{outline:2px solid var(--blue);border-radius:4px}#launch{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:radial-gradient(900px 340px at 50% -30%,rgba(91,140,255,.14),transparent 70%),var(--bg-2)}.lc-in{text-align:center;padding:12px 0 6px}.lc-eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:&#39;JetBrains Mono&#39;;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);border:1px solid var(--line-2);border-radius:99px;padding:7px 16px;margin-bottom:22px}.lc-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 0 rgba(91,140,255,.6);animation:lcPulse 2.4s infinite}@keyframes lcPulse{70%{box-shadow:0 0 0 9px rgba(91,140,255,0)}100%{box-shadow:0 0 0 0 rgba(91,140,255,0)}}.lc-head{font-size:clamp(1.8rem,4.2vw,3rem);line-height:1.12;margin-bottom:30px;letter-spacing:-.02em}.lc-clock{display:flex;align-items:flex-start;justify-content:center;gap:clamp(6px,2vw,20px)}.lc-unit{min-width:clamp(74px,15vw,140px)}.lc-unit b{display:block;font-family:&#39;JetBrains Mono&#39;;font-weight:700;font-size:clamp(2.6rem,9vw,5.4rem);line-height:1;letter-spacing:-.03em;color:var(--text);font-variant-numeric:tabular-nums}.lc-unit span{display:block;margin-top:12px;font-family:&#39;JetBrains Mono&#39;;font-size:clamp(.6rem,1.4vw,.72rem);letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}.lc-sep{font-family:&#39;JetBrains Mono&#39;;font-weight:700;color:var(--line-2);font-size:clamp(1.8rem,6vw,3.6rem);line-height:1.15}.lc-soon{font-size:clamp(1.6rem,5vw,2.6rem);font-weight:700;color:var(--blue-soft);padding:14px 0}.lc-when{margin-top:30px;color:var(--muted);font-size:.95rem}.lc-note{max-width:560px;margin:16px auto 0;padding:13px 18px;font-size:.9rem;color:var(--text);background:rgba(227,179,65,.09);border:1px solid rgba(227,179,65,.28);border-radius:10px;text-align:left}.lc-fine{margin-top:18px;font-size:.78rem;color:var(--dim)}#launch.out .lc-eyebrow{color:var(--ok);border-color:rgba(74,222,128,.35)}#launch.out .lc-dot{background:var(--ok);animation:none}#launch.out{background:radial-gradient(900px 340px at 50% -30%,rgba(74,222,128,.13),transparent 70%),var(--bg-2)}@media(max-width:560px){.lc-sep{display:none}.lc-clock{display:grid;grid-template-columns:1fr 1fr;gap:18px 10px}}.reqs{margin:18px 0;border:1px solid var(--line-2);border-radius:12px;background:rgba(91,140,255,.05);padding:16px 18px}.reqs-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}.reqs-tag{font-family:&#39;JetBrains Mono&#39;;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)}.reqs-count{margin-left:auto;font-family:&#39;JetBrains Mono&#39;;font-size:.7rem;color:var(--dim)}.req{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(120,150,230,.09)}.req:last-child{border-bottom:0;padding-bottom:2px}.req input{appearance:none;flex:0 0 auto;width:19px;height:19px;margin:1px 0 0;border:1.5px solid var(--line-2);border-radius:5px;background:var(--bg-2);cursor:pointer;position:relative;transition:background .12s,border-color .12s}.req input:checked{background:var(--blue);border-color:var(--blue)}.req input:checked::after{content:&#34;&#34;;position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}.req input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}.req .rq{flex:1;min-width:0}.req .rq-l{font-size:.9rem;cursor:pointer;display:block}.req .rq-n{display:block;margin-top:3px;font-size:.79rem;color:var(--muted);line-height:1.5}.req .rq-a{display:inline-block;margin-top:8px;font-size:.79rem;color:var(--blue-soft);text-decoration:none;border:1px solid var(--line-2);border-radius:7px;padding:6px 12px}.req .rq-a:hover{border-color:var(--blue);color:var(--text)}.btn.locked{opacity:.45;cursor:not-allowed;pointer-events:none}.pop-wrap{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:22px;background:rgba(3,5,12,.72);backdrop-filter:blur(3px);animation:popIn .18s ease-out}@keyframes popIn{from{opacity:0}to{opacity:1}}.pop{position:relative;width:100%;max-width:460px;background:var(--panel);border:1px solid var(--line-2);border-radius:16px;padding:28px 28px 24px;box-shadow:0 24px 70px rgba(0,0,0,.55);animation:popUp .2s ease-out}@keyframes popUp{from{transform:translateY(10px)}to{transform:none}}.pop h3{font-size:1.25rem;margin:12px 0 10px;line-height:1.25}.pop p{color:var(--muted);font-size:.92rem;line-height:1.6;white-space:pre-wrap}.pop-tag{display:inline-block;font-family:&#39;JetBrains Mono&#39;;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;padding:5px 11px;border-radius:99px;border:1px solid var(--line-2);color:var(--blue)}.pop-x{position:absolute;top:14px;right:14px;width:32px;height:32px;border:0;border-radius:9px;background:none;color:var(--dim);font-size:1.4rem;line-height:1;cursor:pointer;transition:background .12s,color .12s}.pop-x:hover{background:rgba(255,255,255,.06);color:var(--text)}.pop-acts{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}.pop-acts .btn{flex:0 0 auto}.pop-wrap[data-style=&#34;info&#34;] .pop{border-top:3px solid var(--blue)}.pop-wrap[data-style=&#34;success&#34;] .pop{border-top:3px solid var(--ok)}.pop-wrap[data-style=&#34;success&#34;] .pop-tag{color:var(--ok)}.pop-wrap[data-style=&#34;warning&#34;] .pop{border-top:3px solid var(--warn)}.pop-wrap[data-style=&#34;warning&#34;] .pop-tag{color:var(--warn)}.pop-wrap[data-style=&#34;alert&#34;] .pop{border-top:3px solid var(--bad)}.pop-wrap[data-style=&#34;alert&#34;] .pop-tag{color:var(--bad)}
     </style>
   </head>
   <body>
@@ -835,74 +38,132 @@
     </div>
     <nav>
       <div class="nav-in">
-        <a class="brand" href="#home">        <img src="../Sentinel/logo.png" alt="Sentinel Client" />
-        <span>        SENTINEL
+        <a class="brand" href="#/" data-nav="">        <img class="mark" src="/logo.png" alt="Sentinel Client" />
+        SENTINEL
         <em>        CLIENT
 </em>
-</span>
 </a>
         <div class="nav-r">
           <a href="#showcase" id="nav-showcase" hidden="">          Showcase
 </a>
-          <a href="#features">          Features
+          <a href="#pricing">          Pricing
 </a>
-          <a href="#reviews">          Reviews
+          <a href="#reviews" id="nav-reviews" hidden="">          Reviews
 </a>
           <a href="#faq">          FAQ
 </a>
-          <a class="always" href="https://hamburbur.org/discord" target="_blank" rel="noopener noreferrer">          Discord
+          <a href="#/terms" data-nav="">          Terms
 </a>
-          <a class="cta always" data-github="releases" href="#">          Download
+          <a href="#/account" data-nav="" class="always">          Account
+</a>
+          <a href="https://discord.gg/qyb29g2DPC" target="_blank" rel="noopener">          Discord
+</a>
+          <a class="cta always" href="#/account" data-nav="">          Download
 </a>
         </div>
       </div>
     </nav>
-    <main>
-      <header class="hero" id="home">
+    <div id="view-home">
+      <header class="hero">
         <div class="wrap">
           <div class="tagline mono">
             Sentinel Client · Gorilla Tag
           </div>
           <h1>
-            Know what’s happening
-            <span>            without leaving VR.
+            Stop guessing
+            <span>            who&#39;s cheating.
 </span>
           </h1>
           <p class="lead">
-            Sentinel is a free and open source Gorilla Tag utility client with player info,
-				quick reporting, nametags, lobby tools, themes and more. No account, no licence key,
-				no paid tier.
+            See who&#39;s running a client, report them in one press, and get back to the game. Nametags, friends list, lobby hop and themes are all in the free tier.
           </p>
           <div class="hero-btns">
-            <a class="btn solid" data-github="releases" href="#">            Download Sentinel
+            <a class="btn solid" href="#pricing">            Get Sentinel
 </a>
-            <a class="btn" data-github="repo" href="#">            View Source
-</a>
-            <a class="btn" href="#features">            See Features
+            <a class="btn" href="#pricing">            See what&#39;s inside
 </a>
           </div>
           <div class="hero-foot">
             <div class="hf">
-              <span class="mono">              Price
+              <span class="mono">              Base price
 </span>
-              <b>              Completely free
+              <b>              Free, forever
 </b>
             </div>
             <div class="hf">
-              <span class="mono">              Source
+              <span class="mono">              Performance
 </span>
-              <b>              Open on GitHub
+              <b>              No FPS impact
 </b>
             </div>
             <div class="hf">
-              <span class="mono">              Account
+              <span class="mono">              Updates
 </span>
-              <b>              Not required
+              <b>              Every game patch
 </b>
             </div>
           </div>
         </div>
       </header>
+      <section id="launch" hidden="">
+        <div class="wrap">
+          <div class="lc-in">
+            <div class="lc-eyebrow">
+              <span class="lc-dot"></span>
+              <span id="lc-eyebrow">              Estimated release
+</span>
+            </div>
+            <h2 class="lc-head" id="lc-head">
+              Sentinel Client is coming
+            </h2>
+            <div class="lc-clock" id="lc-clock">
+              <div class="lc-unit">
+                <b id="lc-d">                -
+</b>
+                <span>                days
+</span>
+              </div>
+              <div class="lc-sep">
+                :
+              </div>
+              <div class="lc-unit">
+                <b id="lc-h">                -
+</b>
+                <span>                hours
+</span>
+              </div>
+              <div class="lc-sep">
+                :
+              </div>
+              <div class="lc-unit">
+                <b id="lc-m">                -
+</b>
+                <span>                mins
+</span>
+              </div>
+              <div class="lc-sep">
+                :
+              </div>
+              <div class="lc-unit">
+                <b id="lc-s">                -
+</b>
+                <span>                secs
+</span>
+              </div>
+            </div>
+            <div class="lc-soon" id="lc-soon" hidden="">
+              Any moment now.
+            </div>
+            <p class="lc-when" id="lc-when">
+            </p>
+            <p class="lc-note" id="lc-note" hidden="">
+            </p>
+            <p class="lc-fine" id="lc-fine">
+              This is an estimate, not a promise. If it moves, it moves here first.
+            </p>
+          </div>
+        </div>
+      </section>
       <section id="showcase" hidden="">
         <div class="wrap">
           <div class="sec-label">
@@ -917,18 +178,19 @@
           <div class="stage" id="stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Sentinel Client showcase">
             <div id="slides">
             </div>
-            <div class="cap-bar" id="car-cap">
+            <div class="cap-bar" id="car-cap" hidden="">
             </div>
-            <button class="car-btn prev" id="car-prev" type="button" aria-label="Previous showcase clip">
+            <button class="car-btn prev" id="car-prev" type="button" aria-label="Previous">
               ‹
             </button>
-            <button class="car-btn next" id="car-next" type="button" aria-label="Next showcase clip">
+            <button class="car-btn next" id="car-next" type="button" aria-label="Next">
               ›
             </button>
-            <button class="sound-btn" id="car-sound" type="button" aria-label="Turn sound on">
-              Sound off
+            <button class="sound-btn" id="car-sound" type="button" aria-label="Unmute" hidden="">
+              <span aria-hidden="true">              Sound off
+</span>
             </button>
-            <div class="progress">
+            <div class="bar">
               <i id="car-bar"></i>
             </div>
           </div>
@@ -936,217 +198,288 @@
           </div>
         </div>
       </section>
-      <section id="features">
+      <section id="pricing">
         <div class="wrap">
           <div class="sec-label">
-            Free and open source
+            Pricing
           </div>
           <h2 class="sec-title">
-            Everything is included.
+            Pick your tier.
           </h2>
           <p class="sec-sub">
-            Sentinel is one free build, and the source is available publicly so people can inspect it, contribute or build it themselves.
+            Start free. Pledge monthly and cancel anytime, or pay once for lifetime access.
           </p>
-          <div class="open-source-card reveal">
-            <div class="open-source-top">
-              <div>
-                <h3>
-                  One version. No paywalls.
-                </h3>
-                <p>
-                  Download the latest release from GitHub, or open the repository to inspect and build the client yourself.
-							The repository’s licence file controls how the source can be reused and redistributed.
-                </p>
+          <div class="billing" role="group" aria-label="Billing period">
+            <button id="b-month" class="on" type="button">
+              Monthly
+            </button>
+            <button id="b-life" type="button">
+              Lifetime
+              <span class="save">              · pay once
+</span>
+            </button>
+          </div>
+          <div class="tiers reveal">
+            <div class="tier">
+              <span class="flag ghost mono" aria-hidden="true">              Free
+</span>
+              <h3>
+                Free
+              </h3>
+              <div class="price mono">
+                ALWAYS
+                <b>                $0
+</b>
               </div>
-              <div class="open-source-actions">
-                <a class="btn solid" data-github="releases" href="#">                Latest Release
+              <hr />
+              <ul>
+                <li>
+                  <b>                  Utility Disc
+</b>
+                  <span>                  Main menu and mod checker
+</span>
+                </li>
+                <li>
+                  <b>                  Nametags
+</b>
+                  <span>                  Hertz, name and platform info
+</span>
+                </li>
+                <li>
+                  <b>                  Lobby Hop
+</b>
+                  <span>                  Switch lobbies instantly
+</span>
+                </li>
+                <li>
+                  <b>                  Quick Report
+</b>
+                  <span>                  Report players in-menu
+</span>
+                </li>
+                <li>
+                  <b>                  Friend System
+</b>
+                  <span>                  Add friends, view status
+</span>
+                </li>
+                <li>
+                  <b>                  Custom Themes and Keybinds
+</b>
+                  <span>                  Menu colours and your own controls
+</span>
+                </li>
+              </ul>
+              <a class="btn" id="buy-free" href="#/account" data-nav="">              Get Free
 </a>
-                <a class="btn" data-github="repo" href="#">                Source Code
-</a>
-              </div>
             </div>
-            <div class="feature-grid">
-              <div class="feature">
-                <b>                Utility Disc
-</b>
-                <span>                Main menu and mod checker.
+            <div class="tier pick">
+              <span class="flag rec mono">              Recommended
 </span>
-              </div>
-              <div class="feature">
-                <b>                Nametags
-</b>
-                <span>                Useful player information such as name, platform and refresh data.
+              <h3>
+                Premium
+              </h3>
+              <div class="price mono" data-m-label="PER MONTH" data-m-price="$5.99" data-l-label="PER YEAR" data-l-price="$59">
+                <span class="pl">                PER MONTH
 </span>
-              </div>
-              <div class="feature">
-                <b>                Colour Themes
+                <b class="pv">                $5.99
 </b>
-                <span>                Customise the client’s look, including the hamburbur style.
-</span>
               </div>
-              <div class="feature">
-                <b>                Lobby Hop
+              <hr />
+              <ul>
+                <li>
+                  <b>                  Everything in Free
 </b>
-                <span>                Move between lobbies without trekking back to Stump.
-</span>
-              </div>
-              <div class="feature">
-                <b>                Quick Report
+                </li>
+                <li>
+                  <b>                  Hand Gesture
 </b>
-                <span>                Reach the report controls quickly from inside the client.
+                  <span>                  Take a photo and view player info
 </span>
-              </div>
-              <div class="feature">
-                <b>                Keybind Settings
+                </li>
+                <li>
+                  <b>                  Notifications
 </b>
-                <span>                Customise how Sentinel opens and closes.
+                  <span>                  Cheater and mod alerts
 </span>
-              </div>
-              <div class="feature">
-                <b>                Client Checker
+                </li>
+                <li>
+                  <b>                  Board Colors
 </b>
-                <span>                See compatible client information that Sentinel can identify.
+                  <span>                  Red for cheaters, green for mod users
 </span>
-              </div>
-              <div class="feature">
-                <b>                Friend System
+                </li>
+                <li>
+                  <b>                  Broadcast
 </b>
-                <span>                Keep track of friends and their available status information.
+                  <span>                  Broadcast through the menu
 </span>
-              </div>
-              <div class="feature">
-                <b>                Swap Hands
+                </li>
+                <li>
+                  <b>                  Auto Join
 </b>
-                <span>                Choose whichever hand is more comfortable.
+                  <span>                  Automatically join lobbies
 </span>
-              </div>
-              <div class="feature">
-                <b>                Hand Gesture
+                </li>
+                <li>
+                  <b>                  Outfit Control
 </b>
-                <span>                Quickly bring up player information using the client controls.
+                  <span>                  Change outfits through the menu
 </span>
-              </div>
-              <div class="feature">
-                <b>                Notifications
+                </li>
+                <li>
+                  <b>                  Mic Controls
 </b>
-                <span>                Receive useful mod and player alerts without digging through menus.
+                  <span>                  Mute, push to talk, push to mute
 </span>
-              </div>
-              <div class="feature">
-                <b>                Board Colours
+                </li>
+                <li>
+                  <b>                  Hand Menu
 </b>
-                <span>                Use board highlighting to make detected information easier to read.
+                  <span>                  Access the menu from your hand
 </span>
-              </div>
-              <div class="feature">
-                <b>                Broadcast
+                </li>
+                <li>
+                  <b>                  YouTube Live Chat
 </b>
-                <span>                Access Sentinel’s broadcast tools directly from the utility interface.
+                  <span>                  Read your stream chat in game
 </span>
-              </div>
-              <div class="feature">
-                <b>                Auto Join
+                </li>
+                <li>
+                  <b>                  PC UI
 </b>
-                <span>                Convenience controls for joining configured lobbies.
+                  <span>                  Access the full menu on your PC
 </span>
-              </div>
-              <div class="feature">
-                <b>                Outfit Control
+                </li>
+                <li class="life-only">
+                  <b>                  One payment
 </b>
-                <span>                Manage supported outfit options from the client.
+                  <span>                  No renewals, ever
 </span>
-              </div>
-              <div class="feature">
-                <b>                Mic Controls
+                </li>
+              </ul>
+              <a class="btn solid per-month" data-tier="premium" data-period="monthly" href="#">              Get Premium
+</a>
+              <a class="btn solid per-life" data-tier="premium" data-period="annual" href="#">              Get Premium
+</a>
+            </div>
+            <div class="tier plus">
+              <span class="flag top mono">              Top Tier
+</span>
+              <h3>
+                Sentinel+
+              </h3>
+              <div class="price mono" data-m-label="PER MONTH" data-m-price="$9.99" data-l-label="PER YEAR" data-l-price="$99">
+                <span class="pl">                PER MONTH
+</span>
+                <b class="pv">                $9.99
 </b>
-                <span>                Mute, push to talk and push to mute controls.
-</span>
               </div>
-              <div class="feature">
-                <b>                Hand Menu
+              <hr />
+              <ul>
+                <li>
+                  <b>                  Everything in Premium
 </b>
-                <span>                Access useful Sentinel controls without opening a separate page.
-</span>
-              </div>
-              <div class="feature">
-                <b>                Environment Controls
+                </li>
+                <li>
+                  <b>                  Time Changer
 </b>
-                <span>                Supported time, weather and other visual convenience controls.
+                  <span>                  Change time and weather
 </span>
-              </div>
-              <div class="feature">
-                <b>                Spotify Controls
+                </li>
+                <li>
+                  <b>                  Spotify Controls
 </b>
-                <span>                Convenient playback controls from the Utility Disc where supported.
+                  <span>                  Control music from the Utility Disc
 </span>
-              </div>
-              <div class="feature">
-                <b>                Open Source
+                </li>
+                <li>
+                  <b>                  Priority Support
 </b>
-                <span>                Inspect the code, report issues and contribute through GitHub.
+                  <span>                  Faster help when something breaks
 </span>
-              </div>
-              <div class="feature">
-                <b>                No Account
+                </li>
+                <li>
+                  <b>                  Menu Shape
 </b>
-                <span>                No Discord sign in, licence redemption or account dashboard required.
+                  <span>                  Change the shape of the menu
 </span>
-              </div>
+                </li>
+                <li>
+                  <b>                  Early Access
+</b>
+                  <span>                  Updates before they are released
+</span>
+                </li>
+                <li>
+                  <b>                  Exclusive Discord Role
+</b>
+                </li>
+                <li class="soon">
+                  <b>                  Jarvis
+</b>
+                  <span>                  Voice assistant built into the client
+</span>
+                </li>
+                <li class="soon">
+                  <b>                  OBS Controls
+</b>
+                  <span>                  Start, stop and switch scenes without leaving VR
+</span>
+                </li>
+                <li class="life-only">
+                  <b>                  One payment
+</b>
+                  <span>                  No renewals, ever
+</span>
+                </li>
+              </ul>
+              <a class="btn per-month" data-tier="plus" data-period="monthly" href="#">              Get Sentinel+
+</a>
+              <a class="btn per-life" data-tier="plus" data-period="annual" href="#">              Get Sentinel+
+</a>
             </div>
           </div>
+          <p class="shop-msg" id="shop-msg">
+          </p>
+          <p class="buy-terms">
+            Paying means you agree to our
+            <a href="#/terms" data-nav="">            Terms of Service
+</a>
+            , and that you want access straight away.
+            <br />
+            Digital licences are not refundable. You can cancel any time and keep what you paid for.
+            <a href="#/refunds" data-nav="">            Refund Policy
+</a>
+          </p>
         </div>
       </section>
-      <section id="reviews">
+      <section id="reviews" hidden="">
         <div class="wrap">
           <div class="sec-label">
             Reviews
           </div>
           <h2 class="sec-title">
-            From real, totally not made up people.
+            From people who paid for it.
           </h2>
           <p class="sec-sub">
-            Only &#39;real&#39; people can leave reviews.
+            Only Premium and Sentinel+ members can leave one, so every rating here came from someone who actually used the client.
           </p>
-          <div class="review-grid reveal">
-            <article class="review-card">
-              <div class="review-head">
-                <div class="review-user">
-                  zlothy
-                </div>
+          <div class="rv-top reveal">
+            <div class="rv-score">
+              <div class="rv-avg mono" id="rv-avg">
+                -
               </div>
-              <div class="stars" aria-label="5 out of 5 stars">
-                ★★★★★
+              <div class="rv-stars" id="rv-avg-stars">
               </div>
-              <p class="review-body">
-                “The wrist UI is clean, everything I actually want is a couple presses away, and it doesn’t feel like a giant menu glued onto the game.”
-              </p>
-            </article>
-            <article class="review-card">
-              <div class="review-head">
-                <div class="review-user">
-                  kormakur
-                </div>
+              <div class="rv-count" id="rv-count">
+                -
               </div>
-              <div class="stars" aria-label="5 out of 5 stars">
-                ★★★★★
-              </div>
-              <p class="review-body">
-                “Being able to check the source is a massive plus. The client feels way less sketchy when you can literally see what it’s doing.”
-              </p>
-            </article>
-            <article class="review-card">
-              <div class="review-head">
-                <div class="review-user">
-                  not
-                </div>
-              </div>
-              <div class="stars" aria-label="5 out of 5 stars">
-                ★★★★★
-              </div>
-              <p class="review-body">
-                “Lobby tools, nametags and the little quality of life stuff are the best part. It gets out of the way instead of trying to be flashy.”
-              </p>
-            </article>
+            </div>
+            <div class="rv-bars" id="rv-bars">
+            </div>
+          </div>
+          <div class="rv-grid reveal" id="rv-list">
           </div>
         </div>
       </section>
@@ -1164,41 +497,78 @@
                 What is Sentinel Client?
               </summary>
               <p>
-                Sentinel is a third party Gorilla Tag utility client controlled from an in game interface. It bundles player information,
-						reporting shortcuts, nametags, friend tools, lobby tools, themes and other convenience features into one mod.
+                A mod for Gorilla Tag you control from a disc on your wrist. It tells you who else is running a client, lets you report someone without leaving VR, and adds the things the game never shipped with: nametags, a friends list, lobby hop, colour themes and your own keybinds. New features get added as people ask for them.
               </p>
             </details>
             <details>
               <summary>
-                Is Sentinel free?
+                Does it affect performance?
               </summary>
               <p>
-                Yes. There are no Premium or Sentinel+ tiers unlike some money hungry weirdos. The current version is free to download forever and the source is available on GitHub.
+                No. Sentinel is built to be lightweight. The tablet and checkers run without touching your framerate.
+              </p>
+            </details>
+            <details id="faq-lifetime-ticket" hidden="">
+              <summary>
+                What is lifetime access?
+              </summary>
+              <p>
+                One payment and the tier stays on your account permanently. No renewals, and every future update is included. Premium is
+                <b>                $39.99
+</b>
+                and Sentinel+ is
+                <b>                $59.99
+</b>
+                . Patreon has no one-off option, so it is arranged by hand: open a ticket in the
+                <a href="https://discord.gg/qyb29g2DPC" target="_blank" rel="noopener">                Discord
+</a>
+                and we&#39;ll sort it out with you.
+              </p>
+            </details>
+            <details id="faq-lifetime" hidden="">
+              <summary>
+                Monthly or lifetime, what&#39;s the difference?
+              </summary>
+              <p>
+                Both unlock exactly the same features. Monthly is $5.99 for Premium and $9.99 for Sentinel+ through Patreon, cancel any time. Lifetime is a single payment ($39.99 and $59.99) and never renews. The Free tier stays free either way.
               </p>
             </details>
             <details>
               <summary>
-                Do I need an account or licence key?
+                How do I cancel?
               </summary>
               <p>
-                No. The website does not have an account page, Discord sign in, licence redemption or paid access system.
+                Everything runs through Patreon, so you cancel there: Patreon → your memberships → Sentinel Client. You keep your access until the period you&#39;ve already paid for runs out, and the Discord role comes off automatically when it does.
               </p>
             </details>
             <details>
               <summary>
-                Where do I download it?
+                How do I get the download after paying?
               </summary>
               <p>
-                Use the GitHub release link on this page. That keeps downloads and source history in one place without requiring a website API.
+                Sign in with Discord before you buy, and everything is automatic. The moment your payment goes through, your access is applied and our bot DMs you a receipt. Head to your
+                <a href="#/account" data-nav="" style="color:var(--blue-soft)">                account
+</a>
+                and the download is unlocked. Monthly plans renew on their own; you&#39;ll get a DM each time.
               </p>
             </details>
             <details>
               <summary>
-                Is Sentinel affiliated with Gorilla Tag?
+                How do I install it?
               </summary>
               <p>
-                No. Sentinel Client is a third party project and is not affiliated with Another Axiom or Gorilla Tag.
-						Use mods in accordance with the game’s current rules and policies.
+                Download the installer from your account, run it once, and Sentinel keeps itself updated with every game patch.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Can I get a refund?
+              </summary>
+              <p>
+                No, digital licences aren&#39;t refundable, because your access and the download are applied the second you pay and can&#39;t be handed back. You can cancel on Patreon whenever you like and you keep everything you&#39;ve already paid for until it runs out. Billing mistakes are different: a double charge, a charge after cancelling, or access that never arrived all get sorted. The detail is on the
+                <a href="#/refunds" data-nav="" style="color:var(--blue-soft)">                Refund Policy
+</a>
+                page, and the Free tier is there so you can try it properly first.
               </p>
             </details>
             <details>
@@ -1206,11 +576,10 @@
                 Where do I get support?
               </summary>
               <p>
-                Use the
-                <a href="https://hamburbur.org/discord" target="_blank" rel="noopener noreferrer">                Hamburbur Discord
+                Through our
+                <a href="https://discord.gg/qyb29g2DPC" target="_blank" rel="noopener" style="color:var(--blue-soft)">                Discord
 </a>
-                ,
-						or open an issue on the GitHub repository.
+                . Sentinel+ members get a priority support channel and an exclusive role.
               </p>
             </details>
           </div>
@@ -1219,416 +588,1706 @@
       <div class="bottom">
         <div class="wrap">
           <h2>
-            Free. Open source. No injection nonsense.
+            Ready when you are.
           </h2>
           <p>
-            Grab the latest release, inspect the source if you want, and go be annoying mod checker kiddies in public lobbies.
+            Download Sentinel Client free and upgrade whenever you want more.
           </p>
-          <div class="bottom-actions">
-            <a class="btn solid" data-github="releases" href="#">            Download Sentinel
+          <a class="btn solid" href="#pricing">          Download Sentinel
 </a>
-            <a class="btn" data-github="repo" href="#">            Open GitHub
+        </div>
+      </div>
+    </div>
+    <div id="view-account" hidden="">
+      <div class="wrap narrow page">
+        <div id="ac-loading" class="card center">
+          <p class="mono" style="color:var(--dim)">
+            Loading…
+          </p>
+        </div>
+        <div id="ac-out" class="card center" hidden="">
+          <h1>
+            Sign in to Sentinel
+          </h1>
+          <p>
+            Use your Discord account to manage your licence and download the client. No password needed.
+          </p>
+          <a class="btn discord" id="ac-login" href="#">          <svg width="18" height="14" viewBox="0 0 71 55" fill="currentColor">
+            <path d="M60.1 4.9A58.5 58.5 0 0 0 45.6.4a41 41 0 0 0-2 4.1 54.1 54.1 0 0 0-16.2 0 37.6 37.6 0 0 0-2.1-4.1A58.4 58.4 0 0 0 10.7 5 60 60 0 0 0 .3 45.6a58.9 58.9 0 0 0 17.8 9 43.7 43.7 0 0 0 3.8-6.2 38.2 38.2 0 0 1-6-2.9l1.5-1.2a42 42 0 0 0 36 0l1.5 1.2a38.2 38.2 0 0 1-6 2.9 43.3 43.3 0 0 0 3.8 6.2 58.7 58.7 0 0 0 17.8-9A59.5 59.5 0 0 0 60.1 4.9ZM23.7 37.3c-3.5 0-6.4-3.2-6.4-7.2s2.8-7.2 6.4-7.2c3.6 0 6.5 3.3 6.4 7.2 0 4-2.8 7.2-6.4 7.2Zm23.6 0c-3.5 0-6.4-3.2-6.4-7.2s2.8-7.2 6.4-7.2c3.6 0 6.5 3.3 6.4 7.2 0 4-2.8 7.2-6.4 7.2Z">
+            </path>
+          </svg>
+          Sign in with Discord
 </a>
+          <p class="msg" id="ac-err" style="text-align:center">
+          </p>
+        </div>
+        <div id="ac-in" hidden="">
+          <div class="card">
+            <div class="who">
+              <img id="ac-avatar" alt="" src="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39;/%3E" />
+              <div>
+                <div class="nm" id="ac-name">
+                  -
+                </div>
+                <div class="sb mono" id="ac-id">
+                  -
+                </div>
+              </div>
+              <button class="btn sm" style="margin-left:auto" id="ac-logout">
+                Sign out
+              </button>
+            </div>
+            <div class="status">
+              <div class="st">
+                <span class="lb">                Status
+</span>
+                <span class="vl" id="ac-status">                -
+</span>
+              </div>
+              <div class="st">
+                <span class="lb">                Plan
+</span>
+                <span class="vl" id="ac-tier">                -
+</span>
+              </div>
+              <div class="st">
+                <span class="lb">                Days left
+</span>
+                <span class="vl" id="ac-days">                -
+</span>
+              </div>
+              <div class="st">
+                <span class="lb">                Expires
+</span>
+                <span class="vl" id="ac-exp">                -
+</span>
+              </div>
+            </div>
+            <div class="reqs" id="ac-reqs" hidden="">
+              <div class="reqs-head">
+                <span class="reqs-tag">                Before you download
+</span>
+                <span class="reqs-count" id="ac-reqs-count"></span>
+              </div>
+              <div id="ac-reqs-list">
+              </div>
+            </div>
+            <a class="btn solid" id="ac-dl" href="#">            Download Sentinel Client
+</a>
+            <div class="notice" id="ac-nobuild" hidden="">
+              <h4>
+                The client isn&#39;t ready to download yet
+              </h4>
+              <p id="ac-nobuild-p">
+                There&#39;s no build published yet. The download unlocks the moment there is one. We&#39;ll announce it in the
+                <a href="https://discord.gg/qyb29g2DPC" target="_blank" rel="noopener">                Discord
+</a>
+                .
+              </p>
+            </div>
+            <p class="hint" id="ac-dlhint" style="margin:14px 0 0">
+            </p>
+            <p class="hint" style="margin:10px 0 0;font-size:.8rem;color:var(--dim)">
+              Downloading and running the client means you accept the
+              <a href="#/terms" data-nav="" style="color:var(--muted)">              Terms of Service
+</a>
+              . Sentinel is not affiliated with Another Axiom. Mods are used at your own risk.
+            </p>
+          </div>
+          <div class="card" id="ac-pat-card">
+            <h2>
+              Patreon
+            </h2>
+            <div class="build-now" id="ac-pat-state" hidden="">
+            </div>
+            <p class="hint" id="ac-pat-hint">
+              If you pledged on Patreon and your access hasn&#39;t appeared, link your Patreon account here. You only need this if you didn&#39;t connect Discord to Patreon.
+            </p>
+            <a class="btn" id="ac-pat-link" href="#">            Link Patreon
+</a>
+            <p class="msg" id="ac-pat-msg">
+            </p>
+          </div>
+          <div class="card" id="ac-rv-card">
+            <h2>
+              Rate Sentinel
+            </h2>
+            <p class="hint" id="ac-rv-hint">
+              Your rating shows on the front page with your Discord name. Change it or take it down whenever you like.
+            </p>
+            <div id="ac-rv-form" hidden="">
+              <div class="rv-pick" id="ac-rv-pick" role="group" aria-label="Your rating">
+              </div>
+              <textarea id="ac-rv-body" rows="3" maxlength="600" placeholder="Why? (optional)">
+              </textarea>
+              <div class="row" style="margin-top:12px">
+                <button class="btn solid" id="ac-rv-save">
+                  Post review
+                </button>
+                <button class="btn" id="ac-rv-del" hidden="">
+                  Remove
+                </button>
+                <span class="hint" id="ac-rv-left" style="margin-left:auto;align-self:center"></span>
+              </div>
+            </div>
+            <div class="build-now" id="ac-rv-locked" hidden="">
+            </div>
+            <p class="msg" id="ac-rv-msg">
+            </p>
+          </div>
+          <div class="card" id="ac-cc-card">
+            <h2>
+              Creator code
+            </h2>
+            <p class="hint" id="ac-cc-hint">
+              Using a creator&#39;s code sends them a share of what you pay, at no extra cost to you. It doesn&#39;t change your price or your access. It just means the creator who got you here gets something back.
+            </p>
+            <div id="ac-cc-form">
+              <div class="row">
+                <input id="ac-cc" placeholder="CREATOR-CODE" autocomplete="off" spellcheck="false" />
+                <button class="btn solid" id="ac-cc-btn">
+                  Apply
+                </button>
+              </div>
+              <p class="hint" style="margin:10px 0 0">
+                You can only set this once, so check the spelling.
+              </p>
+            </div>
+            <div id="ac-cc-done" hidden="">
+              <div class="build-now">
+                <b>                Supporting
+                <span id="ac-cc-name" class="mono"></span>
+</b>
+                . A share of each payment goes to them.
+              </div>
+              <p class="hint" style="margin:10px 0 0">
+                Set in error? Ask in the
+                <a href="https://discord.gg/qyb29g2DPC" target="_blank" rel="noopener" style="color:var(--blue-soft)">                Discord
+</a>
+                and an admin can move it.
+              </p>
+            </div>
+            <p class="msg" id="ac-cc-msg">
+            </p>
+          </div>
+          <div class="card" id="ac-ref-claim" hidden="">
+            <h2>
+              Your referral link
+            </h2>
+            <p class="hint">
+              Pick a name and you get a link to share. Anyone who buys after opening it earns you a cut of every payment they make, for as long as they stay subscribed. It doesn’t cost them anything extra.
+            </p>
+            <div class="row">
+              <span class="hint" style="align-self:center;white-space:nowrap">              sentinelgtag.com/ref/
+</span>
+              <input id="ac-ref-name" placeholder="yourname" autocomplete="off" spellcheck="false" maxlength="24" />
+              <button class="btn solid" id="ac-ref-btn">
+                Claim it
+              </button>
+            </div>
+            <p class="hint" style="margin:10px 0 0">
+              3-24 characters, letters, numbers and dashes. You get one, and it can’t be changed afterwards, so pick something you’re happy saying out loud.
+            </p>
+            <div id="ac-ref-ladder" style="margin-top:16px">
+            </div>
+            <p class="msg" id="ac-ref-msg">
+            </p>
+          </div>
+          <div class="card" id="ac-earn-card" hidden="">
+            <h2 id="ac-earn-title">
+              Referral earnings
+            </h2>
+            <p class="hint">
+              Paid out by hand, ask in the Discord when you want to cash out.
+            </p>
+            <div class="row" id="ac-earn-linkrow" style="margin-bottom:14px" hidden="">
+              <input id="ac-earn-link" readonly="" onclick="this.select()" style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace" />
+              <button class="btn" id="ac-earn-copy">
+                Copy
+              </button>
+            </div>
+            <div class="status">
+              <div class="st">
+                <span class="lb">                Your code
+</span>
+                <span class="vl mono" id="ac-earn-code">                -
+</span>
+              </div>
+              <div class="st">
+                <span class="lb">                Your share
+</span>
+                <span class="vl" id="ac-earn-pct">                -
+</span>
+              </div>
+              <div class="st">
+                <span class="lb">                People referred
+</span>
+                <span class="vl" id="ac-earn-people">                -
+</span>
+              </div>
+              <div class="st">
+                <span class="lb">                Payments
+</span>
+                <span class="vl" id="ac-earn-count">                -
+</span>
+              </div>
+            </div>
+            <div id="ac-earn-tier" hidden="" style="margin-top:14px">
+            </div>
+            <div class="status" style="margin-top:14px">
+              <div class="st">
+                <span class="lb">                Owed to you
+</span>
+                <span class="vl" id="ac-earn-owed">                -
+</span>
+              </div>
+              <div class="st">
+                <span class="lb">                Already paid
+</span>
+                <span class="vl" id="ac-earn-paid">                -
+</span>
+              </div>
+              <div class="st">
+                <span class="lb">                Earned in total
+</span>
+                <span class="vl" id="ac-earn-total">                -
+</span>
+              </div>
+            </div>
+            <p class="hint" id="ac-earn-none" style="margin:14px 0 0" hidden="">
+              Nothing yet. You earn when someone enters your code and then pays.
+            </p>
+          </div>
+          <div class="card">
+            <h2>
+              Redeem a licence key
+            </h2>
+            <p class="hint">
+              If you bought through the site, your access is applied automatically. You don&#39;t need a key. This is for keys given out directly. Time is added on top of whatever you have left, so redeeming early never costs you days.
+            </p>
+            <div class="row">
+              <input type="text" class="key" id="ac-key" placeholder="SNTL-XXXXX-XXXXX-XXXXX" maxlength="23" autocomplete="off" spellcheck="false" />
+              <button class="btn solid" id="ac-redeem">
+                Redeem
+              </button>
+            </div>
+            <p class="msg" id="ac-msg">
+            </p>
           </div>
         </div>
       </div>
-    </main>
+    </div>
+    <div id="view-terms" hidden="">
+      <div class="wrap legal">
+        <h1>
+          Terms of Service
+        </h1>
+        <p class="lead">
+          The rules for using Sentinel Client and this site. Plain English, no tricks, read it once and you&#39;ll know where you stand.
+        </p>
+        <p class="stamp">
+          Last updated 3 September 2026
+        </p>
+        <div class="toc">
+          <a href="#tos-1">          1 Who we are
+</a>
+          <a href="#tos-2">          2 Who can buy
+</a>
+          <a href="#tos-3">          3 What you get
+</a>
+          <a href="#tos-4">          4 Your account
+</a>
+          <a href="#tos-5">          5 Your licence
+</a>
+          <a href="#tos-6">          6 Paying
+</a>
+          <a href="#tos-7">          7 Refunds
+</a>
+          <a href="#tos-8">          8 What you must not do
+</a>
+          <a href="#tos-9">          9 Gorilla Tag
+</a>
+          <a href="#tos-10">          10 Updates
+</a>
+          <a href="#tos-11">          11 Losing access
+</a>
+          <a href="#tos-12">          12 Reviews and giveaways
+</a>
+          <a href="#tos-13">          13 Your data
+</a>
+          <a href="#tos-14">          14 Liability
+</a>
+          <a href="#tos-15">          15 Changes
+</a>
+          <a href="#tos-16">          16 Contact
+</a>
+        </div>
+        <h2 id="tos-1">
+          <span class="no">          1
+</span>
+          Who we are and what this covers
+        </h2>
+        <p>
+          Sentinel Client is a third-party modification for Gorilla Tag, sold and supported through this site and our Discord server. In these terms, &#34;we&#34; and &#34;us&#34; mean the Sentinel Client team, and &#34;you&#34; means the person using the client or the site.
+        </p>
+        <p>
+          By downloading, installing or using Sentinel Client, or by buying any tier, you agree to these terms. If you don&#39;t agree with them, don&#39;t install it and don&#39;t buy anything.
+        </p>
+        <h2 id="tos-2">
+          <span class="no">          2
+</span>
+          Who can buy
+        </h2>
+        <p>
+          You need to be old enough to enter a paid agreement where you live, or have permission from a parent or guardian, and you must be using their money with their knowledge. We sell through Patreon, and Patreon&#39;s own age rules apply on top of ours.
+        </p>
+        <p>
+          If a payment turns out to have been made by a child without permission, tell us and we&#39;ll cancel the access. Don&#39;t use someone else&#39;s card.
+        </p>
+        <h2 id="tos-3">
+          <span class="no">          3
+</span>
+          What you actually get
+        </h2>
+        <p>
+          You are buying
+          <b>          access
+</b>
+          to Sentinel Client for a period of time, not the software itself. We keep ownership of the client, its code, its name and its artwork. Nothing here transfers any of that to you.
+        </p>
+        <p>
+          Free stays free. Premium and Sentinel+ unlock the extra features listed on the pricing section of the site at the time you buy. Those lists can change, see section 10.
+        </p>
+        <h2 id="tos-4">
+          <span class="no">          4
+</span>
+          Your account
+        </h2>
+        <p>
+          You sign in with Discord. Your account, your access and any licence key attached to it are for you alone. Don&#39;t share your account, sell it, rent it out, or hand your key to anyone else.
+        </p>
+        <p>
+          You are responsible for what happens under your account. If you think someone else has got into it, tell us in the Discord and we&#39;ll lock it.
+        </p>
+        <h2 id="tos-5">
+          <span class="no">          5
+</span>
+          Your licence and your PC
+        </h2>
+        <p>
+          A licence covers one person on one PC at a time. Licence keys are locked to the hardware they&#39;re first used on. If you build a new PC or change parts, open a ticket and we&#39;ll reset it, that&#39;s normal and we don&#39;t charge for it.
+        </p>
+        <p>
+          Repeated resets that look like a key being passed around get the key revoked with no refund. One person, one setup.
+        </p>
+        <h2 id="tos-6">
+          <span class="no">          6
+</span>
+          Paying, renewing and cancelling
+        </h2>
+        <p>
+          Monthly and yearly plans run through Patreon and renew automatically until you cancel. Cancelling is done on Patreon, not here, Patreon, then your memberships, then Sentinel Client. Lifetime access is a single payment arranged through a ticket in our Discord.
+        </p>
+        <p>
+          When you cancel you keep everything you&#39;ve already paid for until that period ends. Your Discord role comes off automatically when it does. Prices can change, but a change never applies to a period you&#39;ve already paid for.
+        </p>
+        <p>
+          Patreon handles the payment itself. We never see your card details, and their terms cover anything to do with the transaction.
+        </p>
+        <h2 id="tos-7">
+          <span class="no">          7
+</span>
+          Refunds
+        </h2>
+        <div class="box warn">
+          <p>
+            <b>            We do not give refunds on digital licences.
+</b>
+            Access is applied to your account the moment payment goes through and cannot be taken back or resold, so all sales are final.
+          </p>
+          <p>
+            There are a few situations we will always put right, a double charge, a charge after you cancelled, or access that never arrived. Those and the full detail are on the
+            <a href="#/refunds" data-nav="">            Refund Policy
+</a>
+            page, which forms part of these terms.
+          </p>
+        </div>
+        <h2 id="tos-8">
+          <span class="no">          8
+</span>
+          What you must not do
+        </h2>
+        <ul>
+          <li>
+            Share, resell, rent, gift or publish your licence key or your build of the client.
+          </li>
+          <li>
+            Crack, patch, decompile, reverse engineer or repackage the client, or help anyone else do it.
+          </li>
+          <li>
+            Run the client on an account that isn&#39;t yours, or on more machines than your licence covers.
+          </li>
+          <li>
+            Use Sentinel to harass, dox, impersonate, threaten or grief other players.
+          </li>
+          <li>
+            Use it to break Gorilla Tag itself, crashing lobbies, exploiting other players, or interfering with anyone else&#39;s game.
+          </li>
+          <li>
+            Pretend to be staff, or claim your build or fork is official.
+          </li>
+          <li>
+            Try to break into our site, our API, our Discord or other people&#39;s accounts.
+          </li>
+        </ul>
+        <p>
+          Breaking any of these ends your access immediately and permanently, with no refund of anything already paid.
+        </p>
+        <h2 id="tos-9">
+          <span class="no">          9
+</span>
+          Gorilla Tag is not ours
+        </h2>
+        <p>
+          Sentinel Client is not made by, endorsed by, or connected to Another Axiom or anyone who works on Gorilla Tag. Gorilla Tag and every related name and logo belong to their owners.
+        </p>
+        <div class="box">
+          <p>
+            Using any modification is done at your own risk. Gorilla Tag&#39;s own terms decide what is allowed in their game, and they can change those rules or act against accounts whenever they choose. We cannot promise that using Sentinel won&#39;t get you actioned by the game, the platform you bought it on, or a server you play in, and if that happens it isn&#39;t grounds for a refund.
+          </p>
+        </div>
+        <h2 id="tos-10">
+          <span class="no">          10
+</span>
+          Updates, downtime and changes
+        </h2>
+        <p>
+          Gorilla Tag updates regularly and every update can break a mod. When that happens we fix it as fast as we can, but there will be periods where the client doesn&#39;t work. That&#39;s the nature of modding and it isn&#39;t a fault in what you bought.
+        </p>
+        <p>
+          Features get added, changed and occasionally removed, sometimes because the game changed underneath them. We aim to keep every tier at least as useful as it was when you bought it, but we can&#39;t guarantee any single feature stays forever.
+        </p>
+        <p>
+          The site, the API and the Discord bot can go down for maintenance or for reasons outside our control. We don&#39;t extend subscriptions for short outages.
+        </p>
+        <h2 id="tos-11">
+          <span class="no">          11
+</span>
+          Suspension and losing access
+        </h2>
+        <p>
+          We can suspend or permanently revoke access if you break these terms, if a payment is reversed or charged back, if you&#39;re abusive to staff or other members, or if we&#39;re legally required to. Where it&#39;s reasonable we&#39;ll tell you why.
+        </p>
+        <p>
+          Access revoked for breaking the rules is not refunded, and buying again after a permanent ban doesn&#39;t lift it.
+        </p>
+        <p>
+          You can stop using Sentinel at any time by cancelling on Patreon and uninstalling the client.
+        </p>
+        <h2 id="tos-12">
+          <span class="no">          12
+</span>
+          Reviews, giveaways and referrals
+        </h2>
+        <p>
+          Reviews can only be left by people on a paid tier. Keep them about the client, anything abusive, off-topic, or aimed at another person gets removed. Posting a review gives us permission to show it publicly with your Discord name and avatar. You can take yours down whenever you like.
+        </p>
+        <p>
+          Giveaways are ours to run. Winners have to be in our Discord to receive a prize, prizes are the tier and length stated on the giveaway, and they have no cash value. If a winner has left or can&#39;t be reached we&#39;ll redraw. Entering more than once, with alt accounts, or with anything automated disqualifies you.
+        </p>
+        <p>
+          Referral codes pay a share of what a buyer pays to the person whose code or link was used. Anyone signed in can claim one. Attribution is set the first time a code is used or a referral link is followed, and can&#39;t be changed afterwards.
+        </p>
+        <p>
+          The share is worked out from how many of the people you referred are subscribed
+          <b>          at the moment of each payment
+</b>
+          , so it can go down as well as up. The rate that applied to a payment is fixed when that payment is made and isn&#39;t recalculated later. Rates, bands and the programme itself can change, and we&#39;ll say so on this page and on your account page when they do.
+        </p>
+        <p>
+          Payouts are made by hand on request, and only on payments we&#39;ve actually received and kept, anything refunded or charged back is deducted. Using your own code, referring accounts you control, or driving sign-ups through fake, purchased or misleading promotion ends the arrangement and forfeits anything owed. Presenting your link as an official Sentinel channel, or as anything other than your own referral, does the same.
+        </p>
+        <h2 id="tos-13">
+          <span class="no">          13
+</span>
+          What we store about you
+        </h2>
+        <p>
+          To run your licence we keep your Discord ID, username and avatar, your tier and expiry date, a hardware fingerprint for your licence key, and a record of purchases, key redemptions and support actions. Payment details stay with Patreon and never reach us.
+        </p>
+        <p>
+          We don&#39;t sell any of it. Ask in the Discord and we&#39;ll tell you what we hold on you or delete your account, deleting it ends any access still running, and that isn&#39;t refunded.
+        </p>
+        <h2 id="tos-14">
+          <span class="no">          14
+</span>
+          No warranty, and what we&#39;re liable for
+        </h2>
+        <p>
+          Sentinel Client is provided as it is. We don&#39;t promise it will be uninterrupted, error-free, compatible with your setup, or fit for any particular purpose.
+        </p>
+        <p>
+          To the fullest extent the law allows, we&#39;re not liable for lost game accounts, lost progress, hardware problems, lost time, or any indirect or consequential loss. Where we are liable for something, our total liability to you is limited to the amount you paid us in the twelve months before it happened.
+        </p>
+        <p>
+          Nothing here removes rights you have by law that can&#39;t be signed away.
+        </p>
+        <h2 id="tos-15">
+          <span class="no">          15
+</span>
+          Changes to these terms
+        </h2>
+        <p>
+          We can update these terms. The date at the top always shows the current version, and anything significant gets announced in the Discord. Carrying on using Sentinel after a change means you accept it.
+        </p>
+        <h2 id="tos-16">
+          <span class="no">          16
+</span>
+          Getting in touch
+        </h2>
+        <p>
+          Everything (support, billing questions, licence resets, reporting a problem) goes through a ticket in our
+          <a href="https://discord.gg/qyb29g2DPC" target="_blank" rel="noopener">          Discord server
+</a>
+          . It&#39;s the fastest way to reach a human, and it&#39;s where your ticket history lives.
+        </p>
+        <p class="foot-note">
+          These terms and the
+          <a href="#/refunds" data-nav="">          Refund Policy
+</a>
+          are the whole agreement between us about Sentinel Client. If a court finds one part unenforceable, the rest still stands.
+        </p>
+      </div>
+    </div>
+    <div id="view-refunds" hidden="">
+      <div class="wrap legal">
+        <h1>
+          Refund Policy
+        </h1>
+        <p class="lead">
+          What happens if you change your mind, get charged twice, or something goes wrong.
+        </p>
+        <p class="stamp">
+          Last updated 3 September 2026
+        </p>
+        <div class="box warn">
+          <p>
+            <b>            Short version: we don&#39;t refund digital licences.
+</b>
+            The moment your payment goes through, the tier is on your account and the download is unlocked. That can&#39;t be handed back, so all sales are final.
+          </p>
+          <p>
+            What we do instead is cancel cleanly and fix billing mistakes, which is what most people actually need. Both are below.
+          </p>
+        </div>
+        <h2 id="rf-1">
+          <span class="no">          1
+</span>
+          Why it works this way
+        </h2>
+        <p>
+          There&#39;s nothing to return. Access is applied instantly, the client is downloadable straight away, and once someone has had the files there&#39;s no way to un-give them. Refunding after delivery would mean handing the software out for free to anyone willing to ask, which is exactly how paid mods die.
+        </p>
+        <p>
+          So the price stays low, the Free tier stays genuinely usable, and you can try Sentinel properly before paying a penny.
+        </p>
+        <h2 id="rf-2">
+          <span class="no">          2
+</span>
+          Cancelling instead
+        </h2>
+        <p>
+          Every subscription can be cancelled at any time, and cancelling is not the same as a refund. Go to Patreon, then your memberships, then Sentinel Client, and cancel there.
+        </p>
+        <p>
+          You keep full access for the rest of the period you&#39;ve already paid for (you&#39;re not cut off on the day you cancel) and nothing is charged again after that. Your Discord role comes off by itself when the time runs out.
+        </p>
+        <h2 id="rf-3">
+          <span class="no">          3
+</span>
+          When we will always put it right
+        </h2>
+        <p>
+          These are billing errors rather than refunds, and we sort them without arguing:
+        </p>
+        <ul>
+          <li>
+            <b>            You were charged twice
+</b>
+            for the same period.
+          </li>
+          <li>
+            <b>            You were charged after cancelling
+</b>
+            , and the cancellation went through before the renewal date.
+          </li>
+          <li>
+            <b>            Your access never arrived
+</b>
+            and we can&#39;t get it working, if we can&#39;t fix it, we refund it.
+          </li>
+          <li>
+            <b>            You were charged for a tier you never got
+</b>
+            because something on our side failed.
+          </li>
+        </ul>
+        <p>
+          Tell us within 30 days of the charge and include your Discord name and the date. Where the money went through Patreon, some of these have to be resolved on their side, and we&#39;ll tell you which.
+        </p>
+        <h2 id="rf-4">
+          <span class="no">          4
+</span>
+          When we won&#39;t
+        </h2>
+        <ul>
+          <li>
+            You changed your mind, or stopped playing Gorilla Tag.
+          </li>
+          <li>
+            You forgot to cancel before the renewal date.
+          </li>
+          <li>
+            You bought it and didn&#39;t use it.
+          </li>
+          <li>
+            Your PC can&#39;t run it, or you didn&#39;t install .NET 8, check the requirements before you buy, and ask us first if you&#39;re unsure.
+          </li>
+          <li>
+            A game update temporarily broke a feature and we&#39;re fixing it.
+          </li>
+          <li>
+            A feature works differently than you expected. Ask in the Discord before buying and we&#39;ll tell you exactly what it does.
+          </li>
+          <li>
+            You were banned from Gorilla Tag, from a lobby, or from our Discord.
+          </li>
+          <li>
+            Your access was revoked for sharing a key, cracking the client, or breaking the
+            <a href="#/terms" data-nav="">            Terms of Service
+</a>
+            .
+          </li>
+        </ul>
+        <h2 id="rf-5">
+          <span class="no">          5
+</span>
+          Bought the wrong tier
+        </h2>
+        <p>
+          We&#39;d rather fix that than refund it. Open a ticket and we&#39;ll move you to the right tier and settle the difference, upgrading costs the difference, and if you went too high we&#39;ll credit the extra as time on your account. Do it before you&#39;ve used the tier you bought.
+        </p>
+        <h2 id="rf-6">
+          <span class="no">          6
+</span>
+          Chargebacks
+        </h2>
+        <div class="box">
+          <p>
+            Please talk to us first. A chargeback takes weeks, costs us a fee whichever way it goes, and we can&#39;t fix anything while it&#39;s open, a message in the Discord usually sorts it the same day.
+          </p>
+          <p>
+            Opening a chargeback or a payment dispute without contacting us revokes your access immediately and permanently, including any lifetime purchase, and bans the account from buying again.
+          </p>
+        </div>
+        <h2 id="rf-7">
+          <span class="no">          7
+</span>
+          Your legal rights
+        </h2>
+        <p>
+          Some countries give you a statutory right to cancel an online purchase within a set number of days. Where that right applies to digital content, it normally ends once delivery has started with your agreement, and by buying Sentinel you&#39;re asking for immediate access and accepting that you lose that cancellation right once your tier is applied.
+        </p>
+        <p>
+          Nothing on this page takes away a right you have by law that can&#39;t be signed away, and if the law where you live says otherwise, the law wins. If you think that&#39;s your situation, open a ticket and tell us where you are.
+        </p>
+        <h2 id="rf-8">
+          <span class="no">          8
+</span>
+          How to ask
+        </h2>
+        <p>
+          Open a ticket in our
+          <a href="https://discord.gg/qyb29g2DPC" target="_blank" rel="noopener">          Discord server
+</a>
+          with your Discord username, the date and amount of the charge, and what went wrong. We answer every one, Sentinel+ members go to the front of the queue.
+        </p>
+        <p class="foot-note">
+          This policy is part of our
+          <a href="#/terms" data-nav="">          Terms of Service
+</a>
+          .
+        </p>
+      </div>
+    </div>
     <footer>
       <div class="foot-in">
         <p class="fine">
-          © 2026 Sentinel Client. Free and open source. Not affiliated with Another Axiom or Gorilla Tag.
-			Gorilla Tag and related trademarks belong to their respective owners.
+          © 2026 Sentinel Client. Not affiliated with Another Axiom or Gorilla Tag. All trademarks belong to their respective owners.
         </p>
         <div class="foot-links">
-          <a href="#home">          Home
+          <span id="tip-slot"></span>
+          <a href="#/" data-nav="">          Home
 </a>
-          <a href="#showcase" id="foot-showcase" hidden="">          Showcase
+          <a href="#/account" data-nav="">          Account
 </a>
-          <a href="#features">          Features
+          <a href="#/terms" data-nav="">          Terms
 </a>
-          <a data-github="repo" href="#">          GitHub
+          <a href="#/refunds" data-nav="">          Refunds
 </a>
-          <a href="https://hamburbur.org/discord" target="_blank" rel="noopener noreferrer">          Discord
+          <a href="https://discord.gg/qyb29g2DPC" target="_blank" rel="noopener">          Discord
 </a>
         </div>
       </div>
     </footer>
     <script>
-      const GITHUB_REPOSITORY = &#39;https://github.com/gorillan0t/Sentinel&#39;;
-
-	const SHOWCASE_BASE = &#39;../Sentinel/&#39;;
-	const SHOWCASE_MAX = 40;
-	const SHOWCASE_MISSES_TO_STOP = 3;
-	const SHOWCASE_EXTENSIONS = [&#39;mp4&#39;, &#39;webm&#39;];
-
-	const $ = id =&gt; document.getElementById(id);
-	const reducedMotion = matchMedia(&#39;(prefers-reduced-motion: reduce)&#39;).matches;
-
-	document.querySelectorAll(&#39;[data-github]&#39;).forEach(link =&gt; {
-		const type = link.dataset.github;
-		link.href = type === &#39;releases&#39;
-			? `${GITHUB_REPOSITORY}/releases/latest`
-			: GITHUB_REPOSITORY;
-
-		link.target = &#39;_blank&#39;;
-		link.rel = &#39;noopener noreferrer&#39;;
-	});
-
-	const revealObserver = new IntersectionObserver(entries =&gt; {
-		entries.forEach(entry =&gt; {
-			if (!entry.isIntersecting) {
-				return;
-			}
-
-			entry.target.classList.add(&#39;on&#39;);
-			revealObserver.unobserve(entry.target);
-		});
-	}, { threshold: 0.08 });
-
-	document.querySelectorAll(&#39;.reveal&#39;).forEach(element =&gt; revealObserver.observe(element));
-
-	function startStars() {
-		const canvas = $(&#39;stars&#39;);
-		const context = canvas.getContext(&#39;2d&#39;);
-		let width = 0;
-		let height = 0;
-		let stars = [];
-
-		function resize() {
-			width = canvas.width = innerWidth;
-			height = canvas.height = innerHeight;
-
-			stars = Array.from({ length: Math.min(160, Math.floor(width / 8)) }, () =&gt; ({
-				x: Math.random() * width,
-				y: Math.random() * height,
-				radius: Math.random() * 1.2 + 0.2,
-				phase: Math.random() * Math.PI * 2,
-				speed: 0.015 + Math.random() * 0.03
-			}));
-		}
-
-		function draw() {
-			context.clearRect(0, 0, width, height);
-			context.fillStyle = &#39;#a69ee7&#39;;
-
-			for (const star of stars) {
-				star.phase += star.speed;
-				context.globalAlpha = 0.15 + Math.abs(Math.sin(star.phase)) * 0.5;
-				context.beginPath();
-				context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-				context.fill();
-			}
-
-			context.globalAlpha = 1;
-			requestAnimationFrame(draw);
-		}
-
-		resize();
-		addEventListener(&#39;resize&#39;, resize);
-		draw();
-	}
-
-	function probeVideo(url) {
-		return new Promise(resolve =&gt; {
-			const video = document.createElement(&#39;video&#39;);
-			let settled = false;
-
-			function finish(success) {
-				if (settled) {
-					return;
-				}
-
-				settled = true;
-				video.removeAttribute(&#39;src&#39;);
-				video.load();
-				resolve(success);
-			}
-
-			video.preload = &#39;metadata&#39;;
-			video.muted = true;
-			video.playsInline = true;
-			video.onloadedmetadata = () =&gt; finish(true);
-			video.onerror = () =&gt; finish(false);
-			video.src = url;
-			video.load();
-		});
-	}
-
-	async function findVideoForIndex(index) {
-		for (const extension of SHOWCASE_EXTENSIONS) {
-			const url = `${SHOWCASE_BASE}show${index}.${extension}`;
-
-			if (await probeVideo(url)) {
-				return url;
-			}
-		}
-
-		return null;
-	}
-
-	async function discoverShowcaseVideos() {
-		const videos = [];
-		let misses = 0;
-
-		for (let index = 1; index &lt;= SHOWCASE_MAX; index++) {
-			const url = await findVideoForIndex(index);
-
-			if (url) {
-				videos.push({
-					url,
-					index,
-					caption: `Sentinel showcase ${index}`
-				});
-
-				misses = 0;
-				continue;
-			}
-
-			misses++;
-
-			if (misses &gt;= SHOWCASE_MISSES_TO_STOP) {
-				break;
-			}
-		}
-
-		return videos;
-	}
-
-	const Showcase = (() =&gt; {
-		let items = [];
-		let currentIndex = 0;
-		let muted = true;
-		let hovering = false;
-		let progressFrame = 0;
-
-		function currentVideo() {
-			return $(&#39;slides&#39;).querySelector(&#39;.slide.on video&#39;);
-		}
-
-		function stopProgress() {
-			cancelAnimationFrame(progressFrame);
-			progressFrame = 0;
-			$(&#39;car-bar&#39;).style.width = &#39;0%&#39;;
-		}
-
-		function updateProgress() {
-			const video = currentVideo();
-
-			if (!video || !Number.isFinite(video.duration) || video.duration &lt;= 0) {
-				$(&#39;car-bar&#39;).style.width = &#39;0%&#39;;
-				progressFrame = requestAnimationFrame(updateProgress);
-				return;
-			}
-
-			const percentage = Math.min(100, Math.max(0, video.currentTime / video.duration * 100));
-			$(&#39;car-bar&#39;).style.width = `${percentage}%`;
-			progressFrame = requestAnimationFrame(updateProgress);
-		}
-
-		function syncSoundButton() {
-			const button = $(&#39;car-sound&#39;);
-			button.textContent = muted ? &#39;Sound off&#39; : &#39;Sound on&#39;;
-			button.setAttribute(&#39;aria-label&#39;, muted ? &#39;Turn sound on&#39; : &#39;Turn sound off&#39;);
-		}
-
-		function show(index) {
-			if (!items.length) {
-				return;
-			}
-
-			currentIndex = (index + items.length) % items.length;
-			stopProgress();
-
-			const slides = [...$(&#39;slides&#39;).querySelectorAll(&#39;.slide&#39;)];
-			const dots = [...$(&#39;car-dots&#39;).querySelectorAll(&#39;button&#39;)];
-
-			slides.forEach((slide, slideIndex) =&gt; {
-				const active = slideIndex === currentIndex;
-				slide.classList.toggle(&#39;on&#39;, active);
-
-				const video = slide.querySelector(&#39;video&#39;);
-				video.muted = muted;
-
-				if (!active) {
-					video.pause();
-					video.currentTime = 0;
-					return;
-				}
-
-				if (!reducedMotion &amp;&amp; !document.hidden &amp;&amp; !hovering) {
-					video.play().catch(() =&gt; {});
-				}
-			});
-
-			dots.forEach((dot, dotIndex) =&gt; dot.classList.toggle(&#39;on&#39;, dotIndex === currentIndex));
-			$(&#39;car-cap&#39;).textContent = items[currentIndex].caption;
-			syncSoundButton();
-			updateProgress();
-		}
-
-		function next() {
-			show(currentIndex + 1);
-		}
-
-		function previous() {
-			show(currentIndex - 1);
-		}
-
-		function wire() {
-			$(&#39;car-prev&#39;).addEventListener(&#39;click&#39;, previous);
-			$(&#39;car-next&#39;).addEventListener(&#39;click&#39;, next);
-
-			$(&#39;car-sound&#39;).addEventListener(&#39;click&#39;, () =&gt; {
-				muted = !muted;
-
-				const video = currentVideo();
-				if (video) {
-					video.muted = muted;
-					video.play().catch(() =&gt; {});
-				}
-
-				syncSoundButton();
-			});
-
-			$(&#39;car-dots&#39;).addEventListener(&#39;click&#39;, event =&gt; {
-				const button = event.target.closest(&#39;[data-go]&#39;);
-
-				if (!button) {
-					return;
-				}
-
-				show(Number(button.dataset.go));
-			});
-
-			const stage = $(&#39;stage&#39;);
-			stage.addEventListener(&#39;mouseenter&#39;, () =&gt; {
-				hovering = true;
-				currentVideo()?.pause();
-			});
-
-			stage.addEventListener(&#39;mouseleave&#39;, () =&gt; {
-				hovering = false;
-
-				const video = currentVideo();
-				if (!video || reducedMotion || document.hidden) {
-					return;
-				}
-
-				if (video.ended) {
-					next();
-					return;
-				}
-
-				video.play().catch(() =&gt; {});
-			});
-
-			let touchStartX = null;
-
-			stage.addEventListener(&#39;touchstart&#39;, event =&gt; {
-				touchStartX = event.touches[0].clientX;
-			}, { passive: true });
-
-			stage.addEventListener(&#39;touchend&#39;, event =&gt; {
-				if (touchStartX === null) {
-					return;
-				}
-
-				const delta = event.changedTouches[0].clientX - touchStartX;
-				touchStartX = null;
-
-				if (Math.abs(delta) &lt;= 45) {
-					return;
-				}
-
-				if (delta &lt; 0) {
-					next();
-				} else {
-					previous();
-				}
-			}, { passive: true });
-
-			stage.addEventListener(&#39;keydown&#39;, event =&gt; {
-				if (event.key === &#39;ArrowRight&#39;) {
-					event.preventDefault();
-					next();
-				}
-
-				if (event.key === &#39;ArrowLeft&#39;) {
-					event.preventDefault();
-					previous();
-				}
-			});
-
-			document.addEventListener(&#39;visibilitychange&#39;, () =&gt; {
-				const video = currentVideo();
-
-				if (!video) {
-					return;
-				}
-
-				if (document.hidden) {
-					video.pause();
-					return;
-				}
-
-				if (!hovering &amp;&amp; !reducedMotion) {
-					video.play().catch(() =&gt; {});
-				}
-			});
-		}
-
-		async function render() {
-			items = await discoverShowcaseVideos();
-
-			if (!items.length) {
-				return;
-			}
-
-			$(&#39;slides&#39;).innerHTML = items.map((item, index) =&gt; `
-                    &lt;div class=&#34;slide${index === 0 ? &#39; on&#39; : &#39;&#39;}&#34;&gt;
-                        &lt;video
-                            src=&#34;${item.url}&#34;
-                            preload=&#34;metadata&#34;
-                            muted
-                            playsinline
-                        &gt;&lt;/video&gt;
-                    &lt;/div&gt;
-                `).join(&#39;&#39;);
-
-			$(&#39;car-dots&#39;).innerHTML = items.length &gt; 1
-				? items.map((item, index) =&gt; `
-                        &lt;button type=&#34;button&#34; data-go=&#34;${index}&#34; aria-label=&#34;Show showcase clip ${index + 1}&#34;&gt;&lt;/button&gt;
-                    `).join(&#39;&#39;)
-				: &#39;&#39;;
-
-			const single = items.length &lt; 2;
-			$(&#39;car-prev&#39;).hidden = single;
-			$(&#39;car-next&#39;).hidden = single;
-
-			$(&#39;slides&#39;).querySelectorAll(&#39;video&#39;).forEach(video =&gt; {
-				video.addEventListener(&#39;ended&#39;, () =&gt; {
-					if (!hovering &amp;&amp; !reducedMotion) {
-						next();
-					}
-				});
-			});
-
-			$(&#39;showcase&#39;).hidden = false;
-			$(&#39;nav-showcase&#39;).hidden = false;
-			$(&#39;foot-showcase&#39;).hidden = false;
-
-			wire();
-			show(0);
-		}
-
-		return { render };
-	})();
-
-	startStars();
-	Showcase.render();
+      const BUILD = &#39;2026-09-08 07:51Z&#39;;
+const CONFIG = {
+api: &#39;&#39;,
+patreon: {
+premiumMonthly: &#39;https://www.patreon.com/checkout/SentinelClient?rid=29478293&amp;vanity=16700540&#39;,
+plusMonthly:    &#39;https://www.patreon.com/checkout/SentinelClient?rid=29478296&amp;vanity=16700540&#39;,
+premiumAnnual:  &#39;&#39;,
+plusAnnual:     &#39;&#39;
+},
+lifetimeByRequest: { premium: &#39;$39.99&#39;, plus: &#39;$59.99&#39; },
+yearly: false,
+freeDownloadUrl: &#39;#/account&#39;,
+};
+const $ = id =&gt; document.getElementById(id);
+const api = (path, opts = {}) =&gt;
+fetch(CONFIG.api + path, { credentials: &#39;include&#39;, headers: { &#39;Content-Type&#39;: &#39;application/json&#39; }, ...opts });
+const esc = s =&gt; String(s == null ? &#39;&#39; : s).replace(/[&amp;&lt;&gt;&#34;&#39;]/g, c =&gt;
+({ &#39;&amp;&#39;: &#39;&amp;amp;&#39;, &#39;&lt;&#39;: &#39;&amp;lt;&#39;, &#39;&gt;&#39;: &#39;&amp;gt;&#39;, &#39;&#34;&#39;: &#39;&amp;quot;&#39;, &#34;&#39;&#34;: &#39;&amp;#39;&#39; }[c]));
+const fmtDate = u =&gt; u ? new Date(u * 1000).toLocaleDateString(undefined, { day: &#39;numeric&#39;, month: &#39;short&#39;, year: &#39;numeric&#39; }) : &#39;-&#39;;
+const fmtShort = u =&gt; u ? new Date(u * 1000).toLocaleDateString(undefined, { day: &#39;numeric&#39;, month: &#39;short&#39;, year: &#39;2-digit&#39; }) : &#39;-&#39;;
+const setMsg = (el, text, kind) =&gt; { el.className = &#39;msg&#39; + (kind ? &#39; &#39; + kind : &#39;&#39;); el.textContent = text; };
+const VIEWS = { home: &#39;view-home&#39;, account: &#39;view-account&#39;,
+terms: &#39;view-terms&#39;, refunds: &#39;view-refunds&#39; };
+const TITLES = {
+home:    &#39;Sentinel Client&#39;,
+account: &#39;Your Account, Sentinel Client&#39;,
+terms:   &#39;Terms of Service, Sentinel Client&#39;,
+refunds: &#39;Refund Policy, Sentinel Client&#39;
+};
+function route() {
+const h = (location.hash || &#39;#/&#39;).split(&#39;?&#39;)[0];
+if (h.length &gt; 1 &amp;&amp; !h.startsWith(&#39;#/&#39;)) {
+const target = document.querySelector(h);
+const page = target &amp;&amp; target.closest(&#39;[id^=&#34;view-&#34;]&#39;);
+if (target &amp;&amp; page &amp;&amp; !page.hidden) {
+target.scrollIntoView({ behavior: &#39;smooth&#39; });
+return;
+}
+}
+let view = &#39;home&#39;;
+if (h === &#39;#/account&#39;) view = &#39;account&#39;;
+else if (h === &#39;#/terms&#39;) view = &#39;terms&#39;;
+else if (h === &#39;#/refunds&#39;) view = &#39;refunds&#39;;
+for (const [name, id] of Object.entries(VIEWS)) $(id).hidden = (name !== view);
+document.title = TITLES[view];
+const lit = view === &#39;refunds&#39; ? &#39;#/terms&#39; : (h.startsWith(&#39;#/&#39;) ? h : &#39;#/&#39;);
+document.querySelectorAll(&#39;.nav-r a[href^=&#34;#/&#34;]&#39;).forEach(a =&gt;
+a.classList.toggle(&#39;here&#39;, a.getAttribute(&#39;href&#39;) === lit));
+Popup.render();
+if (view === &#39;home&#39;)  { Countdown.render(); Showcase.render(); Reviews.render(); }
+if (view === &#39;account&#39;) Account.load();
+if (h.length &gt; 1 &amp;&amp; !h.startsWith(&#39;#/&#39;)) {
+const target = document.querySelector(h);
+if (target) { target.scrollIntoView({ behavior: &#39;smooth&#39; }); return; }
+}
+window.scrollTo(0, 0);
+}
+addEventListener(&#39;hashchange&#39;, route);
+(function () {
+const c = $(&#39;stars&#39;), x = c.getContext(&#39;2d&#39;);
+let W, H, S = [];
+const rs = () =&gt; {
+W = c.width = innerWidth; H = c.height = innerHeight;
+S = Array.from({ length: Math.min(160, W / 8) }, () =&gt; ({
+x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.2 + .2,
+t: Math.random() * 6.28, s: .015 + Math.random() * .03
+}));
+};
+rs(); addEventListener(&#39;resize&#39;, rs);
+(function draw() {
+x.clearRect(0, 0, W, H);
+for (const s of S) {
+s.t += s.s;
+x.globalAlpha = .15 + Math.abs(Math.sin(s.t)) * .5;
+x.fillStyle = &#39;#9db6ff&#39;;
+x.beginPath(); x.arc(s.x, s.y, s.r, 0, 7); x.fill();
+}
+x.globalAlpha = 1;
+requestAnimationFrame(draw);
+})();
+})();
+const io = new IntersectionObserver(es =&gt; es.forEach(e =&gt; {
+if (e.isIntersecting) { e.target.classList.add(&#39;on&#39;); io.unobserve(e.target); }
+}), { threshold: .08 });
+document.querySelectorAll(&#39;.reveal&#39;).forEach(el =&gt; io.observe(el));
+(function () {
+const bm = $(&#39;b-month&#39;), bl = $(&#39;b-life&#39;);
+if (!CONFIG.yearly) {
+const box = document.querySelector(&#39;.billing&#39;);
+if (box) box.hidden = true;
+document.body.classList.remove(&#39;annual&#39;);
+const sub = document.querySelector(&#39;#pricing .sec-sub&#39;);
+if (sub) sub.textContent = &#39;Start free. Pledge monthly through Patreon, or pay once for lifetime access.&#39;;
+const by = CONFIG.lifetimeByRequest;
+const ticket = $(&#39;faq-lifetime-ticket&#39;);
+if (by) {
+if (ticket) ticket.hidden = false;
+const card = document.createElement(&#39;div&#39;);
+card.className = &#39;life-offer&#39;;
+card.innerHTML =
+`&lt;div class=&#34;life-head&#34;&gt;
+&lt;span class=&#34;life-tag&#34;&gt;Lifetime&lt;/span&gt;
+&lt;h3&gt;Pay once. Keep it forever.&lt;/h3&gt;
+&lt;/div&gt;
+&lt;p&gt;No subscription, no renewals, no Patreon. One payment and the tier
+stays on your account permanently, including every future update.&lt;/p&gt;
+&lt;div class=&#34;life-prices&#34;&gt;
+&lt;div&gt;&lt;span class=&#34;lp-name&#34;&gt;Premium&lt;/span&gt;&lt;span class=&#34;lp-price&#34;&gt;${esc(by.premium)}&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span class=&#34;lp-name&#34;&gt;Sentinel+&lt;/span&gt;&lt;span class=&#34;lp-price&#34;&gt;${esc(by.plus)}&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class=&#34;btn solid&#34; href=&#34;https://discord.gg/qyb29g2DPC&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Open a ticket in Discord&lt;/a&gt;
+&lt;p class=&#34;life-fine&#34;&gt;Lifetime is arranged by hand: Patreon has no one-off option.
+Open a ticket and we&#39;ll sort it out with you.&lt;/p&gt;`;
+const tiers = document.querySelector(&#39;#pricing .tiers&#39;);
+if (tiers) tiers.insertAdjacentElement(&#39;afterend&#39;, card);
+}
+return;
+}
+const faqY = $(&#39;faq-lifetime&#39;);
+if (faqY) faqY.hidden = false;
+const set = life =&gt; {
+document.body.classList.toggle(&#39;annual&#39;, life);
+bm.classList.toggle(&#39;on&#39;, !life); bl.classList.toggle(&#39;on&#39;, life);
+document.querySelectorAll(&#39;.price[data-m-price]&#39;).forEach(p =&gt; {
+p.querySelector(&#39;.pl&#39;).textContent = life ? p.dataset.lLabel : p.dataset.mLabel;
+p.querySelector(&#39;.pv&#39;).textContent = life ? p.dataset.lPrice : p.dataset.mPrice;
+});
+};
+bm.onclick = () =&gt; set(false);
+bl.onclick = () =&gt; set(true);
+})();
+(function () {
+const msg = $(&#39;shop-msg&#39;);
+const say = (t, err) =&gt; { msg.textContent = t || &#39;&#39;; msg.classList.toggle(&#39;err&#39;, !!err); };
+const free = $(&#39;buy-free&#39;);
+if (CONFIG.freeDownloadUrl) free.setAttribute(&#39;href&#39;, CONFIG.freeDownloadUrl);
+document.querySelectorAll(&#39;[data-tier]&#39;).forEach(btn =&gt; {
+btn.addEventListener(&#39;click&#39;, e =&gt; {
+e.preventDefault();
+const sku = btn.dataset.tier + (btn.dataset.period === &#39;annual&#39; ? &#39;Annual&#39; : &#39;Monthly&#39;);
+const url = (CONFIG.patreon || {})[sku];
+if (!url) { say(&#39;That option is not open yet, check back shortly.&#39;); return; }
+say(&#39;Opening Patreon…&#39;);
+window.open(url, &#39;_blank&#39;, &#39;noopener&#39;);
+setTimeout(() =&gt; say(&#39;Once your pledge goes through, your access appears on the Account page.&#39;), 1200);
+});
+});
+})();
+const Showcase = (() =&gt; {
+const IMAGE_MS   = 6000;    
+const YOUTUBE_MS = 20000;   
+let items = [], idx = 0, raf = null, hovering = false, muted = true;
+const reduced = matchMedia(&#39;(prefers-reduced-motion: reduce)&#39;).matches;
+function kindOf(url) {
+const u = String(url);
+const yt = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/);
+if (yt) return { kind: &#39;youtube&#39;, id: yt[1] };
+if (/\.(mp4|webm|mov)(\?|$)/i.test(u)) return { kind: &#39;video&#39; };
+return { kind: &#39;image&#39; };
+}
+function slideHTML(item, i) {
+const k = kindOf(item.url);
+const on = i === 0 ? &#39; on&#39; : &#39;&#39;;
+if (k.kind === &#39;youtube&#39;) {
+const src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(k.id)}`
++ &#39;?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;modestbranding=1&amp;rel=0&amp;playsinline=1&#39;
++ `&amp;playlist=${encodeURIComponent(k.id)}`;
+return `&lt;div class=&#34;slide${on}&#34; data-i=&#34;${i}&#34; data-kind=&#34;youtube&#34;&gt;
+&lt;iframe data-src=&#34;${esc(src)}&#34; title=&#34;${esc(item.caption || &#39;Sentinel Client clip&#39;)}&#34;
+allow=&#34;autoplay; encrypted-media&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34;
+loading=&#34;lazy&#34; allowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;`;
+}
+if (k.kind === &#39;video&#39;) {
+return `&lt;div class=&#34;slide${on}&#34; data-i=&#34;${i}&#34; data-kind=&#34;video&#34;&gt;
+&lt;video data-src=&#34;${esc(item.url)}&#34; muted playsinline preload=&#34;metadata&#34;
+${i === 0 ? &#39;autoplay&#39; : &#39;&#39;}&gt;&lt;/video&gt;&lt;/div&gt;`;
+}
+return `&lt;div class=&#34;slide${on}&#34; data-i=&#34;${i}&#34; data-kind=&#34;image&#34;&gt;
+&lt;img src=&#34;${esc(item.url)}&#34; alt=&#34;${esc(item.caption || &#39;Sentinel Client screenshot&#39;)}&#34; loading=&#34;lazy&#34;&gt;&lt;/div&gt;`;
+}
+function hydrate(i) {
+[i, (i + 1) % items.length].forEach(n =&gt; {
+const el = $(&#39;slides&#39;).querySelector(`.slide[data-i=&#34;${n}&#34;] [data-src]`);
+if (el &amp;&amp; !el.src) el.src = el.dataset.src;
+});
+}
+function stopClock() {
+cancelAnimationFrame(raf); raf = null;
+const bar = $(&#39;car-bar&#39;);
+if (bar) bar.style.width = &#39;0%&#39;;
+}
+function runClock(ms, onDone) {
+if (reduced) return;
+const bar = $(&#39;car-bar&#39;);
+let elapsed = 0, last = performance.now();
+raf = requestAnimationFrame(function step(t) {
+const dt = t - last;
+last = t;
+if (!hovering) elapsed += dt;
+if (bar) bar.style.width = Math.min(100, (elapsed / ms) * 100) + &#39;%&#39;;
+if (elapsed &gt;= ms) { raf = null; if (onDone) onDone(); return; }
+raf = requestAnimationFrame(step);
+});
+}
+function show(i) {
+if (!items.length) return;
+stopClock();
+idx = (i + items.length) % items.length;
+[...$(&#39;slides&#39;).children].forEach(el =&gt; {
+const active = +el.dataset.i === idx;
+el.classList.toggle(&#39;on&#39;, active);
+const video = el.querySelector(&#39;video&#39;);
+if (video) {
+if (active) {
+video.currentTime = 0;
+video.muted = muted;
+if (!reduced &amp;&amp; !hovering) video.play().catch(() =&gt; {});
+} else video.pause();
+}
+const frame = el.querySelector(&#39;iframe&#39;);
+if (frame &amp;&amp; !active &amp;&amp; frame.src) frame.src = frame.src;
+});
+[...$(&#39;car-dots&#39;).children].forEach((d, n) =&gt; d.classList.toggle(&#39;on&#39;, n === idx));
+const cap = $(&#39;car-cap&#39;);
+cap.textContent = items[idx].caption || &#39;&#39;;
+cap.hidden = !items[idx].caption;
+const kind = kindOf(items[idx].url).kind;
+$(&#39;car-sound&#39;).hidden = kind !== &#39;video&#39;;
+hydrate(idx);
+if (items.length &lt; 2 || reduced) return;
+const el = $(&#39;slides&#39;).querySelector(`.slide[data-i=&#34;${idx}&#34;]`);
+const video = el &amp;&amp; el.querySelector(&#39;video&#39;);
+if (video) {
+runClock((video.duration || 8) * 1000);
+} else {
+runClock(kind === &#39;youtube&#39; ? YOUTUBE_MS : IMAGE_MS, next);
+}
+}
+const next = () =&gt; show(idx + 1);
+const prev = () =&gt; show(idx - 1);
+function wire() {
+$(&#39;car-next&#39;).onclick = next;
+$(&#39;car-prev&#39;).onclick = prev;
+$(&#39;car-sound&#39;).onclick = () =&gt; {
+muted = !muted;
+$(&#39;car-sound&#39;).querySelector(&#39;span&#39;).textContent = muted ? &#39;Sound off&#39; : &#39;Sound on&#39;;
+const v = $(&#39;slides&#39;).querySelector(&#39;.slide.on video&#39;);
+if (v) { v.muted = muted; v.play().catch(() =&gt; {}); }
+};
+const stage = $(&#39;stage&#39;);
+const current = () =&gt; $(&#39;slides&#39;).querySelector(&#39;.slide.on video&#39;);
+stage.addEventListener(&#39;mouseenter&#39;, () =&gt; {
+hovering = true;
+const v = current(); if (v) v.pause();
+});
+stage.addEventListener(&#39;mouseleave&#39;, () =&gt; {
+hovering = false;
+const v = current();
+if (!v || reduced || document.hidden) return;
+if (v.ended) next(); else v.play().catch(() =&gt; {});
+});
+let x0 = null;
+stage.addEventListener(&#39;touchstart&#39;, e =&gt; { x0 = e.touches[0].clientX; }, { passive: true });
+stage.addEventListener(&#39;touchend&#39;, e =&gt; {
+if (x0 === null) return;
+const dx = e.changedTouches[0].clientX - x0;
+x0 = null;
+if (Math.abs(dx) &gt; 45) (dx &lt; 0 ? next : prev)();
+}, { passive: true });
+stage.addEventListener(&#39;keydown&#39;, e =&gt; {
+if (e.key === &#39;ArrowRight&#39;) { e.preventDefault(); next(); }
+if (e.key === &#39;ArrowLeft&#39;)  { e.preventDefault(); prev(); }
+});
+document.addEventListener(&#39;visibilitychange&#39;, () =&gt; {
+const v = $(&#39;slides&#39;).querySelector(&#39;.slide.on video&#39;);
+if (!v) return;
+if (document.hidden) v.pause();
+else if (!hovering &amp;&amp; !reduced) v.play().catch(() =&gt; {});
+});
+}
+async function render() {
+const section = $(&#39;showcase&#39;);
+try {
+const res = await api(&#39;/api/showcase&#39;);
+if (!res.ok) { section.hidden = true; return; }
+const data = await res.json();
+items = (data &amp;&amp; data.items) || [];
+} catch (e) {
+section.hidden = true; return;
+}
+if (!items.length) { section.hidden = true; return; }
+const navS = $(&#39;nav-showcase&#39;);
+if (navS) navS.hidden = false;
+$(&#39;slides&#39;).innerHTML = items.map(slideHTML).join(&#39;&#39;);
+$(&#39;car-dots&#39;).innerHTML = items.length &gt; 1
+? items.map((_, i) =&gt; `&lt;button type=&#34;button&#34; data-go=&#34;${i}&#34; aria-label=&#34;Slide ${i + 1}&#34;&gt;&lt;/button&gt;`).join(&#39;&#39;)
+: &#39;&#39;;
+$(&#39;car-dots&#39;).onclick = e =&gt; {
+const b = e.target.closest(&#39;[data-go]&#39;);
+if (b) show(+b.dataset.go);
+};
+const single = items.length &lt; 2;
+$(&#39;car-prev&#39;).hidden = single;
+$(&#39;car-next&#39;).hidden = single;
+$(&#39;slides&#39;).querySelectorAll(&#39;video&#39;).forEach(v =&gt; {
+v.addEventListener(&#39;ended&#39;, () =&gt; { if (!hovering &amp;&amp; !reduced) next(); });
+v.addEventListener(&#39;loadedmetadata&#39;, () =&gt; {
+if (v.closest(&#39;.slide&#39;).classList.contains(&#39;on&#39;) &amp;&amp; !reduced) {
+stopClock(); runClock((v.duration || 8) * 1000);
+}
+});
+});
+wire();
+section.hidden = false;
+show(0);
+}
+return { render };
+})();
+const Popup = (() =&gt; {
+const KEY = &#39;sentinel_popup_seen&#39;;
+let done = false;
+const seen = () =&gt; { try { return Number(localStorage.getItem(KEY) || 0); } catch (_) { return 0; } };
+const markSeen = v =&gt; { try { localStorage.setItem(KEY, String(v)); } catch (_) {} };
+function close(version) {
+$(&#39;pop&#39;).hidden = true;
+document.body.style.overflow = &#39;&#39;;
+if (version) markSeen(version);
+}
+async function render() {
+if (done) return;
+done = true;
+const wrap = $(&#39;pop&#39;);
+if (!wrap) return;
+let d;
+try { d = await (await api(&#39;/api/popup&#39;)).json(); }
+catch (_) { return; }
+if (!d || !d.show) return;
+if (seen() &gt;= d.version) return;
+wrap.dataset.style = d.style || &#39;info&#39;;
+$(&#39;pop-tag&#39;).textContent =
+d.style === &#39;warning&#39; ? &#39;Heads up&#39;
+: d.style === &#39;alert&#39; ? &#39;Important&#39;
+: d.style === &#39;success&#39; ? &#39;Good news&#39;
+: &#39;Notice&#39;;
+$(&#39;pop-title&#39;).textContent = d.title || &#39;&#39;;
+$(&#39;pop-title&#39;).hidden = !d.title;
+$(&#39;pop-body&#39;).textContent = d.body || &#39;&#39;;
+const link = $(&#39;pop-link&#39;);
+if (d.link_url &amp;&amp; d.link_label) {
+link.href = d.link_url;
+link.textContent = d.link_label;
+const external = /^https?:/i.test(d.link_url);
+if (external) { link.target = &#39;_blank&#39;; link.rel = &#39;noopener&#39;; }
+else { link.removeAttribute(&#39;target&#39;); link.removeAttribute(&#39;rel&#39;); }
+link.hidden = false;
+} else {
+link.hidden = true;
+}
+const shut = () =&gt; close(d.version);
+$(&#39;pop-x&#39;).addEventListener(&#39;click&#39;, shut);
+$(&#39;pop-ok&#39;).addEventListener(&#39;click&#39;, shut);
+wrap.addEventListener(&#39;click&#39;, e =&gt; { if (e.target === wrap) shut(); });
+addEventListener(&#39;keydown&#39;, e =&gt; { if (e.key === &#39;Escape&#39; &amp;&amp; !wrap.hidden) shut(); });
+wrap.hidden = false;
+document.body.style.overflow = &#39;hidden&#39;;
+$(&#39;pop-ok&#39;).focus();
+}
+return { render };
+})();
+const Countdown = (() =&gt; {
+let target = null, skew = 0, timer = null, done = false;
+const pad = n =&gt; String(n).padStart(2, &#39;0&#39;);
+function tick() {
+if (target == null) return;
+const left = target - (Date.now() / 1000 + skew);
+if (left &lt;= 0) {
+$(&#39;lc-clock&#39;).hidden = true;
+$(&#39;lc-soon&#39;).hidden = false;
+$(&#39;lc-when&#39;).textContent = &#39;The estimate has passed. We are in the last stretch.&#39;;
+if (timer) { clearInterval(timer); timer = null; }
+return;
+}
+const d = Math.floor(left / 86400);
+const h = Math.floor(left % 86400 / 3600);
+const m = Math.floor(left % 3600 / 60);
+const s = Math.floor(left % 60);
+$(&#39;lc-d&#39;).textContent = d;
+$(&#39;lc-h&#39;).textContent = pad(h);
+$(&#39;lc-m&#39;).textContent = pad(m);
+$(&#39;lc-s&#39;).textContent = pad(s);
+}
+async function render() {
+if (done) return;
+done = true;
+const sec = $(&#39;launch&#39;);
+if (!sec) return;
+let d;
+try { d = await (await api(&#39;/api/launch&#39;)).json(); }
+catch (_) { return; }
+if (!d || !d.enabled) return;
+skew = (d.now || 0) - Math.floor(Date.now() / 1000);
+$(&#39;lc-head&#39;).textContent = d.headline || &#39;Sentinel Client is coming&#39;;
+if (d.note) {
+$(&#39;lc-note&#39;).textContent = d.note;
+$(&#39;lc-note&#39;).hidden = false;
+}
+if (d.released) {
+sec.classList.add(&#39;out&#39;);
+$(&#39;lc-eyebrow&#39;).textContent = &#39;Out now&#39;;
+$(&#39;lc-clock&#39;).hidden = true;
+$(&#39;lc-when&#39;).innerHTML =
+&#39;The client is live, &lt;a href=&#34;#/account&#34; data-nav style=&#34;color:var(--blue-soft)&#34;&gt;sign in to download it&lt;/a&gt;.&#39;;
+$(&#39;lc-fine&#39;).hidden = true;
+sec.hidden = false;
+return;
+}
+if (!d.at) return;
+target = d.at;
+$(&#39;lc-when&#39;).textContent = &#39;Estimated for &#39; + new Date(d.at * 1000).toLocaleString(undefined, {
+weekday: &#39;long&#39;, day: &#39;numeric&#39;, month: &#39;long&#39;,
+hour: &#39;2-digit&#39;, minute: &#39;2-digit&#39;
+}) + &#39; your time.&#39;;
+tick();
+if (!timer) timer = setInterval(tick, 1000);
+document.addEventListener(&#39;visibilitychange&#39;, () =&gt; {
+if (document.hidden) { clearInterval(timer); timer = null; }
+else if (!timer &amp;&amp; target != null) { tick(); timer = setInterval(tick, 1000); }
+});
+sec.hidden = false;
+}
+return { render };
+})();
+const Reviews = (() =&gt; {
+let loaded = false;
+const stars = n =&gt; {
+const full = Math.max(0, Math.min(5, Math.round(n)));
+return &#39;★&#39;.repeat(full) + (full &lt; 5 ? `&lt;i&gt;${&#39;★&#39;.repeat(5 - full)}&lt;/i&gt;` : &#39;&#39;);
+};
+const tierName = t =&gt; t === &#39;plus&#39; ? &#39;Sentinel+&#39; : t === &#39;premium&#39; ? &#39;Premium&#39; : &#39;&#39;;
+function card(r) {
+const tier = tierName(r.tier);
+const when = r.at ? new Date(r.at * 1000).toLocaleDateString(undefined,
+{ month: &#39;short&#39;, year: &#39;numeric&#39; }) : &#39;&#39;;
+const av = r.avatar &amp;&amp; r.discord_id
+? `https://cdn.discordapp.com/avatars/${encodeURIComponent(r.discord_id)}/${encodeURIComponent(r.avatar)}.png?size=64`
+: &#39;&#39;;
+return `&lt;div class=&#34;rv-card&#34;&gt;
+&lt;div class=&#34;rv-head&#34;&gt;
+${av ? `&lt;img src=&#34;${esc(av)}&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;` : &#39;&lt;img alt=&#34;&#34;&gt;&#39;}
+&lt;div class=&#34;rv-who&#34;&gt;
+&lt;div class=&#34;rv-name&#34;&gt;${esc(r.username)}&lt;/div&gt;
+&lt;div class=&#34;rv-meta&#34;&gt;${[tier, when].filter(Boolean).join(&#39; · &#39;)}&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;rv-stars&#34;&gt;${stars(r.stars)}&lt;/div&gt;
+${r.body ? `&lt;div class=&#34;rv-body&#34;&gt;${esc(r.body)}&lt;/div&gt;` : &#39;&#39;}
+${r.reply ? `&lt;div class=&#34;rv-reply&#34;&gt;&lt;b&gt;Sentinel&lt;/b&gt;${esc(r.reply)}&lt;/div&gt;` : &#39;&#39;}
+&lt;/div&gt;`;
+}
+async function render() {
+if (loaded) return;
+loaded = true;
+const sec = $(&#39;reviews&#39;);
+if (!sec) return;
+let d;
+try {
+const res = await api(&#39;/api/reviews&#39;);
+d = await res.json();
+} catch (_) { return; }
+if (!d || !d.count) return;
+$(&#39;rv-avg&#39;).textContent = d.average.toFixed(1);
+$(&#39;rv-avg-stars&#39;).innerHTML = stars(d.average);
+$(&#39;rv-count&#39;).textContent = `from ${d.count} ${d.count === 1 ? &#39;review&#39; : &#39;reviews&#39;}`;
+$(&#39;rv-bars&#39;).innerHTML = [5, 4, 3, 2, 1].map(n =&gt; {
+const c = Number(d.breakdown[n] || 0);
+const pct = d.count ? Math.round((c / d.count) * 100) : 0;
+return `&lt;div class=&#34;rv-bar&#34;&gt;
+&lt;span class=&#34;rv-n&#34;&gt;${n}★&lt;/span&gt;
+&lt;span class=&#34;rv-track&#34;&gt;&lt;span class=&#34;rv-fill&#34; style=&#34;width:${pct}%&#34;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;rv-c&#34;&gt;${c}&lt;/span&gt;
+&lt;/div&gt;`;
+}).join(&#39;&#39;);
+$(&#39;rv-list&#39;).innerHTML = d.reviews.map(card).join(&#39;&#39;);
+sec.hidden = false;
+const nav = $(&#39;nav-reviews&#39;);
+if (nav) nav.hidden = false;
+}
+return { render, stars, tierName };
+})();
+const Account = (() =&gt; {
+const TIER_TEXT = { free: &#39;Free&#39;, premium: &#39;Premium&#39;, plus: &#39;Sentinel+&#39; };
+let wired = false;
+function wire() {
+if (wired) return; wired = true;
+$(&#39;ac-login&#39;).addEventListener(&#39;click&#39;, e =&gt; {
+e.preventDefault();
+location.href = CONFIG.api + &#39;/auth/login&#39;;
+});
+$(&#39;ac-logout&#39;).addEventListener(&#39;click&#39;, async () =&gt; {
+await api(&#39;/auth/logout&#39;, { method: &#39;POST&#39; });
+load();
+});
+$(&#39;ac-dl&#39;).addEventListener(&#39;click&#39;, async e =&gt; {
+e.preventDefault();
+if (!reqsMet()) { $(&#39;ac-reqs&#39;).scrollIntoView({ behavior: &#39;smooth&#39;, block: &#39;center&#39; }); return; }
+const btn = $(&#39;ac-dl&#39;);
+btn.classList.add(&#39;busy&#39;);
+try {
+const res = await api(&#39;/api/download-status&#39;);
+const data = await res.json().catch(() =&gt; ({}));
+if (res.ok &amp;&amp; data.ready) {
+location.href = CONFIG.api + &#39;/api/download&#39;;
+return;
+}
+if (data.reason === &#39;no_build&#39;) { showNoBuild(true); return; }
+if (data.reason === &#39;signed_out&#39;) { load(); return; }
+setMsg($(&#39;ac-msg&#39;), &#39;Could not start the download. Try again.&#39;, &#39;err&#39;);
+} catch (err) {
+setMsg($(&#39;ac-msg&#39;), &#39;Could not reach the server. Try again.&#39;, &#39;err&#39;);
+} finally {
+btn.classList.remove(&#39;busy&#39;);
+}
+});
+$(&#39;ac-reqs-list&#39;).addEventListener(&#39;change&#39;, e =&gt; {
+const id = e.target &amp;&amp; e.target.dataset &amp;&amp; e.target.dataset.req;
+if (!id) return;
+if (e.target.checked) reqTicked.add(id); else reqTicked.delete(id);
+saveTicks();
+paintReqs();
+});
+$(&#39;ac-rv-pick&#39;).addEventListener(&#39;click&#39;, e =&gt; {
+const b = e.target.closest(&#39;[data-star]&#39;);
+if (!b) return;
+myStars = Number(b.dataset.star);
+paintStars();
+});
+$(&#39;ac-rv-body&#39;).addEventListener(&#39;input&#39;, countLeft);
+$(&#39;ac-rv-save&#39;).addEventListener(&#39;click&#39;, saveReview);
+$(&#39;ac-rv-del&#39;).addEventListener(&#39;click&#39;, deleteReview);
+$(&#39;ac-key&#39;).addEventListener(&#39;input&#39;, e =&gt; {
+let v = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, &#39;&#39;);
+while (v.startsWith(&#39;SNTL&#39;)) v = v.slice(4);
+const g = v.match(/.{1,5}/g) || [];
+e.target.value = (&#39;SNTL-&#39; + g.slice(0, 3).join(&#39;-&#39;)).replace(/-$/, &#39;&#39;);
+});
+$(&#39;ac-pat-link&#39;).addEventListener(&#39;click&#39;, e =&gt; {
+e.preventDefault();
+window.location.href = CONFIG.api + &#39;/auth/patreon&#39;;
+});
+$(&#39;ac-cc-btn&#39;).addEventListener(&#39;click&#39;, applyCreatorCode);
+$(&#39;ac-ref-btn&#39;).addEventListener(&#39;click&#39;, claimReferral);
+$(&#39;ac-earn-copy&#39;).addEventListener(&#39;click&#39;, async () =&gt; {
+const btn = $(&#39;ac-earn-copy&#39;);
+try {
+await navigator.clipboard.writeText($(&#39;ac-earn-link&#39;).value);
+btn.textContent = &#39;Copied&#39;;
+} catch (e) {
+$(&#39;ac-earn-link&#39;).select();
+btn.textContent = &#39;Press Ctrl+C&#39;;
+}
+setTimeout(() =&gt; { btn.textContent = &#39;Copy&#39;; }, 2000);
+});
+$(&#39;ac-cc&#39;).addEventListener(&#39;keydown&#39;, e =&gt; { if (e.key === &#39;Enter&#39;) applyCreatorCode(); });
+$(&#39;ac-cc&#39;).addEventListener(&#39;input&#39;, e =&gt; {
+const at = e.target.selectionStart;
+e.target.value = e.target.value.toUpperCase();
+e.target.setSelectionRange(at, at);
+});
+$(&#39;ac-redeem&#39;).addEventListener(&#39;click&#39;, redeem);
+$(&#39;ac-key&#39;).addEventListener(&#39;keydown&#39;, e =&gt; { if (e.key === &#39;Enter&#39;) redeem(); });
+}
+async function redeem() {
+const btn = $(&#39;ac-redeem&#39;), out = $(&#39;ac-msg&#39;);
+const key = $(&#39;ac-key&#39;).value.trim();
+setMsg(out, &#39;&#39;);
+if (!/^SNTL-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$/.test(key)) {
+setMsg(out, &#39;That does not look like a valid key.&#39;, &#39;err&#39;); return;
+}
+btn.disabled = true; btn.textContent = &#39;Redeeming…&#39;;
+try {
+const res = await api(&#39;/api/redeem&#39;, { method: &#39;POST&#39;, body: JSON.stringify({ key }) });
+const data = await res.json();
+if (!res.ok) setMsg(out, data.error || &#39;Could not redeem that key.&#39;, &#39;err&#39;);
+else {
+setMsg(out, `Key redeemed, ${data.licence.days_left} days of ${data.licence.tier === &#39;plus&#39; ? &#39;Sentinel+&#39; : &#39;Premium&#39;} access.`, &#39;ok&#39;);
+$(&#39;ac-key&#39;).value = &#39;&#39;;
+load();
+}
+} catch (e) {
+setMsg(out, &#39;Network error. Try again.&#39;, &#39;err&#39;);
+} finally {
+btn.disabled = false; btn.textContent = &#39;Redeem&#39;;
+}
+}
+function showNoBuild(on) {
+$(&#39;ac-nobuild&#39;).hidden = !on;
+$(&#39;ac-dl&#39;).hidden = on;
+}
+function showPatreonResult() {
+const q = location.hash.split(&#39;?&#39;)[1];
+if (!q) return;
+const p = new URLSearchParams(q);
+const m = p.get(&#39;m&#39;);
+if (!m) return;
+setMsg($(&#39;ac-pat-msg&#39;), m, p.get(&#39;patreon&#39;) === &#39;ok&#39; ? &#39;ok&#39; : &#39;err&#39;);
+history.replaceState(null, &#39;&#39;, location.pathname + location.hash.split(&#39;?&#39;)[0]);
+}
+function paintPatreon(p) {
+const state = $(&#39;ac-pat-state&#39;), hint = $(&#39;ac-pat-hint&#39;), btn = $(&#39;ac-pat-link&#39;);
+if (!p) return;
+if (p.linked) {
+state.hidden = false;
+state.className = &#39;build-now&#39;;
+state.innerHTML = &#39;&lt;span class=&#34;tag&#34;&gt;LINKED&lt;/span&gt;Your Patreon account is connected to this one.&#39;;
+hint.textContent = &#39;Pledges apply automatically. Link again only if you switch Patreon accounts.&#39;;
+btn.textContent = &#39;Re-link Patreon&#39;;
+btn.classList.remove(&#39;solid&#39;);
+} else {
+state.hidden = true;
+hint.textContent = &#34;If you pledged on Patreon and your access hasn&#39;t appeared, link your Patreon account here. You only need this if you didn&#39;t connect Discord to Patreon.&#34;;
+btn.textContent = &#39;Link Patreon&#39;;
+}
+}
+let checked = false;
+async function autoCheckPatreon(data) {
+if (checked) return;
+const p = data.patreon || {};
+if (!p.lookup || p.linked) return;
+if (data.licence &amp;&amp; data.licence.active) return;
+checked = true;
+setMsg($(&#39;ac-pat-msg&#39;), &#39;Checking Patreon…&#39;);
+try {
+const res = await api(&#39;/api/patreon-check&#39;, { method: &#39;POST&#39; });
+const out = await res.json().catch(() =&gt; ({}));
+if (out.found) {
+setMsg($(&#39;ac-pat-msg&#39;), out.granted
+? &#39;Found your pledge, access is active.&#39;
+: &#39;Found your pledge. Your access was already up to date.&#39;, &#39;ok&#39;);
+load();
+return;
+}
+setMsg($(&#39;ac-pat-msg&#39;), &#39;&#39;);
+} catch (e) {
+setMsg($(&#39;ac-pat-msg&#39;), &#39;&#39;);
+}
+}
+async function load() {
+wire();
+showPatreonResult();
+$(&#39;ac-loading&#39;).hidden = false; $(&#39;ac-out&#39;).hidden = true; $(&#39;ac-in&#39;).hidden = true;
+let data;
+try {
+data = await (await api(&#39;/api/me&#39;)).json();
+} catch (e) {
+$(&#39;ac-loading&#39;).hidden = true; $(&#39;ac-out&#39;).hidden = false;
+setMsg($(&#39;ac-err&#39;), &#39;Cannot reach the server right now.&#39;, &#39;err&#39;);
+return;
+}
+$(&#39;ac-loading&#39;).hidden = true;
+if (!data.authenticated) { $(&#39;ac-out&#39;).hidden = false; return; }
+const u = data.user, l = data.licence;
+$(&#39;ac-name&#39;).textContent = u.username;
+$(&#39;ac-id&#39;).textContent = &#39;Discord ID &#39; + u.discord_id;
+$(&#39;ac-avatar&#39;).src = u.avatar
+? `https://cdn.discordapp.com/avatars/${u.discord_id}/${u.avatar}.png?size=128`
+: &#39;https://cdn.discordapp.com/embed/avatars/0.png&#39;;
+$(&#39;ac-status&#39;).innerHTML = l.active ? &#39;&lt;span class=&#34;pill on&#34;&gt;Active&lt;/span&gt;&#39; : &#39;&lt;span class=&#34;pill bad&#34;&gt;Inactive&lt;/span&gt;&#39;;
+$(&#39;ac-tier&#39;).textContent = l.tier === &#39;plus&#39; ? &#39;Sentinel+&#39; : l.tier === &#39;premium&#39; ? &#39;Premium&#39; : &#39;Free&#39;;
+const forever = l.active &amp;&amp; l.days_left &gt; 3650;
+$(&#39;ac-days&#39;).textContent = !l.active ? &#39;0&#39; : forever ? &#39;∞&#39; : l.days_left;
+$(&#39;ac-exp&#39;).textContent  = forever ? &#39;Never&#39; : fmtDate(l.expires_at);
+paintPatreon(data.patreon);
+$(&#39;ac-dl&#39;).hidden = false;
+$(&#39;ac-nobuild&#39;).hidden = true;
+$(&#39;ac-dlhint&#39;).textContent = &#39;&#39;;
+try {
+const st = await api(&#39;/api/download-status&#39;);
+const d = await st.json().catch(() =&gt; ({}));
+if (d &amp;&amp; d.reason === &#39;no_build&#39;) {
+showNoBuild(true);
+$(&#39;ac-nobuild-p&#39;).textContent = l.active
+? &#34;Your access is active and nothing is being used up. The download unlocks the moment a build is published.&#34;
+: &#34;There&#39;s no free build published yet. It&#39;ll appear here as soon as there is one.&#34;;
+} else if (d &amp;&amp; d.ready) {
+const bits = [];
+$(&#39;ac-dl&#39;).textContent = `Download ${TIER_TEXT[d.tier] || &#39;Sentinel Client&#39;}`;
+if (d.version) bits.push(`Version ${d.version}`);
+if (d.size) bits.push(d.size &lt; 1048576
+? `${Math.max(1, Math.round(d.size / 1024))} KB`
+: `${(d.size / 1048576).toFixed(1)} MB`);
+if (d.entitled &amp;&amp; d.tier !== d.entitled) {
+bits.push(`no ${TIER_TEXT[d.entitled]} build published yet, so this is the ${TIER_TEXT[d.tier]} one`);
+}
+dlHint = bits.join(&#39; · &#39;);
+$(&#39;ac-dlhint&#39;).textContent = dlHint;
+}
+} catch (e) {  }
+$(&#39;ac-in&#39;).hidden = false;
+autoCheckPatreon(data);
+loadCreator();
+loadReview();
+loadReqs();
+}
+let reqItems = [], reqTicked = new Set();
+let dlHint = &#39;&#39;;   
+const REQ_KEY = &#39;sentinel_reqs_ok&#39;;
+function loadTicks() {
+try {
+const raw = JSON.parse(localStorage.getItem(REQ_KEY) || &#39;[]&#39;);
+return new Set(Array.isArray(raw) ? raw : []);
+} catch (_) { return new Set(); }
+}
+function saveTicks() {
+try { localStorage.setItem(REQ_KEY, JSON.stringify([...reqTicked])); } catch (_) {}
+}
+const reqsMet = () =&gt; !reqItems.length || reqItems.every(i =&gt; reqTicked.has(i.id));
+function paintReqs() {
+const box = $(&#39;ac-reqs&#39;);
+if (!box || !reqItems.length) return;
+$(&#39;ac-reqs-list&#39;).innerHTML = reqItems.map(i =&gt; `
+&lt;div class=&#34;req&#34;&gt;
+&lt;input type=&#34;checkbox&#34; id=&#34;rq-${esc(i.id)}&#34; data-req=&#34;${esc(i.id)}&#34;
+${reqTicked.has(i.id) ? &#39;checked&#39; : &#39;&#39;}&gt;
+&lt;div class=&#34;rq&#34;&gt;
+&lt;label class=&#34;rq-l&#34; for=&#34;rq-${esc(i.id)}&#34;&gt;${esc(i.label)}&lt;/label&gt;
+${i.note ? `&lt;span class=&#34;rq-n&#34;&gt;${esc(i.note)}&lt;/span&gt;` : &#39;&#39;}
+${i.url ? `&lt;a class=&#34;rq-a&#34; href=&#34;${esc(i.url)}&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;
+${esc(i.link_label || &#39;Open link&#39;)} &amp;nearr;&lt;/a&gt;` : &#39;&#39;}
+&lt;/div&gt;
+&lt;/div&gt;`).join(&#39;&#39;);
+const done = reqItems.filter(i =&gt; reqTicked.has(i.id)).length;
+$(&#39;ac-reqs-count&#39;).textContent = `${done} of ${reqItems.length}`;
+gateDownload();
+}
+function gateDownload() {
+const btn = $(&#39;ac-dl&#39;);
+if (!btn) return;
+const ok = reqsMet();
+btn.classList.toggle(&#39;locked&#39;, !ok);
+btn.setAttribute(&#39;aria-disabled&#39;, ok ? &#39;false&#39; : &#39;true&#39;);
+if (ok) {
+$(&#39;ac-dlhint&#39;).textContent = dlHint;
+return;
+}
+const left = reqItems.filter(i =&gt; !reqTicked.has(i.id)).length;
+$(&#39;ac-dlhint&#39;).textContent =
+`Tick ${left === reqItems.length ? &#39;the boxes&#39; : `the last ${left === 1 ? &#39;box&#39; : left + &#39; boxes&#39;}`} above to unlock the download.`;
+}
+async function loadReqs() {
+const box = $(&#39;ac-reqs&#39;);
+if (!box) return;
+let d;
+try { d = await (await api(&#39;/api/requirements&#39;)).json(); }
+catch (_) { return; }                    
+if (!d || !d.enabled || !Array.isArray(d.items) || !d.items.length) {
+reqItems = [];
+box.hidden = true;
+gateDownload();
+return;
+}
+reqItems = d.items;
+const saved = loadTicks();
+reqTicked = new Set(reqItems.map(i =&gt; i.id).filter(id =&gt; saved.has(id)));
+box.hidden = false;
+paintReqs();
+}
+let myStars = 0;
+function paintStars() {
+const pick = $(&#39;ac-rv-pick&#39;);
+if (!pick) return;
+pick.innerHTML = [1, 2, 3, 4, 5].map(n =&gt;
+`&lt;button type=&#34;button&#34; data-star=&#34;${n}&#34; class=&#34;${n &lt;= myStars ? &#39;on&#39; : &#39;&#39;}&#34;
+aria-label=&#34;${n} star${n === 1 ? &#39;&#39; : &#39;s&#39;}&#34;
+aria-pressed=&#34;${n === myStars}&#34;&gt;★&lt;/button&gt;`).join(&#39;&#39;);
+}
+async function loadReview() {
+const card = $(&#39;ac-rv-card&#39;);
+if (!card) return;
+let d;
+try { d = await (await api(&#39;/api/review&#39;)).json(); }
+catch (e) { card.hidden = true; return; }
+if (!d || d.error) { card.hidden = true; return; }
+card.hidden = false;
+if (!d.can_review) {
+$(&#39;ac-rv-form&#39;).hidden = true;
+$(&#39;ac-rv-locked&#39;).hidden = false;
+$(&#39;ac-rv-locked&#39;).innerHTML =
+&#39;&lt;b&gt;Reviews are for paid plans.&lt;/b&gt; Once you are on Premium or Sentinel+ &#39;
++ &#39;you can rate the client from here, and it stays yours to change afterwards.&#39;;
+$(&#39;ac-rv-hint&#39;).textContent = &#39;Only people who have paid can leave a rating. That is what makes the ones on the front page worth reading.&#39;;
+return;
+}
+$(&#39;ac-rv-locked&#39;).hidden = true;
+$(&#39;ac-rv-form&#39;).hidden = false;
+myStars = d.review ? d.review.stars : 0;
+$(&#39;ac-rv-body&#39;).value = d.review ? d.review.body : &#39;&#39;;
+$(&#39;ac-rv-save&#39;).textContent = d.review ? &#39;Update review&#39; : &#39;Post review&#39;;
+$(&#39;ac-rv-del&#39;).hidden = !d.review;
+paintStars();
+countLeft();
+if (d.review &amp;&amp; d.review.hidden) {
+$(&#39;ac-rv-locked&#39;).hidden = false;
+$(&#39;ac-rv-locked&#39;).innerHTML =
+&#39;&lt;b&gt;This review is not showing publicly.&lt;/b&gt; An admin took it off the site. &#39;
++ &#39;Ask in the &lt;a href=&#34;https://discord.gg/qyb29g2DPC&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34; &#39;
++ &#39;style=&#34;color:var(--blue-soft)&#34;&gt;Discord&lt;/a&gt; if you think that is wrong.&#39;;
+}
+}
+function countLeft() {
+const el = $(&#39;ac-rv-left&#39;), body = $(&#39;ac-rv-body&#39;);
+if (el &amp;&amp; body) el.textContent = `${body.value.length}/600`;
+}
+async function saveReview() {
+const btn = $(&#39;ac-rv-save&#39;), out = $(&#39;ac-rv-msg&#39;);
+if (!myStars) return setMsg(out, &#39;Pick a rating first.&#39;, &#39;err&#39;);
+btn.disabled = true; setMsg(out, &#39;&#39;);
+const res = await api(&#39;/api/review&#39;, {
+method: &#39;POST&#39;,
+body: JSON.stringify({ stars: myStars, body: $(&#39;ac-rv-body&#39;).value })
+}).catch(() =&gt; null);
+btn.disabled = false;
+if (!res) return setMsg(out, &#39;Could not reach the server.&#39;, &#39;err&#39;);
+const d = await res.json().catch(() =&gt; ({}));
+if (!res.ok) return setMsg(out, d.error || &#39;Could not save that.&#39;, &#39;err&#39;);
+setMsg(out, &#39;Thanks, it is on the front page now.&#39;, &#39;ok&#39;);
+loadReview();
+}
+async function deleteReview() {
+if (!confirm(&#39;Remove your review from the site?&#39;)) return;
+const out = $(&#39;ac-rv-msg&#39;);
+const res = await api(&#39;/api/review/delete&#39;, { method: &#39;POST&#39; }).catch(() =&gt; null);
+if (!res || !res.ok) return setMsg(out, &#39;Could not remove it.&#39;, &#39;err&#39;);
+myStars = 0;
+$(&#39;ac-rv-body&#39;).value = &#39;&#39;;
+setMsg(out, &#39;Removed.&#39;, &#39;ok&#39;);
+loadReview();
+}
+const money = c =&gt; &#39;$&#39; + ((c || 0) / 100).toFixed(2);
+async function loadCreator() {
+let d;
+try { d = await (await api(&#39;/api/creator&#39;)).json(); }
+catch (e) { return; }                       
+if (!d || d.error) return;
+const used = !!d.used_code;
+$(&#39;ac-cc-form&#39;).hidden = used;
+$(&#39;ac-cc-done&#39;).hidden = !used;
+if (used) $(&#39;ac-cc-name&#39;).textContent = d.used_code;
+if (!d.is_creator) {
+$(&#39;ac-earn-card&#39;).hidden = true;
+const offer = !!d.can_claim &amp;&amp; !d.unavailable;
+$(&#39;ac-ref-claim&#39;).hidden = !offer;
+if (offer) $(&#39;ac-ref-ladder&#39;).innerHTML = ladderHtml(d.tiers, null);
+return;
+}
+$(&#39;ac-ref-claim&#39;).hidden = true;
+$(&#39;ac-earn-card&#39;).hidden = false;
+$(&#39;ac-earn-title&#39;).textContent = d.tiered ? &#39;Your referral link&#39; : &#39;Creator earnings&#39;;
+if (d.link) {
+$(&#39;ac-earn-linkrow&#39;).hidden = false;
+$(&#39;ac-earn-link&#39;).value = d.link;
+}
+if (d.tiered) {
+$(&#39;ac-earn-tier&#39;).hidden = false;
+$(&#39;ac-earn-tier&#39;).innerHTML =
+&#39;&lt;div class=&#34;build-now&#34;&gt;Your share is worked out from how many of the people you referred are &#39;
++ &#39;&lt;b&gt;subscribed right now&lt;/b&gt;, currently &lt;b&gt;&#39; + (d.active_referrals || 0) + &#39;&lt;/b&gt;. &#39;
++ (d.to_next != null
+? (d.to_next === 0 ? &#39;&#39; : &#39;Another &lt;b&gt;&#39; + d.to_next + &#39;&lt;/b&gt; active takes you to &lt;b&gt;&#39; + d.next_percent + &#39;%&lt;/b&gt;.&#39;)
+: &#39;You are on the top rate.&#39;)
++ &#39;&lt;/div&gt;&#39;
++ ladderHtml(d.tiers, d.percent);
+} else {
+$(&#39;ac-earn-tier&#39;).hidden = true;
+}
+$(&#39;ac-earn-code&#39;).textContent   = d.code;
+$(&#39;ac-earn-pct&#39;).textContent    = d.percent + &#39;%&#39;;
+$(&#39;ac-earn-people&#39;).textContent = d.people_referred;
+$(&#39;ac-earn-count&#39;).textContent  = d.payments;
+$(&#39;ac-earn-owed&#39;).textContent   = money(d.owed_cents);
+$(&#39;ac-earn-paid&#39;).textContent   = money(d.paid_cents);
+$(&#39;ac-earn-total&#39;).textContent  = money(d.total_cents);
+$(&#39;ac-earn-none&#39;).hidden = d.payments &gt; 0;
+}
+function ladderHtml(tiers, mine) {
+if (!Array.isArray(tiers) || !tiers.length) return &#39;&#39;;
+const rows = [...tiers].sort((a, b) =&gt; a.min - b.min).map(t =&gt; {
+const on = mine != null &amp;&amp; Number(mine) === Number(t.percent);
+return &#39;&lt;div class=&#34;st&#34;&#39; + (on ? &#39; style=&#34;outline:1px solid var(--blue-soft)&#34;&#39; : &#39;&#39;) + &#39;&gt;&#39;
++ &#39;&lt;span class=&#34;lb&#34;&gt;&#39; + (t.min === 0 ? &#39;Starting out&#39; : t.min + &#39;+ active&#39;) + &#39;&lt;/span&gt;&#39;
++ &#39;&lt;span class=&#34;vl&#34;&gt;&#39; + t.percent + &#39;%&lt;/span&gt;&lt;/div&gt;&#39;;
+}).join(&#39;&#39;);
+return &#39;&lt;div class=&#34;status&#34;&gt;&#39; + rows + &#39;&lt;/div&gt;&#39;;
+}
+async function claimReferral() {
+const btn = $(&#39;ac-ref-btn&#39;), out = $(&#39;ac-ref-msg&#39;);
+const code = $(&#39;ac-ref-name&#39;).value.trim();
+if (!code) return setMsg(out, &#39;Pick a name first.&#39;, &#39;err&#39;);
+btn.disabled = true; btn.textContent = &#39;Claiming…&#39;; setMsg(out, &#39;&#39;);
+try {
+const res = await api(&#39;/api/referral/claim&#39;, { method: &#39;POST&#39;, body: JSON.stringify({ code }) });
+const d = await res.json();
+if (!res.ok) setMsg(out, d.error || &#39;That did not work.&#39;, &#39;err&#39;);
+else { setMsg(out, &#39;Done, your link is live.&#39;, &#39;ok&#39;); loadCreator(); }
+} catch (e) {
+setMsg(out, &#39;Could not reach the server. Try again.&#39;, &#39;err&#39;);
+} finally {
+btn.disabled = false; btn.textContent = &#39;Claim it&#39;;
+}
+}
+async function applyCreatorCode() {
+const btn = $(&#39;ac-cc-btn&#39;), out = $(&#39;ac-cc-msg&#39;);
+const code = $(&#39;ac-cc&#39;).value.trim();
+if (!code) return setMsg(out, &#39;Enter a code first.&#39;, &#39;err&#39;);
+btn.disabled = true; btn.textContent = &#39;Applying…&#39;; setMsg(out, &#39;&#39;);
+try {
+const res = await api(&#39;/api/creator-code&#39;, { method: &#39;POST&#39;, body: JSON.stringify({ code }) });
+const d = await res.json();
+if (!res.ok) setMsg(out, d.error || &#39;That did not work.&#39;, &#39;err&#39;);
+else { setMsg(out, &#39;Applied. You are now supporting &#39; + d.code + &#39;.&#39;, &#39;ok&#39;); loadCreator(); }
+} catch (e) {
+setMsg(out, &#39;Could not reach the server. Try again.&#39;, &#39;err&#39;);
+} finally {
+btn.disabled = false; btn.textContent = &#39;Apply&#39;;
+}
+}
+return { load };
+})();
+route();
     </script>
-    <script>
-      (function(){function c(){var b=a.contentDocument||(a.contentWindow&amp;&amp;a.contentWindow.document);if(b){var d=b.createElement(&#39;script&#39;);d.innerHTML=&#34;window.__CF$cv$params={r:&#39;a37c631b78b1d285&#39;,t:&#39;MTc4ODg1NDA4Ng==&#39;};var a=document.createElement(&#39;script&#39;);a.src=&#39;/cdn-cgi/challenge-platform/scripts/jsd/main.js&#39;;document.getElementsByTagName(&#39;head&#39;)[0].appendChild(a);&#34;;b.getElementsByTagName(&#39;head&#39;)[0].appendChild(d)}}if(document.body){var a=document.createElement(&#39;iframe&#39;);a.height=1;a.width=1;a.style.position=&#39;absolute&#39;;a.style.top=0;a.style.left=0;a.style.border=&#39;none&#39;;a.style.visibility=&#39;hidden&#39;;document.body.appendChild(a);if(&#39;loading&#39;!==document.readyState)c();else if(window.addEventListener)document.addEventListener(&#39;DOMContentLoaded&#39;,c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);&#39;loading&#39;!==document.readyState&amp;&amp;(document.onreadystatechange=e,c())}}}})();
-    </script>
+    <div class="pop-wrap" id="pop" hidden="">
+      <div class="pop" role="dialog" aria-modal="true" aria-labelledby="pop-title">
+        <button class="pop-x" id="pop-x" type="button" aria-label="Close">
+          ×
+        </button>
+        <span class="pop-tag" id="pop-tag">        Notice
+</span>
+        <h3 id="pop-title">
+        </h3>
+        <p id="pop-body">
+        </p>
+        <div class="pop-acts">
+          <a class="btn solid" id="pop-link" hidden=""></a>
+          <button class="btn" id="pop-ok" type="button">
+            Got it
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
